@@ -1,0 +1,101 @@
+=stylesheet_link_tag params[:controller]
+=javascript_include_tag "save_status_interview.js"
+//=javascript_include_tag "candidates_interviews.js"
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Candidates</em>')
+      = raw '&raquo;'
+    %li= raw('<em>Interviews</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      =@candidate.actual_name
+      Interviews
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  -if current_candidate.admin_users
+    = link_to "Add interview", :controller => "candidates_interviews", :action => "new", id:@candidate.id
+  %br
+  %br
+  %br
+  - if @candidate.have_interviews?
+    %table.table.datatable{:id=>'tblEntrevistas'}
+      %thead
+        %tr
+          %th
+            id
+          %th
+            Type
+          %th
+            Interviewer
+          %th
+            Result
+          %th
+            Comments
+          %th
+            Status
+          %th
+      %tbody
+        - @i = 0
+        - @candidate.candidates_interviews.each do |cand_inter|
+        - @statuse = cand_inter.statuses_id
+        - @candidat_id = cand_inter.id
+          %tr
+            %td= cand_inter.id
+            %td= cand_inter.interviews_type.name 
+            //%td= cand_inter.interviewer_user.name
+            -if cand_inter.interviewer_user_id == 0
+              %td=raw 'Unknown'
+            -else
+              %td=Candidate.find(InterviewerUser.find(cand_inter.interviewer_user_id).candidate_id).first_name
+            %td= cand_inter.result
+            %td= cand_inter.comments
+            %td
+              %a{:onclick=>"changeStatuse(#{@i},\'#{cand_inter.statuses_id}\',\'#{cand_inter.id}\')"}
+                -if(@statuse!=nil)
+                  =@statuse
+                -else
+                  Edit status
+              //=link_to "Edit status"
+              //%a{:href=>'#!', :onclick=>"Edit(#{@i},\'#{t.name}\')"}= t.name
+            %td
+              .btn-group
+                %button.btn.btn-primary
+                  -if cand_inter.done?
+                    = link_to "View", :controller => "candidates_interviews", :action => "view", id:@candidate.id, :cand_inter_id=> cand_inter.id
+                  -else
+                    = link_to "Do", :controller => "candidates_interviews", :action => "doit", id:@candidate.id, :cand_inter_id=> cand_inter.id
+                %button.btn.btn-primary.dropdown-toggle
+                  %span.caret
+                %ul.dropdown-menu
+                  -if !cand_inter.done?
+                    %li
+                      = link_to "Edit", :controller => "candidates_interviews", :action => "edit", id:@candidate.id, :cand_inter_id=> cand_inter.id
+                  %li
+                    = link_to "Delete", url_options = { :controller => "candidates_interviews", :action => "delete", id:@candidate.id, :cand_inter_id=> cand_inter.id }, html_options = { :confirm => "Are you sure you want to delete this entry? This cannot be undone." }
+          -@i = @i + 1
+    #dialog{:title=>'Edit status'}
+      %form{:id=>'frmStatus', 'data-validate'=>'parsley'}
+        %table
+          %tr
+            %td{:valign=>'top'}
+              = 'Status:'
+          %tr
+            %td{:halign=>'center'}
+              %input{:id=>'fid', :name=>'save_status_interview[id]',:type=>'hidden'}
+              =select_tag "inteview_status", options_for_select(job_status_list), {:name=>'save_status_interview[statuses_id]', 'data-required'=>'true'}
+    %br
+  - else
+    %h4 Please create at least one interview.
+    .divider
+  %br
+  .clear

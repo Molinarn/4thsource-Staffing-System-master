@@ -1,0 +1,87 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Catalogs</em>')
+      = raw '&raquo;'
+    %li
+      = link_to "Interviewer", :controller => "interviewers", :action => "index", :id => current_candidate.id
+      = raw '&raquo;'
+    %li= raw('<em>Edit</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Edit interviewer group
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "interviewers", :action => "index", :id => current_candidate.id
+  %br
+  %br
+  = form_for(@interviewer, :html => {:class => "experience", 'data-validate' => "parsley", :method => "post"}) do |f|
+    %h4
+      Please enter the following information
+    .divider
+    %br  
+    .row-fluid
+      .span6
+        .field
+          = f.label "Name"
+          %br
+          = f.text_field :name, :onkeyup => "checkMaxlength(this);", :maxlength => 30, :data => { :required => "true" }
+        .actions
+          %br
+          -if !InterviewsType.all.empty?
+            = f.submit "Accept", :class => "btn btn-primary"
+      .span6
+        .field
+          = f.label "Interview Type"
+          %br
+          = f.select :interviews_type_id, options_from_collection_for_select(InterviewsType.order("name").all, "id", "name", @interviewer.interviews_type_id), {include_blank: '- Select one -'}, :data => { :required => "true" }
+  =link_to "Add interviewer", "/interviewer_user/#{@interviewer.id}/new", html_options = { :style => 'float: right;' }
+
+  %h4
+    Interviewers
+  #datatbl
+    = form_for(:table, :url=>{:action=>'index'}) do |f|
+      %table#adminusers_table.display
+        %thead
+          %tr
+            %th
+              First
+              %br
+              Name
+            %th
+              Middle
+              %br
+              Name
+            %th
+              First
+              %br
+              Last
+              %br
+              Name
+            %th
+              Second
+              %br
+              Last
+              %br
+              Name
+        %tbody
+          -@candidates.each do |row|
+            %tr
+              %td
+                = link_to row.first_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.middle_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.first_last_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.second_last_name, "/candidates/#{row.id}/resume"
+    %br
+    = will_paginate @candidates, :class => "digg_pagination"

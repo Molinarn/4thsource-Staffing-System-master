@@ -1,0 +1,9 @@
+-if @interviews_type.interviewer_users.empty? and @interviews_type.id.to_f > 0
+  =link_to 'Add interviewers', "/staff/#{current_candidate.id}/interviewers/#{@interviews_type.interviewer.id}/edit", html_options = { :id => 'cand_inter_interviewer_user_id' }
+-else
+  %select(id="cand_inter_interviewer_user_id" name="cand_inter[interviewer_user_id]")
+    %option(value="")
+      =raw '- Select one -' 
+    -@interviews_type.interviewer_users.each do |interviewer|
+      %option(value="#{interviewer.id}")
+        =interviewer.name

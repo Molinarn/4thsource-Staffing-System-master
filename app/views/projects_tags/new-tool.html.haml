@@ -1,0 +1,62 @@
+= javascript_include_tag "projects_tags.js"
+=javascript_include_tag "roles_responsibilities.js"
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      =link_to_project("Projects", @candidate.id, :action => "index")
+      = raw '&raquo;'
+    %li
+      = link_to "Roles", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+      = raw '&raquo;'
+    %li
+      = raw('<em>Tools</em>')
+      = raw '&raquo;'
+    %li= raw('<em>new</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconToolHeadLine
+    .h3-page-headline
+      = @title
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+  %br
+  %br
+  = form_for(:projtag, :html => {:class => "experience", :method => "post", 'data-validate' => 'parsley'}) do |f|
+    %h4
+      Please enter the following information
+    .divider
+    .row-fluid 
+      .field
+        = f.label "Tag"
+        %br
+        = f.select :tags_id, options_from_collection_for_select(Tag.where({:type_tag => ["1"]}).order("name").all, "id", "name")
+    .row-fluid
+      .field.width100percent
+        = f.label "Description"
+        %br
+        = f.text_area :description, {"class"=>"width100percent", 'data-required' => 'true'}
+    .row-fluid
+      .span6
+        .field
+          = f.label "Date In"
+          %br
+          .birthdate= date_select(:projtag, :date_in, :start_year => 1950, :order => [:month, :day, :year])
+      .span6
+        .field
+          = f.label "Date Out"
+          %br 
+          .birthdate= date_select(:projtag, :date_out, :start_year => 1950, :order => [:month, :day, :year])
+    .actions
+      %br
+      = f.submit "Add Tool",{"class"=>"btn btn-primary", id: "send"}
+

@@ -1,0 +1,7 @@
+#candidate_info
+  =link_to = candidate_path(current_candidate) do
+    = gravatar_for current_candidate, :size => 30 
+    %span(class="candidate_name")
+      = current_candidate.name  
+    %span(class="microposts")
+      = pluralize(current_candidate.microposts.count, "micropost")

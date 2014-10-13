@@ -1,0 +1,33 @@
+=javascript_include_tag "parsley.js"
+=javascript_include_tag "jquery.bpopup.min.js"
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Catalogs</em>')
+      = raw '&raquo;'
+    %li
+      = link_to 'Interview Types', '/staff/' + current_candidate.id.to_s + '/interviews_types'
+      = raw '&raquo;'
+    %li
+      = raw('<em>Edit</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Edit Interview Type
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "interviews_types", :action => "index", :id => current_candidate.id
+  %br
+  %br
+  %h4
+    Please enter the following information
+  .divider
+  =render "interviews_types/form"
+  =render "interviews_questions/form"

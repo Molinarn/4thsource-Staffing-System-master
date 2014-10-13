@@ -1,0 +1,65 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li= raw('<em>Skills</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconSkillsHeadLine
+    .h3-page-headline
+      Skills
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  =link_to_resume("Add new skill", @candidate.id, :action => "skills-new")
+  %br
+  %br
+  .abc
+    = link_to 'All', skills_path
+    = raw ':'
+    = link_to 'A', '?letter=a'
+    = link_to 'B', '?letter=b'
+    = link_to 'C', '?letter=c'
+    = link_to 'D', '?letter=d'
+    = link_to 'E', '?letter=e'
+    = link_to 'F', '?letter=f'
+    = link_to 'G', '?letter=g'
+    = link_to 'H', '?letter=h'
+    = link_to 'I', '?letter=i'
+    = link_to 'J', '?letter=j'
+    = link_to 'K', '?letter=k'
+    = link_to 'L', '?letter=l'
+    = link_to 'M', '?letter=m'
+    = link_to 'N', '?letter=n'
+    = link_to 'O', '?letter=o'
+    = link_to 'P', '?letter=p'
+    = link_to 'Q', '?letter=q'
+    = link_to 'R', '?letter=r'
+    = link_to 'S', '?letter=s'
+    = link_to 'T', '?letter=t'
+    = link_to 'U', '?letter=u'
+    = link_to 'V', '?letter=v'
+    = link_to 'W', '?letter=w'
+    = link_to 'X', '?letter=x'
+    = link_to 'Y', '?letter=y'
+    = link_to 'Z', '?letter=z'
+  %br
+  %br
+  #skills
+    - if @page_results.count > 0
+      - @page_results.each do |skill|
+        .row_center
+          = skill.name
+          = skill.version
+        %br
+    - else
+      %h4 Please create at least one skill in the catalog.
+      .divider
+      %br
+  #feed-pagination
+    = will_paginate @page_results
+  .clear	

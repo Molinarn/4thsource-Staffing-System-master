@@ -1,0 +1,22 @@
+#content dt {
+  display: inline;
+  float: left;
+  width: auto;
+}
+
+#content dd {
+  text-align: right;
+  width: 250px;
+}
+
+#content table {
+  width: 650px;
+}
+
+#content tr {
+  height: 30px;
+}
+
+#content th {
+  font-weight: bold
+}

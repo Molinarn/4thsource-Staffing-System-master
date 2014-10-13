@@ -1,0 +1,86 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = raw('<em>Report</em>')
+      = raw '&raquo;'
+    %li= raw("<em>Advanced Search</em>")
+    .clear
+  %h3.page_headline 
+    %i.iconReport
+    .h3-page-headline
+      Advanced Search
+  .divider-headline
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  .search
+    = link_to "New search", :controller => "report", :action => "index"
+    = raw ' &#124; '
+    = link_to "Export to Excel", :controller => "ExportExcel", :action => "index"
+    %br
+    %br
+    %br
+    - if @candidates != nil
+      %table#candidates_search_table.display
+        %thead
+          %tr
+            %th
+              Name
+            %th
+              First
+              %br
+              Last
+              %br
+              Name
+            %th
+              Second
+              %br
+              Last
+              %br
+              Name
+            %th 
+              Email
+            %th
+              Hired
+            %th
+              Technologies
+            %th
+              Interview
+        %tbody 
+          -@candidates.each do |row|
+            %tr
+              %td
+                = link_to row.first_name + " " + row.middle_name, "/candidates/#{row.id}/resume"
+              %td
+                = row.first_last_name 
+              %td
+                = row.second_last_name
+              %td
+                = row.email
+              %td
+                - if !row.recruited_at.nil?
+                  = Date::MONTHNAMES[row.recruited_at.month]
+                  = row.recruited_at.year
+                  = raw(' / ')
+                  - if !row.office_id.nil?
+                    = Office.find(row.office_id).name
+                  - else
+                    N/A
+                - else
+                  Not hired
+              %td
+                - if row.projects.count > 0
+                  - row.projects.each do |projects|
+                    - if projects.projects_roles.count > 0
+                      - projects.projects_roles.each do |project_roles|
+                        - if project_roles.tags3.count > 0
+                          - project_roles.tags3.each do |project_tag|
+                            = Tag.find(project_tag.tags_id).name + " - "
+              %td
+                = link_to "Interview", "/candidates/#{row.id}/candidates_interviews"
+      %br
+  %br
+  .clear

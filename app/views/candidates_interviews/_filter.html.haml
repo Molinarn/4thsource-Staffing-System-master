@@ -1,0 +1,61 @@
+//=javascript_include_tag 'interviews_filter.js'
+=form_for(:filter, :url=>{:action=>'report'}) do |f|
+  %fieldset#filter.collapsible
+    %legend#toggle-filter
+      Filter
+    %section#filter-data
+      .row-fluid
+        .field
+          = f.label "Date From: ", :style => "vertical-align: top; width: 100px; text-align: right;"
+          = f.text_field :startDate, :id => "filter-date-start", :style => "height: 12px; width: 7em; font-size: 0.9em;"
+          = f.label " To: ", :style => "vertical-align: top;"
+          = f.text_field :endDate, :id => "filter-date-end", :style => "height: 12px; width: 7em; font-size: 0.9em;"
+      .row-fluid
+        .field
+          = f.label "Results between: ", :style => "vertical-align: top; width: 100px; text-align: right;"
+          = f.text_field :minResult, :style => "height: 12px; width: 7em; font-size: 0.9em;"
+          = f.label " and: ", :style => "vertical-align: top;"
+          = f.text_field :maxResult, :style => "height: 12px; width: 7em; font-size: 0.9em;"
+      .row-fluid
+        .field
+          = f.label "Interview Type: ", :style => "vertical-align: top; width: 100px; text-align: right;"
+          = f.select :interviews_type_id, options_from_collection_for_select(InterviewsType.order("id").all, "id", "name"), {include_blank: 'All types'}, {"style" => "height: 24px; font-size: 0.9em;"}
+      .row-fluid
+        .field
+          = f.label "Willing to relocate: ", :style => "vertical-align: top; width: 100px; text-align: right;"
+          = f.select :is_willing_to_relocate, options_for_select(CandidatesInterviewFilter::RELOCATION), {include_blank: 'All kind'}, {"style" => "height: 24px; font-size: 0.9em;"}
+      .row-fluid
+        .field
+          = f.label "Referral Type: ",:style => "vertical-align: top; width: 100px; text-align: right;"
+          = f.select :referral_type, options_for_select(CandidatesInterviewFilter::TYPE), {include_blank: 'All types'}, {"style" => "height: 24px; font-size: 0.9em;"}
+      .row-fluid
+        .span6
+          .actions
+            %button{:type=>'button', :class=>'btn-primary', :id=>'btnSendFilter'}
+              Apply
+            //= f.button "Apply", :class => "btn btn-primary", id:"btnSendFilter"
+.divider
+:javascript
+  ;(function($) {
+    $("#filter-date-start").datepicker();
+    $("#filter-date-end").datepicker();
+  })(jQuery);
+
+  (function($) {
+    $("#toggle-filter").click(function() {
+      $("#filter-data").toggle("blind",{} , 500);
+      if ($("#filter").hasClass("collapsed")){
+        $("#filter").removeClass("collapsed");
+      } else {
+        $("#filter").addClass("collapsed");
+      }
+      return false;
+    });
+  })(jQuery);
+
+  (function($){
+    $("#btnSendFilter").button();
+    $('#btnSendFilter').click(function(){
+      alert("Aquí 2")
+    });
+  })(jQuery);

@@ -1,0 +1,36 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = "Catalogs" 
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      = link_to "Education Degrees", :controller => "educ_degree", :action => "index"
+      = raw '</em>'
+      = raw '&raquo;'
+    %li
+      = "New education degrees"
+    .clear
+  %h3.page_headline
+    %i.iconEducation
+    .h3-page-headline
+      Education Degrees
+  .divider-headline
+  %br
+    %strong
+      = link_to "Back", :controller => "educ_degree", :action => "index"
+  %br
+  %br
+  %h3.page_headline
+    New:
+  = form_for(:degree, :url=>{:action=>'create'}, :html => {:multipart => true, :id => "EducationDegreeForm"}) do |f|
+    .field
+      = f.label :name
+      %br
+      = f.text_field :name
+      = label_tag "requiredName", "", :id =>"requiredName", :class => "educationValidatorText"
+    .actions
+      = f.submit "Accept", :class => "btn btn-primary"

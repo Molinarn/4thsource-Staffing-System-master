@@ -1,0 +1,64 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li= raw('<em>Candidates</em>')
+    .clear
+  %h3.page_headline
+    = "Profiles (#{@candidate.first_name} #{@candidate.first_last_name})"
+  .divider
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+- if @candidate.projects.empty?	
+  = link_to "New Project", url_options = { :controller => "projects", :action => "index", :id => @candidate.id}, html_options = { }
+- else
+  -if has_admin_role?
+    = link_to "New profile", url_options = { :controller => "candidates_profiles", :action => "new", :candidate_id => @candidate.id}, html_options = { }
+    = form_for(:table, :url=>{:action=>'index'}, :html => { :style => '' }) do |f|
+      %br		
+      %table#candidates_table.display
+        %thead{:style => "text-align: center;"}
+          %tr
+            %th
+              Name
+            %th{:colspan=>"3"}
+              Actions
+        %tbody 			
+          - @candidates_profiles.each do |row|
+            %tr
+              %td
+                = link_to row.name, url_options = { :controller => "candidates_profiles", :action => "show", :candidate_profile_id => row.id}, html_options = { }
+              %td
+                = link_to "Edit", url_options = { :controller => "candidates_profiles", :action => "editprofile", :candidate_profile_id => row.id}, html_options = { }
+              %td
+                = link_to "Delete", {:action => "delete", :candidate_profile_id => row.id}, {:confirm=>'remove this item?'}
+              %td						
+                = link_to "Create Job", {:action => "createjob", :candidate_profile_id => row.id}        
+  - else
+    = link_to "New profile", url_options = { :controller => "candidates_profiles", :action => "new", :candidate_id => @candidate.id}, html_options = { }
+    = form_for(:table, :url=>{:action=>'index'}, :html => { :style => '' }) do |f|
+      %br		
+      %table#candidates_table.display
+        %thead{:style => "text-align: center;"}
+          %tr
+            %th
+              Name
+            %th{:colspan=>"3"}
+              Actions
+        %tbody 			
+          - @candidates_profiles.each do |row|
+            %tr
+              %td
+                = link_to row.name, url_options = { :controller => "candidates_profiles", :action => "show", :candidate_profile_id => row.id}, html_options = { }
+              %td
+                = link_to "Edit", url_options = { :controller => "candidates_profiles", :action => "editprofile", :candidate_profile_id => row.id}, html_options = { }
+              %td
+                = link_to "Delete", {:action => "delete", :candidate_profile_id => row.id}, {:confirm=>'remove this item?'}
+              
+  = will_paginate @candidates_profiles, :class => "digg_pagination"
+  %br
+  %br
+  .clear

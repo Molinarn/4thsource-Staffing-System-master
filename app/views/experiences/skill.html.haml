@@ -1,0 +1,73 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      = link_to_resume("Experience", @candidate.id, :action => "experience")
+      = raw '&raquo;'
+    %li
+      = link_to 'Skills', '#'
+      = raw '&raquo;'
+    %li= raw('<em>new</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Experience Tools 
+      = @flag
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  #list
+    #row
+      .experience_wrapper
+        .experience_left
+          %h6
+            = @experience.company_name
+          %h6
+            = @experience.job_position
+          #experience-date
+            = Date::MONTHNAMES[@experience.start_date.month]
+            = @experience.start_date.year
+            = raw(' - ')
+            = Date::MONTHNAMES[@experience.end_date.month]
+            = @experience.end_date.year
+            %br
+          %br
+          #experience-description
+            = @experience.description
+            %br
+          %br
+          %ul
+            - @experience.experience_details.each do |detail|
+              %li= detail.content
+
+          %h6
+            Tools used
+          %ul
+            - @experience.skills.each do |skill|
+              %li
+                = skill.name
+                = skill.version
+          %br
+          %br
+          %br
+          - form_for(:skills, :html => {:class => "experience"}) do |f|
+            %h4
+              Please select a tool to the project
+              .divider-headline 
+              .field
+                = collection_select(:skill_id, :id, Skill.all, :id, :name_and_version, options ={:prompt => "-Select a tool"}) 			
+              .actions
+                %br
+                = f.submit "Sign in"
+        .experience_right
+          %br
+  .clear	

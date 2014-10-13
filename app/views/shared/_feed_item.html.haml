@@ -1,0 +1,52 @@
+- sender = Candidate.find(feed_item.created_by)
+- receiver = Candidate.find(feed_item.candidate_id)
+- if (!feed_item.checked? && current_candidate.id == feed_item.created_by) || (feed_item.checked?)
+  %tr.feed-content 
+
+    %td.gravatar
+      = link_to gravatar_for(sender), sender 
+    %td.micropost 
+      %span(class='candidate')
+        - if (current_candidate.id == feed_item.created_by) 
+          = raw("<strong style='color:#2268ae;'> You </strong> sent to <strong style='color:#2268ae;'>#{receiver.first_name} #{receiver.first_last_name}</strong>")
+        - else
+          = raw("<strong style='color:#2268ae;'>#{sender.first_name} #{sender.first_last_name}</strong> sent to <strong style='color:#2268ae;'> You </strong>")
+      %span(class='content')
+        = feed_item.content
+      %span(class='timestamp')
+        Posted 
+        = time_ago_in_words(feed_item.created_at)
+        ago.
+      .reply-container
+    %td.micropost-delete
+      - @value = "/reply/#{feed_item.created_by}"
+      - if (current_candidate.id == feed_item.created_by)
+        = link_to "Remove", feed_item, :method => :update, :confirm => "You sure?", :title => feed_item.content
+      - else
+        = label_tag :reply, t("reply"), :id => "#{feed_item.created_by}", :class=>"show_hide", :rel=>"#slidingDiv2"
+- else
+  %tr.feed-content.unread
+    %td.gravatar
+      = link_to gravatar_for(sender), sender 
+    %td.micropost 
+      %span(class='candidate')
+        - if (current_candidate.id == feed_item.created_by) 
+          = raw("<strong style='color:#2268ae;'> You </strong> sent to <strong style='color:#2268ae;'>#{receiver.first_name} #{receiver.first_last_name}</strong>")
+        - else
+          = raw("<strong style='color:#2268ae;'>#{sender.first_name} #{sender.first_last_name}</strong> sent to <strong style='color:#2268ae;'> You </strong>")
+      %span(class='content')
+        = feed_item.content
+      %span(class='timestamp')
+        Posted 
+        = time_ago_in_words(feed_item.created_at)
+        ago.
+    %td.micropost-delete
+      - @value = "/reply/#{feed_item.created_by}"
+      - if (current_candidate.id == feed_item.created_by)
+        = link_to "Remove", feed_item, :method => :update, :confirm => "You sure?", :title => feed_item.content
+      - else
+        = label_tag :reply, t("reply"), :id => "#{feed_item.created_by}", :class=>"show_hide", :rel=>"#slidingDiv2"
+
+
+
+  

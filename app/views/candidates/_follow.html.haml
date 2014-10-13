@@ -1,0 +1,6 @@
+#follow
+  - form_for current_user.followings.build(:followed_id => @user.id) do |f|
+    .field
+      = f.hidden_field :followed_id
+    .actions
+      = f.submit "Follow"

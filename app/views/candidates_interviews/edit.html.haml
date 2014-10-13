@@ -1,0 +1,31 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Administration</em>')
+      = raw '&raquo;'
+    %li
+      = link_to "Interviews", :controller => "candidates_interviews", :action => "index", id:@candidate.id
+      = raw '&raquo;'
+    %li= raw('<em>edit</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Edit interview of  
+      =@candidate.actual_name
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "candidates_interviews", :action => "index", id:@candidate.id
+  %br
+  %br
+  %h4
+    Please enter the following information
+  .divider
+  %br
+  =render "candidates_interviews/form"

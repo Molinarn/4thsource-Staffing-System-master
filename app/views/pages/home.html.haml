@@ -1,0 +1,55 @@
+= javascript_include_tag 'reporting.js' 
+= raw ''
+- if !signed_in?
+  #slides
+    %img(src='http://www.4thsource.com/images/general_site_images/homepage_openwhen_v13.jpg' alt='')
+    %img(src='http://www.4thsource.com/images/general_site_images/homepage_ICD-10_v1b1.jpg' alt='')
+    %img(src='http://www.4thsource.com/images/general_site_images/homepage_nearshore_v2a.jpg' alt='')
+    %img(src='http://www.4thsource.com/images/general_site_images/homepage_leverage-partnership_v1a.jpg' alt='')
+    %img(src='http://www.4thsource.com/images/general_site_images/homepage_oracle-microsoft_v12.jpg' alt='')
+  :javascript
+    jQuery(document).ready(function(){
+      $("#bannerSHeader").hide();
+    });
+    
+%ul#breadcrumbs
+  %li
+    = link_to 'Home', root_path 
+    = raw '&raquo;'
+
+  - if signed_in?
+    %li
+      = raw '<em>'
+      = current_candidate.first_name
+      = current_candidate.first_last_name
+      = raw '</em>'
+  .clear						
+- if signed_in?
+  = render 'candidates/shortcuts'
+  %br
+  = hidden_field_tag "current_id", current_candidate.id
+  #content-margin
+    #happening
+      %b What is happening?
+      %br
+      %br
+      #unread_microposts
+        Unread: -
+    %br
+    %br
+    -if !has_admin_role?
+      = render 'shared/feed'
+    - else
+      = render 'shared/admin_feed'
+    - current_candidate.check_microposts
+- else
+  %h1 Sample App
+  %p
+    This is the home page for the
+    = link_to '4thsource site', 'http://www.4thsource.com'
+    = raw '.'
+  = link_to "Register now!", signup_path, :class => "signup_button round"
+  or 
+  = link_to "Sign In", signin_path, :class => "signup_button round" 
+  with 4thsourceJobs account.
+  .clear

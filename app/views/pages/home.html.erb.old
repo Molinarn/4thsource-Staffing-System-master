@@ -1,0 +1,70 @@
+
+<!-- content -->			
+<div id="content">
+  <!-- <img src="http://www.4thsource.com//public/images/subheader_services.jpg" alt="Sub Header" class="subheader" /> -->
+  <br/><br/>
+  <div id=slides>
+      <img src="images/example-slide-1.jpg" alt="Photo by: Missy S">
+      <img src="images/example-slide-2.jpg" alt="Photo by: Daniel Parks">
+      <img src="images/example-slide-3.jpg" alt="Photo by: Mike Ranweiler">
+      <img src="images/example-slide-4.jpg" alt="Photo by: Stuart Seeger">
+  </div>
+  <ul id="breadcrumbs">
+    <li><a href="http://www.4thsource.com/en/index.php">Home</a> &raquo;</li>
+    <% if signed_in? %>
+    <li><em><%= current_candidate.name %></em></li>
+    <% end %>						
+	<div class="clear"></div>
+  </ul>
+  	 <% if signed_in? %>
+      <table class="front" summary="For signed-in candidates">
+        <tr>
+          <td class="main">
+            <div id="content-margin">
+              <h1 class="micropost">What is happening?</h1>
+              <%= render 'shared/micropost_form' %>
+            </div>
+            <br/>
+			  <div id="feed"></div>
+			  <div id="search">
+			    <div id="search-form">	
+			      <% form_tag({ :action => "search" }, :method => "get") do %>
+			        <fieldset>
+			          <div class="form_row">
+			            <label for="q">Search feeds:</label>
+			            <%= text_field_tag "q", params[:q] %>
+			            <input type="submit" value="Search" />
+			          </div>
+			        </fieldset>
+			      <% end %>
+			    </div> <!-- end form -->
+			    <div id="search-results">
+				  <div id="flash">
+				    <% flash.each do |key, value| %>
+					  <div class="flash <%= key %>"><%= value %></div>
+			        <% end %>
+				  </div>
+				</div> <!-- end search-results -->
+			  </div> <!-- end search-->
+            <div id="feed">
+              <%= render 'shared/feed' %>
+            </div>
+          </td>
+       </tr>
+     </table> 
+   <% else %>
+     <h1>Sample App</h1>
+     <p>
+       This is the home page for the
+       <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a> sample application.
+     </p>
+     <%= link_to "Sign up now!", signup_path, :class => "signup_button round" %> 
+   <% end %>
+  <div class="clear"></div>
+</div> <!-- end content -->
+<!-- Sidebar -->
+<%if signed_in?%>
+  <%=render 'shared/sidebar_signed'%>
+<%else%>
+  <%=render 'shared/sidebar'%>
+<%end%>

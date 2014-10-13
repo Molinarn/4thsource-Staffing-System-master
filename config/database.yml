@@ -1,0 +1,81 @@
+# SQLite version 3.x
+#   gem install sqlite3
+
+development:
+ #----server down
+ #adapter: mysql2
+ #driver: SQLServerDriver
+ #database: 4thsourcejobs
+ #host: pantera-jira.dyndns.org
+ #username: root
+ #password: Admin!mysql1
+ #--miguel server
+ 
+ adapter: mysql2
+ database: 4thsourceForm
+ host: 127.0.0.1
+ username: rorUser
+ password: ruby
+ 
+ # adapter: mysql2
+ # database: 4thsourcejobsQA
+ # host: localhost
+ # username: root
+ # password: BI5mGDZ0
+ 
+# adapter: mysql2
+# database: 4thsourcejobs
+# host: pantera.dyndns-at-home.com
+# username: editor
+# password: 3d1t0r
+ #adapter: mysql2
+ #database: 4thsourcejobs
+ #host: 184.168.96.10
+ #username: user4th
+ #password: 9VxemqSLzME5Nwuu
+ #-------LOCAL------
+ #adapter: mysql2
+ #database: 4thsourcejobs
+ #host: 127.0.0.1
+ #username: root
+ #password: 
+ #---------Old Connection dev--------
+ #adapter: mysql2
+ #driver: SQLServerDriver
+ #database: 4thsourcejobs
+ #host: localhost
+ #username: root
+ #password: admin
+ #port: 1433
+ #dsn: connect
+
+test:
+ #adapter: mysql2
+ #driver: SQLServerDriver
+ #database: 4thsourcejobs
+ #host: pantera-jira.dyndns.org
+ #username: root
+ #password: Admin!mysql1
+ adapter: mysql2
+ database: 4thsourceForms
+ host: 127.0.0.1
+ username: root
+ password: molina
+
+ #port: 1433
+ #dsn: connect
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+#test:
+#  adapter: sqlite3
+#  database: db/test.sqlite3
+#  pool: 5
+#  timeout: 5000
+
+#production:
+#  adapter: sqlite3
+#  database: db/production.sqlite3
+#  pool: 5
+#  timeout: 5000

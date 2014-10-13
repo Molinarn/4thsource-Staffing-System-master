@@ -1,0 +1,6 @@
+#unfollow
+  - form_for current_user.followings.find_by_followed_id(@user), :html => { :method => :delete } do |f| 
+    .field
+      = f.hidden_field :followed_id, :value => @user.id
+    .actions
+      = f.submit "Unfollow"

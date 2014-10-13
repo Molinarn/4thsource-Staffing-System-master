@@ -1,0 +1,42 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Education Degrees
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconEducation
+    .h3-page-headline
+      Education Degrees
+  .divider-headline
+  %br
+    %strong
+      = link_to "Back", :controller => "educ_degree", :action => "index"
+  %br
+  %br
+  %h3.page_headline
+    = @d.name
+  = form_for(:degree, :url => {:action=>'update'}, :html => {:multipart => true, :data => { :validate => 'parsley' }, :id => "EducationDegreeForm"}) do |f|
+    .field
+      = f.hidden_field :id, :value => @d.id
+    .field
+      = f.label :name
+      %br
+      = f.text_field :name, :value => @d.name
+      = label_tag "requiredName", "", :id =>"requiredName", :class => "educationValidatorText"
+    .field
+      = f.label :description
+      %br
+      = f.text_field :description, :value => @d.description
+    .field
+      = f.check_box :approved_flag, :checked => @d.approved_flag
+      = f.label "Approved"
+    .actions
+      = f.submit "Update", :class => "btn btn-primary"

@@ -1,0 +1,49 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = link_to 'Candidates', "/staff/#{current_candidate.id}/candidates"
+      = raw '&raquo;'
+    %li= raw("<em> #{@candidate.actual_name}</em>")
+    .clear
+  %table#page_headline
+    %tr
+      %td
+        = image_tag @candidate.avatarurl
+      %td.name
+        = @candidate.actual_name      
+  .divider
+  %br
+  #candidate_info
+    %table#candidate_info_table
+      %tr
+        %td.right
+          <strong> Platform Knowledge: </strong>
+        %td
+          Ruby, C#, Js
+      %tr
+        %td.right
+          <strong> Date of birth: </strong>
+        %td
+          = @candidate.birthdate.strftime("%m/%d/%Y") unless @candidate.birthdate.nil?
+      %tr
+        %td.right
+          <strong> Has Visa: </strong>
+        %td
+          = @candidate.has_visa ? 'Yes' : 'No'   
+    %h4
+      #tweets_title{:style => "text-align: center;display: inline-block; width: 100%"}
+        %l{:style => "display: inline; float: left"}Tweets
+        #ajax_loader{:style => "display: inline;float: right;opacity: 0"}
+          =image_tag "ajax-loader.gif"
+    %br
+    #pages_script
+    #microposts_feed
+    #pages_container    
+  %br
+  %br
+  .clear
+  :javascript
+        feed_wall_screen(#{@candidate.id});

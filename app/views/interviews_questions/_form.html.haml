@@ -1,0 +1,13 @@
+%div{:id => "add-question", :style => "display: none; width: 30%;"}
+  %div{:style => "background: url(http://www.4thsource.com/public/images/nav_bg_full.jpg) repeat-x; height: 30px;"}
+  %div{:style => "background: white; padding-left: 35px;"}
+    = form_for(:interviews_question, :url=>{:controller => "interviews_questions", :action=>'new'}, :html => {:class => "experience", 'data-validate' => "parsley", :method => "post"}) do |f| 
+      .field
+        = f.label "Question to add"
+        %br
+        = f.text_field :question, :onkeyup => "checkMaxlength(this);", :maxlength => 30, :data => { :required => "true" }
+      .actions
+        %br
+        = f.submit "Add", :class => "btn btn-primary"
+        = link_to "Cancel", "javascript:void(0)", :id => "close-popup", :class => "btn", :style => "color: black;"
+

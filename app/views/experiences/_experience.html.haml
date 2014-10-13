@@ -1,0 +1,38 @@
+.experience_wrapper
+  .experience_left
+    %h6
+      = experience.company_name
+    %h6
+      = experience.job_position
+    #experience-date
+      = Date::MONTHNAMES[experience.start_date.month]
+      = experience.start_date.year
+      = raw(' - ')
+      = Date::MONTHNAMES[experience.end_date.month]
+      = experience.end_date.year
+      %br
+    %br
+    #experience-description
+      = experience.description
+    %br
+    %ul
+      - experience.experience_details.each do |detail|
+        %li 
+          = detail.content
+    =link_to_resume("Add details to the project", @candidate.id, {:action => "experience-details", :experienceId => experience.id})
+    %br
+    %br
+    %h6
+      Tools used
+    %ul
+      - experience.skills.each do |skill|
+        %li
+          = skill.name
+          = skill.version
+    =link_to_resume("Add Tool to the project", @candidate.id, {:action => "experience-tools", :experienceId => experience.id})
+    %br
+    %br
+    %br
+    .divider
+  .experience_right
+    = link_to "Delete", :controller => "experiences", :action => "destroy", :id => experience.id

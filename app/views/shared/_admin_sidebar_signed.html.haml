@@ -1,0 +1,108 @@
+#sidebar
+  <!-- Subnav -->
+  %h4#if_sub_nav
+    Profile Information
+  #if_subnav.divider
+    - if signed_in?
+      #sidebar-profile
+        #sidebar-gravatar
+          =link_to("#") do
+            = image_tag @candidate.avatarurl
+        #sidebar-candidate
+          = current_candidate.first_name
+          = current_candidate.first_last_name
+      %br
+    %br
+    -if has_admin_role?
+      
+      %ul#nav_sub.sub_navigation
+        %li
+          %i.iconContact-info
+          = link_to 'Profile', edit_candidate_path(current_candidate), :class => "profile-sub_navigation"
+        %li
+          %i.iconResume
+          = link_to_candidates('Candidates', current_candidate.id, :action => 'candidates', :class => 'profile-sub_navigation')
+        %li
+          %i.iconReport
+          = link_to 'Advanced search', '/staff/' + current_candidate.id.to_s() + '/report', :class => 'profile-sub_navigation'
+        %li
+          %i.iconSummary
+            = label_tag 'Catalogs', nil, :class => 'profile-sub_navigation'
+          %br
+          %br
+          %ul#nav_sub.sub_navigation
+            //%li
+            //  %i.iconStatus
+            //  = link_to 'Candidate Status', '/staff/' + current_candidate.id.to_s() + '/candidate_status', :class => 'profile-sub_navigation'
+            %li
+              %i.iconIntervieweType
+              = link_to "Interview Types", url_options = { :controller => "interviews_types", :action => "index", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }
+            %li
+              %i.iconInterviewer
+              = link_to "Interviewers", url_options = { :controller => "interviewers", :action => "index", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }
+            %li
+              %i.iconEducation
+              = link_to_resume('Education Degrees', current_candidate.id, :action => 'educ_degree', :class => 'profile-sub_navigation')
+            %li
+              %i.iconInterests
+              = link_to 'Languages', '/staff/' + current_candidate.id.to_s() + '/languages', :class => 'profile-sub_navigation'
+            %li
+              %i.iconCertification
+              = link_to "Certifications", url_options = { :controller => "certifications", :action => "index", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }
+            %li
+              %i.iconRolesHeadLine{:style => 'margin-top: 8px;'}
+              = link_to "Roles", url_options = { :controller => "roles", :action => "index", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }
+            %li
+              %i.iconTags
+              = link_to "Knowledges", url_options = { :controller => "tags", :action => "Knowledges", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }
+            %li
+              %i.iconTags
+              = link_to "Tools", url_options = { :controller => "tags", :action => "Knowledges", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }
+            %li
+              %i.iconTags
+              = link_to "Platforms", url_options = { :controller => "tags", :action => "Knowledges", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }
+    -else
+      %ul#nav_sub.sub_navigation
+
+        // - if is_follow?(@candidate.id)
+        = link_to('send Message', '#', html_options = {:id => "send_message", :class=>"show_hide", :rel=>"#slidingDiv"})
+        #flash
+          - flash.each do |key, value|
+            .flash{:class => key} = value
+        %div#slidingDiv
+          = form_for(:microposts, :url=>{:controller => "microposts", :action=>'create'}, :html => {:id => "createMicroPostForm"}) do |f|
+            = hidden_field_tag :candidate_id , @candidate.id
+            = text_area_tag "message_text"
+            = submit_tag "Send", :class => "btn btn-primary"
+        %div#emptyDiv
+        %br
+        %br
+        = link_to 'Return Home', root_path, :class => "profile-sub_navigation"
+        %h4 "Edit as #{current_candidate.first_name} #{current_candidate.first_last_name}" 
+        %li
+          %i.iconContact-info
+          = link_to 'Profile', edit_candidate_path(@candidate), :class => "profile-sub_navigation"
+        %li
+          %i.iconResume
+          = link_to_resume('Resume', @candidate.id, :action => 'resume', :class => 'profile-sub_navigation')
+          %ul#nav_sub.sub_navigation
+            %li
+              %i.iconSummary
+              = link_to_resume('Summary', @candidate.id, :action => 'summary', :class => 'profile-sub_navigation')
+            %li
+              %i.iconExperience
+              = link_to_project('Projects', @candidate.id, :action => 'index', :class => 'profile-sub_navigation')
+            %li
+              %i.iconEducation
+              = link_to_resume('Education', @candidate.id, :action => 'education', :class => 'profile-sub_navigation')
+            %li
+              %i.iconCertification
+              = link_to_resume('Certification', @candidate.id, :action => 'certification', :class => 'profile-sub_navigation')
+            %li
+              %i.iconExperience
+              = link_to_resume('Candidate Profiles', @candidate.id, :action => 'candidate_profiles', :class => 'profile-sub_navigation')
+            %li.last
+              %i.iconInterests
+              = link_to_resume('Languages', @candidate.id, :action => 'languages', :class => 'profile-sub_navigation')
+    %br
+    .clear

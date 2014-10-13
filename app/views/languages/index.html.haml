@@ -1,0 +1,89 @@
+= javascript_include_tag 'check.js'
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = "Catalogs" 
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Languages
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconEducation
+    .h3-page-headline
+      Languages
+  .divider-headline
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  -if has_admin_role?
+    %br
+      %strong
+        = link_to "New", :controller => "languages", :action => "new"
+    %br
+    %br
+    -if @languages.length == 0
+      .educationEmptyTitle
+        Please Insert at Least one Language
+    -else
+      = form_for(:table, :url=>{:action=>'action'}, :html => {:id => 'languageFormSubmit'}) do |f|
+        %table#education_degree_table.display
+          %thead
+            %tr
+              %th
+                Approved&nbsp;&nbsp;&nbsp;&nbsp;
+              %th
+                Name
+              %th
+                Approved By
+          %tbody
+            -i = 0
+            -@languages.each do |row|
+              %tr
+                %td
+                  = check_box_tag "id" + i.to_s(), row.id.to_s(), row.approved_flag, :name => "approved_flag_" + row.id.to_s(), :class => "checked_tags"
+                %td              
+                  = row.name                                   
+                %td 
+                  = row.approved_by
+              -i = i + 1
+        &nbsp;&nbsp;
+        = check_box_tag "approved_flag_all", @languages.count.to_s()
+        Select all
+        %br
+        %br
+        = submit_tag "Update", :name => 'update_button', :class => 'btn btn-primary'
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        = submit_tag "Delete", :name => 'delete_button', :class => 'btn', :confirm => "Do you want to delete the selected elements?"        
+  -else
+    .educationEmptyTitle
+      This User Have not Permission in this Catalog
+%br
+:javascript
+  $(document).ready(function(){
+    $('#approved_flag_all').prop('checked', '');
+
+    $('#approved_flag_all').click(function(){
+      $('.checked_tags').prop('checked', this.checked);
+    });
+
+    $('#languageFormSubmit').submit(function(event){
+      checked_count = 0;
+
+      $('.checked_tags').each(function(){
+        if(this.checked){
+          checked_count = checked_count + 1;
+        }
+      });
+
+      if(checked_count <= 0){
+        alert('Please select a language');
+        event.preventDefault();
+      }
+    });
+  });

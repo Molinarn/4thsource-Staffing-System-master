@@ -1,0 +1,40 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+
+#page_headline {
+	font-size: 20px;
+	color: #000;
+}
+
+#page_headline td.name{
+	vertical-align: middle;
+	padding: 10px;
+}
+
+#candidate_info_table{
+	font-size: 13px;
+    box-shadow: 0px 1px 0px;	
+}
+
+#candidate_info_table tr{
+	height: 35px;
+}
+
+#candidate_info_table td {
+	padding: 10px;
+}
+
+#candidate_info_table td.right {
+	text-align: right;
+}
+
+#tweets_title{
+	margin-top: 30px;
+	padding-left: 10px;
+}
+
+#candidate_tweets li {
+margin-top: 20px;
+}

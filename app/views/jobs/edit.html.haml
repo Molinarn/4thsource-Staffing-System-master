@@ -1,0 +1,73 @@
+= stylesheet_link_tag 'jqwidgets/styles/jqx.base.css' 
+= javascript_include_tag 'jqwidgets/jqxcore.js' 
+= javascript_include_tag 'jqwidgets/jqxbuttons.js' 
+= javascript_include_tag 'jqwidgets/jqxscrollbar.js' 
+= javascript_include_tag 'jqwidgets/jqxpanel.js' 
+= javascript_include_tag 'jqwidgets/jqxtree.js' 
+= javascript_include_tag 'jqwidgets/jqxcheckbox.js' 
+= javascript_include_tag 'newprofile.js'
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Catalogs</em>')
+      = raw '&raquo;'
+    %li
+      = link_to 'Interview Types', '/staff/' + current_candidate.id.to_s + '/interviews_types'
+      = raw '&raquo;'
+    %li
+      = raw('<em>Edit</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Edit Job
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "jobs", :action => "index", :id => current_candidate.id
+  %br
+  %br
+  %h4
+    Please enter the following information 
+  .divider
+  .fluid-row
+  .span6
+
+    = form_for(@job, :url =>"edit/", :html => {:class => "job", 'data-validate' => "parsley", :method => "post"}) do |f|
+      .field
+        = f.label "Job title"
+        %br
+        = f.text_field :title, :onkeyup => "checkMaxlength(this);", :maxlength => 30, :data => { :required => "true" }
+      .field
+        = f.label "Job Description"
+        %br
+        = f.text_field :description, :onkeyup => "checkMaxlength(this);", :maxlength => 30, :data => { :required => "true" }
+      %br
+      #jqxTree{:style => 'width:50%'}
+        =raw('<ul>')     
+        =raw("<li level='project' custom-value='#{'1'}'>" +  'Platform<ul>')
+        -@platforms.each do |p|
+          =raw("<li level='platform' custom-value='#{p.id}'>" + p.name + '<ul>')
+          =raw('</ul></li>')
+        =raw('</ul>')
+        =raw("<li level='project' custom-value='#{'1'}'>" +  'Knowledge<ul>')
+        -@knowledge.each do |k|
+          =raw("<li level='platform' custom-value='#{k.id}'>" + k.name + '<ul>')
+          =raw('</ul></li>')
+        =raw('</ul></li>')
+        =raw("<li level='project' custom-value='#{'1'}'>" +  'Tool<ul>')
+        -@tools.each do |t|
+          =raw("<li level='platform' custom-value='#{t.id}'>" + t.name + '<ul>')
+          =raw('</ul></li>')
+        =raw('</ul></li>')
+        =raw('</ul>')
+      .field 
+      = f.label "Job Other Requriments"
+      = f.text_area :other_requirements, :onkeyup => "checkMaxlength(this);", :maxlength => 30, :data => { :required => "true" }
+      %br
+      = submit_tag "Update", :name => 'update_button', :class => 'btn btn-primary'

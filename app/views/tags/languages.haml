@@ -1,0 +1,78 @@
+<!-- Content -->
+= javascript_include_tag 'languages'
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = link_to 'Tags', '/staff/' + current_candidate.id.to_s + '/tags'
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Edit Tag
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconEducation
+    .h3-page-headline
+      Platforms catalog
+  .divider-headline
+  %br
+    %strong
+      = link_to "Back", :controller => "tags", :action => "index"
+  %br
+  %br    
+  #datatbl
+    %button{:class=>'btn-primary', :id=>'new'}
+      New
+    %br
+    %br    
+    = form_for(:table, :url=>{:action=>'index'}) do |f|    
+      %table{:id=>'tblLanguages', :cellpadding=>"0", :cellspacing=>"0", :border=>"0", :class=>"display", :width=>"100%"}
+        %thead
+          %tr
+            %th
+              = 'Id'
+            %th 
+              = 'Name'
+            %th
+              = 'Description'
+            %th
+              = 'Technologies'
+            %th{:align=>'center'}
+              = 'Delete'
+        %tbody
+          - @i = 0
+          - @tags.each do |t|
+            %tr
+              %td
+                = t.id
+              %td
+                %a{:href=>'#!', :onclick=>"Edit(#{@i},\'#{t.name}\')"}                  
+                  = t.name
+              %td
+                = t.description      
+              %td{:style=>'text-align: center'}
+                %a{:href=>"languages/#{t.id}/tech"}
+                  = 'View'
+              %td{:style=>'text-align: center'}
+                %a{:href=>'#!', :onclick=>"Delete(#{@i});"}
+                  = 'x'
+            - @i = @i + 1
+    #dlgConfirm{:title=>'Confirm'}
+      = 'This item will be deleted, are you sure?'
+    #dialog{:title=>'New platform'}
+      %form{:id=>'frmLanguages', 'data-validate'=>'parsley'}
+        %table
+          %tr
+            %td{:valign=>'top'}
+              = 'Name:'
+            %td
+              %input{:id=>'fid', :name=>'language[id]', :type=>'hidden'}
+              %input{:id=>'fname', :type=>"text", :name=>'language[name]', 'data-required'=>'true'}
+          %tr
+            %td{:valign=>'top'}
+              = 'Description:'
+            %td
+              %textarea{:id=>'fdescription', :name=>'language[description]', 'data-required'=>'true'}

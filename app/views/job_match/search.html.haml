@@ -1,0 +1,64 @@
+= javascript_include_tag 'search.js'
+= javascript_include_tag 'job_match.js'
+= stylesheet_link_tag 'tables.css'
+= stylesheet_link_tag 'size.css'
+//= javascript_include_tag 'jquery.dataTables.js'
+%h4
+	Job Especification 
+	.divider
+
+//=form_for(:match_up, :html=>{'data-validate' => "parsley"}) do |f|
+%table
+	%thead
+		%tr				
+			%th
+				Tools
+			%th
+				Exp			
+	%tbody				
+		-@tools.each do |tool|			
+			%tr
+				%td						
+					=tool.name					
+				%td				
+					=text_field_tag	"t_#{tool.id}", nil, :class=>"resizedbox", :value=>tool.time_required			
+%table
+	%thead
+		%tr				
+			%th
+				Knowledges
+			%th
+				Exp		
+	%tbody
+		-@knowledges.each do |know|
+			%tr
+				%td
+					=know.name
+				%td				
+					=text_field_tag	"t_#{know.id}", nil, :class=>"resizedbox", :value=>know.time_required				
+%table
+	%thead
+		%tr
+			%th
+				Technologies
+			%th
+				Exp
+	%tbody
+		-if @platforms!=nil
+			-@platforms.each do |platform|
+				%tr
+					%td.title
+						=platform.name
+					%td
+						=text_field_tag	"t_#{platform.id}", nil, :class=>"resizedbox", :value=>platform.time_required
+			-if @frameworks!=nil
+				-@frameworks.each do |framework|
+					-if framework!=nil
+						%tr
+							%td.content
+								=framework.technology
+							%td
+								=text_field_tag	"t_#{framework.id}", nil, :class=>"resizedbox", :value=>framework.time_required
+
+%button{:type=>'button', :class=>'btn btn-primary', :id=>'btnSearch'}
+	Search

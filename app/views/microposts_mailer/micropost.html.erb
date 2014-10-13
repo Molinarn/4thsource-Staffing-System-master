@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+		<h1>Hello <%= @candidate.first_name %>, </h1>
+
+		<p>The user: <%= @created_by.first_name %> has posted a message in your wall:</p>
+
+		<p><i><%= @micropost.content %></i></p>
+
+		<p>Message that has been sent <%= @micropost.created_at %></p>
+
+		<p>-- The 4thsource team</p>
+  </body>
+</html>
+

@@ -1,0 +1,2 @@
+module RolesResponsibilitiesHelper
+end

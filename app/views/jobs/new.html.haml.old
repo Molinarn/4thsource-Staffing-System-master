@@ -1,0 +1,62 @@
+= stylesheet_link_tag 'jqwidgets/styles/jqx.base.css' 
+= javascript_include_tag 'jqwidgets/jqxcore.js' 
+= javascript_include_tag 'jqwidgets/jqxbuttons.js' 
+= javascript_include_tag 'jqwidgets/jqxscrollbar.js' 
+= javascript_include_tag 'jqwidgets/jqxpanel.js' 
+= javascript_include_tag 'jqwidgets/jqxtree.js' 
+= javascript_include_tag 'jqwidgets/jqxcheckbox.js' 
+= javascript_include_tag 'newprofile.js'
+
+<!-- Content -->      
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to 'jobs', url_options = { :controller => "jobs", :action => "index"}, html_options = { }
+      = raw '&raquo;'
+    %li= raw('<em>Edit Profile</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      New Job
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %button.btn.btn-primary.btn-sm{:type=>'button',:id=>'btnSave'} Save
+  =raw("&nbsp;&nbsp;")
+  %button.btn.btn-primary.btn-sm{:type=>'button',:id=>'btnPreview'} Preview
+  %br
+  %br
+  %fieldset
+    %form{:id=>'frmSave', :action=>'update', :method=>'post', :role=>'form'}
+      %input{:name=>'profiledata', :id=>'ProfileData', :type=>'hidden'}
+      %div.form-group
+        %label
+          title
+        %input.form-control{:title=>'title', :type=>'text'}
+      %div.form-group
+        %label
+          Description
+        %input.form-control{:description=>'descrption', :type=>'text'}
+      %br
+  #jqxTree{:style => 'width:80%'}
+    =raw('<ul>')  
+    - @jobs_ed.includes(:Job).each do |p|      
+      = raw("<li level='jobs' custom-value='#{p.id}'>" + p.id + '<ul>')
+        = raw('<li>Tools<ul>') if p.tags1.size > 0
+          = raw('</ul></li>')
+        = raw('</ul></li>') if p.tags3.size > 0
+        = raw('</ul></li>')          
+      =raw('</ul></li>')
+    =raw('</ul>')
+    %br
+  %form{:id=>'frmPreview', :action=>"/candidates/#{@candidate.id}/projects/projects/buildprofile", :method=>'post'}
+    %input{:name=>'filter', :id=>'filter', :type=>'hidden'}
+    %input{:name=>'summaryprof', :id=>'summaryprof', :type=>'hidden'}
+    %input{:name=>'nameprof', :id=>'nameprof', :type=>'hidden'}
+  .clear

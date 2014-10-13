@@ -1,0 +1,2 @@
+module ResumeTrainingsHelper
+end

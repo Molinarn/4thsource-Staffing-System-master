@@ -1,0 +1,36 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li= raw('<em>Candidates</em>')
+    .clear
+  %h3.page_headline
+    All users
+  .divider
+  %br
+  #search
+    #search-form
+      - form_tag({ :action => "search" }, :method => "get") do
+        %fieldset
+          .form_row
+            %label{:for=>'q'} Search:
+            = text_field_tag "q", params[:q] 
+            %input{:type => "submit", :value => "Search"}
+    #search-results
+      #flash
+        - flash.each do |key, value|
+          .flash{:class => key}= value
+  #list
+    - @page_results.each do |candidate|
+      #row
+
+        = candidate.first_name 
+        = candidate.first_last_name
+        .follow
+          
+  %br
+  %br
+  #feed-pagination
+    = will_paginate @page_results
+  .clear

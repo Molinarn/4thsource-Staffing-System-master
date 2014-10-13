@@ -1,0 +1,43 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = link_to 'Skills', skills_path
+      = raw '&raquo;'
+    %li= raw('<em>new</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconSkillsHeadLine
+    .h3-page-headline
+      Skills
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+    %br
+  = link_to 'Back to Skills', skills_path
+  %br
+  %br
+  %br
+  - form_for(:skill, @skill) do |f|
+    = render 'shared/error_messages', :object => f.object
+    %h4 Please fill the form to add a new skill into the catalog.
+    .divider
+    %br
+    .field
+      = f.label "Technology name"
+      %br
+      %br
+      = f.text_field :name
+    .field
+      = f.label "Version"
+      %br
+      %br
+      = f.text_field :version
+    .actions
+      %br
+      = f.submit "Sign in"
+  .clear	

@@ -1,0 +1,127 @@
+-if !@page_results.empty? && @convo_chain_id == nil
+	- counter = 0
+	- chain_string = " "	
+	- unread_counter = 0	
+	:javascript
+		pages = [];
+		microposts = [];
+		micropost_html = "";
+		unread_counter = 0;
+
+	- @page_results.each do |item|		
+		- background = ""		
+		- current_micropost = Micropost.find(item.microid)				
+		- posted_to = Candidate.find(current_micropost.candidate_id)
+		- posted_by = Candidate.find(current_micropost.created_by)
+		- posted_by_user_name = posted_by.first_name + " " + posted_by.first_last_name		
+		- posted_to_user_name = posted_to.first_name + " " + posted_to.first_last_name	
+		- post_involves_current_candidate = false
+		
+		- if (posted_by.id.to_s == current_candidate.id.to_s || current_candidate.id.to_s == posted_to.id.to_s) && !@user_wall
+			- post_involves_current_candidate = true
+
+		- if posted_to.id.to_s != posted_by.id.to_s && posted_by.id.to_s != current_candidate.id.to_s && current_candidate.id.to_s != posted_to.id.to_s
+			- chain_string = "<a href='/candidates/#{posted_by.id}/wall'><b>" + posted_by_user_name + "</b></a> wrote to <a href='/candidates/#{posted_by.id}/wall'><b>"	+ posted_to_user_name + "</b></a>"
+		- elsif current_micropost.candidate_id.to_s == current_candidate.id.to_s && current_micropost.created_by.to_s != current_micropost.candidate_id.to_s 
+			- chain_string = "<a href='/candidates/#{posted_by.id}/wall'><b>" + posted_by_user_name + "</b></a> wrote to <b>You</b> "
+		- elsif current_candidate.id.to_s != current_micropost.candidate_id.to_s && current_candidate.id.to_s == current_micropost.created_by.to_s
+			- chain_string = "<b>You</b> wrote to <a href='/candidates/#{posted_to.id}/wall'><b>" + posted_to_user_name + "</b></a>"
+		- elsif current_candidate.id.to_s == current_micropost.created_by.to_s
+			- chain_string = "<b>You</b> wrote"
+		- elsif 
+			- chain_string = "something went wrong"
+
+		- chain_string += ' ' + distance_of_time_in_words(current_micropost.created_at, Time.now) + ' ago'
+
+		- if current_micropost.checked.to_i == 0 && post_involves_current_candidate
+			- background = "#FFFFCC"
+			- unread_counter = unread_counter + 1
+			- current_micropost.update_attributes(:checked => 1)
+
+		:javascript				
+			micropost_html = "<div class='micopost_box' id=\'micropost_box_#{item.id}\' style='background-color: #{background}'>";
+			micropost_html += "	<img class='microimg' src='#{posted_by.avatarurl}'></img>";
+			micropost_html += "	<span class='content_information'>";
+			micropost_html += "		<label>#{chain_string}</label>";
+			micropost_html += "		<label>#{current_micropost.content}</label>";
+			micropost_html += "	</span>";
+		
+		-if post_involves_current_candidate
+			:javascript
+				micropost_html += "	<div class='button_container'>";		
+				micropost_html += "		<button id='reply_button' class='btn btn-primary' onclick='feed_admin_microposts(#{current_micropost.id})'>Reply</button>";
+				micropost_html += "	</div>";			
+				
+		:javascript	
+			micropost_html += "</div>";	
+					
+		- if counter < 5
+			- counter = counter + 1 
+			:javascript
+				microposts.push(micropost_html);
+		- elsif counter == 5
+			:javascript
+				micropost_html += "</br>";
+				pages.push(microposts);		
+				microposts = [];
+				microposts.push(micropost_html);
+			- counter = 1		
+	
+	- if counter <= 5
+		:javascript
+			pages.push(microposts);
+
+	:javascript		
+		unread_counter = #{unread_counter};
+
+- elsif !@page_results.empty? && @convo_chain_id != nil
+	- original_post = true;
+	- original_post_style = "micopost_box";
+
+	:javascript
+		reply_form_string = "<div class='reply_micropost_container' style='height: 300px;'>";
+	- @page_results.each do |item|				
+		- current_micropost = Micropost.find(item.microid)				
+		- posted_to = Candidate.find(current_micropost.candidate_id)
+		- posted_by = Candidate.find(current_micropost.created_by)
+		- posted_by_user_name = posted_by.first_name + " " + posted_by.first_last_name		
+		- posted_to_user_name = posted_to.first_name + " " + posted_to.first_last_name		
+		
+		- if posted_to.id.to_s != posted_by.id.to_s && posted_by.id.to_s != current_candidate.id.to_s && current_candidate.id.to_s != posted_to.id.to_s
+			- chain_string = "<a href='/candidates/#{posted_by.id}/wall'><b>" + posted_by_user_name + "</b></a> wrote to <a href='/candidates/#{posted_by.id}/wall'><b>"	+ posted_to_user_name + "</b></a>"
+		- elsif current_micropost.candidate_id.to_s == current_candidate.id.to_s && current_micropost.created_by.to_s != current_micropost.candidate_id.to_s 
+			- chain_string = "<a href='/candidates/#{posted_by.id}/wall'><b>" + posted_by_user_name + "</b></a> wrote to <b>You</b> "
+		- elsif current_candidate.id.to_s != current_micropost.candidate_id.to_s && current_candidate.id.to_s == current_micropost.created_by.to_s
+			- chain_string = "<b>You</b> wrote to <a href='/candidates/#{posted_to.id}'><b>" + posted_to_user_name + "</b></a>"
+		- elsif current_candidate.id.to_s == current_micropost.created_by.to_s
+			- chain_string = "<b>You</b> wrote"
+		- elsif 
+			- chain_string = "something went wrong"
+
+		- chain_string += ' ' + distance_of_time_in_words(current_micropost.created_at, Time.now) + ' ago'
+
+		:javascript
+			reply_form_string += "</br><div class='#{original_post_style}' id=\'micropost_box_#{item.id}\'>";
+			reply_form_string += "	<img class='microimg' src='#{posted_by.avatarurl}'></img>";
+			reply_form_string += "	<span class='content_information'>";
+			reply_form_string += "		<label>#{chain_string}</label>";
+			reply_form_string += "		<label>#{current_micropost.content}</label>";
+			reply_form_string += "	</span>";					
+			reply_form_string += "</div></br>";
+
+		- if original_post			
+			- original_post = false
+			- original_post_style = "chain_micropost_box"
+
+	:javascript
+		reply_form_string += "</div></br><div class='micropost_reply_form'>";
+		reply_form_string += "	<table style='width:100%'>";
+		reply_form_string += "		<tr><td colspan='2'><label>Message</label></td></tr>";
+		reply_form_string += "		<tr><td colspan='2'><input type='text' id='reply_text'/></td></tr>";
+		reply_form_string += "		<tr><td style='text-align:left'><button class='btn btn-primary' id='cancel_reply' onclick='cancel_reply()'>Cancel</button></td>";
+		reply_form_string += "		<td style='text-align:right'><button class='btn btn-primary' id='submit_reply' onclick='submit_reply(#{@convo_chain_id})'>Reply</button></td></tr>";		
+		reply_form_string += "	</table>";
+		reply_form_string += "</div>";
+- else
+	%br
+	%l No micropost data found

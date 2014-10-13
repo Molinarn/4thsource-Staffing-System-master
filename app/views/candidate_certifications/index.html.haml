@@ -1,0 +1,49 @@
+%section  
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', home_path
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li= raw('<em>Certifications</em>')
+    .clear
+  %h3.page_headline
+    %i.iconInterestsHeadLine
+    .h3-page-headline
+      Certifications
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+    %br
+    = link_to 'New', :controller => "candidate_certifications", :action => "new"
+    %br
+    %br
+    %br
+    %h4
+      List of certifications
+    .divider
+    %br
+    - if @total_certifications.count > 0
+      #list
+        - @total_certifications.each do |candidate_certification|
+          %br
+          #row
+            .experience_details_wrapper
+              .experience_details_left
+                %h6
+                  = candidate_certification.certification.name
+                #experience-date
+
+                %br
+              .experience_details_right
+                = link_to "Delete", candidate_certification, :method => :delete, :confirm => "Are you sure you want to delete this certification?"
+    - else
+      %h4 Please create at least one certification in your resume.
+      .divider
+    %br
+  %br
+  %br
+%script $(document).ready({CandidateCertification.start()});

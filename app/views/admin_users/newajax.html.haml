@@ -1,0 +1,16 @@
+-@candidates.each do |row|
+  %tr
+    %td
+      = link_to row.first_name, "/candidates/#{row.id}/resume"
+    %td
+      = link_to row.middle_name, "/candidates/#{row.id}/resume"
+    %td
+      = link_to row.first_last_name, "/candidates/#{row.id}/resume"
+    %td
+      = link_to row.second_last_name, "/candidates/#{row.id}/resume"
+    -if row.admin_users == nil
+      %td
+        = link_to 'Add', '#!', :onclick => "addToAdmin('/admin_users/#{row.id}/add',2)"
+    -else
+      %td
+        = raw 'Already added'                

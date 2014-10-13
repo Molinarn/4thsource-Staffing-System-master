@@ -1,0 +1,75 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', home_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li= raw('<em>trainings</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconTrainingHeadLine
+    .h3-page-headline
+      Trainings
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+    %br
+    = link_to_resume('Back to Resume', @candidate.id, :action => 'resume')
+    %br 
+    %br
+    %br
+    %h4
+      List of trainings
+    .divider
+    %br
+    - if @total_trainings.count > 0
+      #list
+        - @total_trainings.each do |candidate_training|
+          %br
+          #row
+            .experience_details_wrapper
+              .experience_details_left
+                %h6
+                  = candidate_training.name
+                #experience-date
+                  = candidate_training.year
+                %br
+              .experience_details_right
+                = link_to "Delete", :controller => "candidate_training", :action => "destroy", :id=> candidate_training.id
+    - else
+      %h4 Please create at least one training in your resume.
+      .divider
+    %br 
+  %training
+
+  %br 
+  .experience_details_wrapper
+    .experience_details_left_100_percent
+      = form_for(@training, :url => '/candidates/resume/training/new') do |f|
+        = render 'shared/error_messages', :object => f.object
+        %br
+        %h4
+          Add a training in your resume
+        .divider_name
+        .row-fluid
+          .span6
+            .field
+              = f.label "Name"
+          .span6
+            .field
+              = f.label  'year'
+        .row-fluid
+          .span6
+            = f.text_field :name
+          .span6
+            .birthdate= f.date_select:year
+        .actions
+          %br
+          = f.submit "Submit",{"class"=>"btn btn-primary"}
+        .clear	
+    .experience_details_right
+    %script CandidateLanguage.start();

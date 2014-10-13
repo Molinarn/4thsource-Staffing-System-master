@@ -1,0 +1,27 @@
+= stylesheet_link_tag 'jqwidgets/styles/jqx.base.css' 
+= javascript_include_tag 'jqwidgets/jqxcore.js' 
+= javascript_include_tag 'jqwidgets/jqxbuttons.js' 
+= javascript_include_tag 'jqwidgets/jqxscrollbar.js' 
+= javascript_include_tag 'jqwidgets/jqxpanel.js' 
+= javascript_include_tag 'jqwidgets/jqxtree.js' 
+= javascript_include_tag 'jqwidgets/jqxcheckbox.js' 
+= javascript_include_tag 'newprofile.js'
+
+<!-- Content -->      
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to 'Candidate Profiles', url_options = { :controller => "candidates_profiles", :action => "index"}, html_options = { }
+      = raw '&raquo;'
+    %li= raw('<em>New Profile</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      New profile
+  .divider-headline
+  %br
+  = render 'new_candidates_profile_form'

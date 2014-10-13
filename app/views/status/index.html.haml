@@ -1,0 +1,61 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Status
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconEducation
+    .h3-page-headline
+      Status
+  .divider-headline
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  -if current_candidate.admin_flag
+    %br
+    %br
+    -if @statuses.length == 0
+      .educationEmptyTitle
+        Please Insert at Least one Status
+    -else
+      %table{:width => "100%"}
+        %thead
+          %tr
+            %th{:height => "20px", :class => "educationLabelTitle"}
+              Name
+            %th{:class => "educationLabelTitle"}
+              Updated By
+            %th{:class => "educationLabelTitle"}
+               
+        %tbody
+          -@statuses.each do |row|
+            %tr
+              %td
+                = row.name
+              %td
+                = row.updated_by
+              %td
+                .btn-group
+                  %button.btn.btn-primary
+                    = link_to "Delete", url_options={:controller => "status", :action => "destroy", id:row.id}, html_options = {:confirm => "Are you sure you want to delete this status?"}
+    %br
+    %br
+    = form_for(:status, :url=>{:action=>'create'}) do |f|
+      .field
+        = f.label :name
+        %br
+        = f.text_field :name
+      .actions
+        = f.submit "Accept"
+  -else
+    .educationEmptyTitle
+      This User Have not Permission in this Catalog

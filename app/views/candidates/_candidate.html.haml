@@ -1,0 +1,8 @@
+#left
+  = link_to candidate.id, :controller => "candidates", :action => "show", :id => candidate.id
+#middle
+  
+  = candidate.name
+#right
+  -# if current_candidate.admin?
+    = link_to "delete", candidate, :method => :delete, :confirm => "Are you sure you want to delete this candidate?", :title => "Delete #{candidate.name}"

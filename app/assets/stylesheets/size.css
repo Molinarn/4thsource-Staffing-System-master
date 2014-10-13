@@ -1,0 +1,11 @@
+.resizedbox{
+	width:20px;
+	height: 7px;
+}
+.title{
+	font-weight: bolder;
+}
+
+.content{
+	font-style: italic;
+}

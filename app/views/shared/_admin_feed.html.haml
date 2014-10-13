@@ -1,0 +1,17 @@
+- if @page_results2 != nil
+  - unless @page_results2.empty?
+    #checkbox_container    
+      %l Show only my conversations with selected candidate?
+      = check_box_tag "only_my_posts"
+    %br
+    %br
+    #select_container
+      %l Select a candidate to show their posts
+      %br
+      %br
+      = select_tag "select_follower", options_for_select(@page_results2.collect{ |u| [(u.first_name + " " + u.first_last_name), u.id] }), :prompt => "Select a Candidate"
+      #loading_image
+        = image_tag "ajax-loader.gif"
+    #pages_script
+    #microposts_feed
+    #pages_container

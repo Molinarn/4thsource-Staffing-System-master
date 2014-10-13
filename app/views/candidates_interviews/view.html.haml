@@ -1,0 +1,58 @@
+=stylesheet_link_tag params[:controller]
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Administration</em>')
+      = raw '&raquo;'
+    %li
+      = link_to "Interviews", :controller => "candidates_interviews", :action => "index", id:@candidate.id
+      = raw '&raquo;'
+    %li= raw('<em>edit</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Interview result of  
+      =@candidate.actual_name
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "candidates_interviews", :action => "report", id:@candidate.id
+  %br
+  %br
+  %h4
+    =@cand_inter.interviews_type.name
+    done by 
+    //=@cand_inter.interviewer_user.name
+    -if @cand_inter.interviewer_user_id == 0
+      =raw 'Unknown'
+    -else
+      =Candidate.find(InterviewerUser.find(@cand_inter.interviewer_user_id).candidate_id).first_name
+  .divider
+  %br
+  %dl{:style => "float: right"}
+    %dt
+      %b
+        Average level
+    %dd
+      %b
+        =@cand_inter.result
+
+  %dl
+    -@cand_inter.interviews_scores.each do |i_score|
+      %dt
+        =i_score.question
+      %dd
+        ="%.2f" % i_score.score
+  %br
+  %br
+  %h4
+    Comments
+  .span6
+    %i
+      =@cand_inter.comments

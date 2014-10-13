@@ -1,0 +1,78 @@
+= stylesheet_link_tag 'jqwidgets/styles/jqx.base.css' 
+= javascript_include_tag 'jqwidgets/jqxcore.js' 
+= javascript_include_tag 'jqwidgets/jqxbuttons.js' 
+= javascript_include_tag 'jqwidgets/jqxscrollbar.js' 
+= javascript_include_tag 'jqwidgets/jqxpanel.js' 
+= javascript_include_tag 'jqwidgets/jqxtree.js' 
+= javascript_include_tag 'jqwidgets/jqxcheckbox.js' 
+= javascript_include_tag 'newprofile.js'
+
+<!-- Content -->      
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to 'Candidate Profiles', url_options = { :controller => "candidates_profiles", :action => "index", :id => @candidate.id}, html_options = { }
+      = raw '&raquo;'
+    %li= raw('<em>Edit Profile</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Edit profile
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %button.btn.btn-primary.btn-sm{:type=>'button',:id=>'btnSave'} Save
+  =raw("&nbsp;&nbsp;")
+  %button.btn.btn-primary.btn-sm{:type=>'button',:id=>'btnPreview'} Preview
+  %br
+  %br
+  %fieldset
+    %form{:id=>'frmSave', :action=>'update', :method=>'post', :role=>'form'}
+      %input{:name=>'id', :id=>'id', :type=>'hidden', :value=>@candidates_profile.id}
+      %input{:name=>'profiledata', :id=>'ProfileData', :type=>'hidden'}
+      %div.form-group
+        %label
+          Name
+        %input.form-control{:name=>'name', :id=>'name', :type=>'text', :value=>@candidates_profile.name}
+      %div.form-group
+        %label
+          Summary
+        %textarea.form-control{:name=>'summary', :id=>'summary', :rows=>"4", :style=>'width:80%'}
+          = @candidates_profile.summary
+      %br
+  #jqxTree{:style => 'width:80%'}
+    =raw('<ul>')
+    - @candidate.projects.includes(:projects_roles).each do |p|      
+      = raw("<li level='project' custom-value='#{p.id}' " + controller.getCheckedValue("project:#{p.id}", @candidates_profile) + ">" + p.name + '<ul>')
+      - p.projects_roles.includes(:roles).each do |r|
+        = raw("<li level='role' custom-value='#{p.id}/#{r.roles.id}' " + controller.getCheckedValue("role:#{p.id}/#{r.roles.id}", @candidates_profile) + ">" + r.roles.name + '<ul>')
+        = raw('<li>Tools<ul>') if r.tags1.size > 0
+        - r.tags1.includes(:tags).each do |t1|
+          = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.id}/#{t1.tags.id}' " + controller.getCheckedValue("tag:#{p.id}/#{r.roles.id}/#{t1.tags.id}", @candidates_profile) + ">" + t1.tags.name + '</li>')
+        = raw('</ul></li>') if r.tags1.size > 0
+        = raw('<li>Knowledges<ul>') if r.tags2.size > 0
+        - r.tags2.includes(:tags).each do |t2|
+          = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.id}/#{t2.tags.id}' " + controller.getCheckedValue("tag:#{p.id}/#{r.roles.id}/#{t2.tags.id}", @candidates_profile) + ">" + t2.tags.name + '</li>')
+        = raw('</ul></li>') if r.tags2.size > 0
+        = raw('<li>Technologies<ul>') if r.tags3.size > 0
+        - r.tags3.includes(:tags).each do |t3|
+          = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.id}/#{t3.tags.id}' " + controller.getCheckedValue("tag:#{p.id}/#{r.roles.id}/#{t3.tags.id}", @candidates_profile) + ">" + t3.tags.name + '<ul>')
+          - CustomQueries.getTechnologies(t3.tags.id).each do |techs|
+            = raw("<li level='tech' custom-value='#{p.id}/#{r.roles.id}/#{t3.tags.id}/#{techs[0]}' " + controller.getCheckedValue("tech:#{p.id}/#{r.roles.id}/#{t3.tags.id}/#{techs[0]}", @candidates_profile) + ">" + "#{techs[2]}</li>")
+          = raw('</ul></li>')
+        = raw('</ul></li>') if r.tags3.size > 0
+        = raw('</ul></li>')          
+      =raw('</ul></li>')
+    =raw('</ul>')
+    %br
+  %form{:id=>'frmPreview', :action=>"/candidates/#{@candidate.id}/projects/projects/buildprofile", :method=>'post'}
+    %input{:name=>'filter', :id=>'filter', :type=>'hidden'}
+    %input{:name=>'summaryprof', :id=>'summaryprof', :type=>'hidden'}
+    %input{:name=>'nameprof', :id=>'nameprof', :type=>'hidden'}
+  .clear

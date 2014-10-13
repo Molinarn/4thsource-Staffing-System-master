@@ -1,0 +1,70 @@
+%section
+=form_for(:new_job, url:jobs_path, :html=>{'data-validate' => "parsley"}) do |f|
+	%h4
+		Please enter the following information
+	.divider
+	%br
+	.field
+		= f.label "Job Title"
+		%br
+		=f.text_field :title,:onkeyup=>"checkMaxlength(this);",:maxlength=>100,:data=>{:required=>"true"}
+	%br
+	.field
+		=f.label "Description"
+		%br
+		=f.text_area :description,:data=>{:required=>"true"}
+	%br
+	%br
+	%h4
+		Technical requirements
+	.divider
+	Select the technical requirements for this job.
+	%br
+	%br
+	%table{:style=>"width:33%; float:left;"}
+		%thead{:style => "text-align: center;"}
+			%tr
+				%th
+					Platforms
+		%tbody
+			-@platforms.each do |platform|
+				%tr
+					%td
+						%input{:type=>"checkbox",:name=>"platforms_req[]",:value=>"#{platform.id}"}
+						=platform.name
+	%table{:style=>"width:34%;float:left"}
+		%thead{:style => "text-align: center;"}
+			%tr
+				%th
+					Knowledge
+		%tbody
+			-@knowledge.each do |know|
+				%tr
+					%td
+						%input{:type=>"checkbox",:name=>"knowledge_req[]",:value=>"#{know.id}"}
+						=know.name
+	%table{:style=>"width:33%;"}
+		%thead{:style => "text-align: center;"}
+			%tr
+				%th
+					Tools
+		%tbody
+			-@tools.each do |tool|
+				%tr
+					%td
+						%input{:type=>"checkbox",:name=>"[tools][]",:value=>"#{tool.id}"}
+						=tool.name
+	.clear
+	%br
+	%h4
+		Other requiremnets
+	.divider
+	Non-technical and other kind of requirements for this job.
+	%br
+	.field
+		=f.text_area :other_req
+	%br
+	.actions
+		=f.submit "Create Job", :class=> "btn btn-primary"
+	%br
+	.clear

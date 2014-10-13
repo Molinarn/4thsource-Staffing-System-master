@@ -1,0 +1,161 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    - if current_candidate.admin_flag
+      %li
+        = link_to 'Candidates', "/staff/" + current_candidate.id.to_s + "/candidates"
+        = raw '&raquo;'
+    %li
+      = raw('<em>Resume</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconResumeHeadLine
+    .h3-page-headline
+      Resume
+      - if has_admin_role?
+        = link_to "Generate resume", '/candidates/'+@candidate.id.to_s+'/docx', :class => "btn btn-primary", :style => "float:right; color: white"
+  .divider-headline
+  %br
+  .photo_wrapper
+    .photo_left
+      = image_tag @candidate.avatarurl
+    .photo_right
+      %h4
+        = @candidate.first_name
+        = @candidate.first_last_name
+      = @candidate.email
+  %br
+  .experience_wrapper
+    - if @candidate.candidate_prof_summary.nil?
+      - if current_candidate.admin_flag
+        %h4 This candidate has not a summary in the resume.
+      - else
+        %h4 Please write a summary in your resume.
+      .divider
+      %br
+      %br
+    - else
+      %h4 
+        Professional Summary
+      .divider-headline
+      %pre
+        = @candidate.candidate_prof_summary.summary
+      %br
+    - if @candidate.candidate_education.empty?
+      - if current_candidate.admin_flag
+        %h4 This candidate has not specified any education in the resume.
+      - else
+        %h4 Please specify at least one education in your resume.
+      .divider
+    - else
+      %h4 Education
+      .divider-headline
+      %ul
+        - @candidate.candidate_education.each do |education|
+          %li
+            .experience_left
+              -if education.educ_degree == nil
+                %h6.educationTitleAndUniversity= "Education Degree not Approved (" + education.title + "),"
+              -else
+                %h6.educationTitleAndUniversity= education.educ_degree.name + " in " + education.title + ","
+              %p.educationTitleAndUniversity= education.university
+            -if education.date_in != nil && education.date_out != nil
+              .experience_right= Date::MONTHNAMES[education.date_in.month] + " " + education.date_in.year.to_s + " - " + Date::MONTHNAMES[education.date_out.month] + " " + education.date_out.year.to_s
+    %h4 Projects
+    .divider-headline     
+    - if @candidate.projects.count > 0
+      - @candidate.projects.each do |projects|
+        .experience_left
+          %h6= projects.company_name
+          %h6= projects.name
+        .experience_right
+          - projects.projects_roles.each do |role|
+            = Date::MONTHNAMES[role.date_in.month]
+            = role.date_in.year
+            = raw(' - ')
+            = Date::MONTHNAMES[role.date_out.month]
+            = role.date_out.year
+                    
+          %br
+        #experience-description
+          %pre
+            = projects.summary
+        %ul
+          - projects.projects_roles.each do |roles|
+            - roles.roles_responsibilities.each do |role_responsibility|
+              %li
+                %pre
+                  = role_responsibility.description
+
+    - else
+      %br
+      - if current_candidate.admin_flag
+        %h4 This candidate has not created a labor project.
+      - else
+        %h4 Please create at least one labor project.
+      .divider
+    %br
+    - if @candidate.candidate_languages.count > 0
+      %h4 List of languages
+      .divider-headline
+      %ul
+        - @candidate.candidate_languages.each do |candidate_language|
+          %li
+            = candidate_language.language.name unless candidate_language.language.nil?
+            = raw ' - '
+            =language_level_list[candidate_language.level_id][0]
+    - else
+      %br
+      - if current_candidate.admin_flag
+        %h4 This candidate has not created a language in the resume.
+      - else
+        %h4 Please create at least one language in your resume.
+      .divider 
+    %br
+    - if @candidate.candidate_certifications.count > 0
+      %h4
+        List of certifications
+      .divider-headline
+      %ul
+        - @candidate.candidate_certifications.each do |certification|
+          %li
+            = certification.certification.name unless certification.certification.nil?
+      %br
+      %br
+    - else
+      %br
+      - if current_candidate.admin_flag
+        %h4 This candidate has not created a certification in the resume.
+      - else
+        %h4 Please create at least one certification in your resume.
+      %br
+    - if(current_candidate.admin_flag)
+      #form_container
+        = form_for(:search, :url=>{:action=>'staff_update'}, :html => {:id => "updateCandidateStaffForm"}) do |f|
+          = check_box_tag "isRecruitedResume", true, @candidate.currently_in_4Source
+          Is this candidate already recruited?
+          %br
+          .field
+            = f.hidden_field :id, :value => @candidate.id
+          %table
+            %tr
+              %td
+                Recruited Date: 
+              %td
+                = f.date_select :recruited_date, {:start_year => 1950, :order => [:month, :day, :year], :default => @candidate.recruited_at}, {:class => "dateFormStyle", :disabled => !@candidate.currently_in_4Source}
+            %tr
+              %td
+                Start Date:
+              %td
+                = f.date_select :start_date, {:start_year => 1950, :order => [:month, :day, :year], :default => @candidate.started_at}, {:class => "dateFormStyle", :disabled => !@candidate.currently_in_4Source}
+            %tr
+              %td
+                Recruited In:
+              %td
+                = f.select :office_id, options_from_collection_for_select(Office.order("id").all, "id", "name", @candidate.office_id), {}, {:disabled => !@candidate.currently_in_4Source}
+          %br
+          = submit_tag "Update", :class => "btn btn-primary"
+          %br
+          %br

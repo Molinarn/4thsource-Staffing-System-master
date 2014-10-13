@@ -1,0 +1,29 @@
+
+%h3.page_headline
+  Fill Your Data Correctly:
+= form_for(:educations, :url=>{:action=>'create'}, :html => {:multipart => true, :id => "newEducationForm", :data => { :validate => 'parsley' }}) do |f|
+  // = render 'shared/error_messages', :object => f.object
+  .field
+    = f.label :title
+    %br
+    = f.text_field :title, :data => {:required => "true"}
+  .field
+    = f.label :educ_degree_id
+    %br
+    = f.select :educ_degree_id, options_from_collection_for_select(EducDegree.where({:approved_flag => [true, false]}).all, "id", "name")
+    = text_field_tag "educations_educ_degree_id_new"
+    = button_tag "+", :id => "addButton", :class => "addButton", :type => "button" 
+  .field
+    = f.label :university
+    %br
+    = f.text_field :university
+  .field
+    = f.label :date_in
+    %br
+    = f.date_select :date_in, :start_year => 1950, :order => [:month, :day, :year]
+  .field
+    = f.label :date_out
+    %br
+    = f.date_select :date_out, :start_year => 1950, :order => [:month, :day, :year]
+  .actions
+    = f.submit "Accept", :class => "btn btn-primary"

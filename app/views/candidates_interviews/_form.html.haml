@@ -1,0 +1,19 @@
+= form_for(:cand_inter, :html => {:class => "experience", :method => "post"}) do |f|
+  .row-fluid
+    .span6
+      .field
+        = f.label "Interview type"
+        %br
+        = f.select :interview_type_id, options_from_collection_for_select(InterviewsType.order("id").all, "id", "name", @cand_inter.interview_type_id)
+    .span6
+      .field
+        = f.label "Interviewer"
+        %br
+        = f.select :interviewer_id, options_from_collection_for_select(Interviewer.order("name").all, "id", "name", @cand_inter.interviewer_id)
+  .row-fluid
+    .span6
+      .actions
+        %br
+        = f.submit "Update", :class => "btn btn-primary"
+
+

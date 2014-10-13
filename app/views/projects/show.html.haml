@@ -1,0 +1,230 @@
+= javascript_include_tag 'projects_techs.js' 
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      =link_to_project("Projects", @candidate.id, :action => "index")
+      = raw '&raquo;'
+    %li= raw('<em>view</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      = @title
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  =link_to_project("Back", @candidate.id, :action => "index")
+  %br
+  %br
+  = form_for(:project, url:{controller: "projects", :action => "update"}, :html => {:class => "proj", :method => 'post'}) do |f|
+    .row-fluid
+      .span6
+        .field
+          = f.label "Project name"
+          = f.text_field :name
+    .row-fluid
+      .span9
+        = f.label "Summary"
+        = f.text_area :summary
+      %br
+      .span3{:style => 'padding-top: 70px'}
+        = f.submit "Update Project", {"class"=>"btn btn-primary"}
+  %br
+  %br
+  %br
+  %i.iconRolesHeadLine
+  .project_role_left
+    %h6
+      Roles
+  .divider-headline-middle
+  %br
+  = link_to "Add Role", :controller => "projects_roles", :action => "new", id:@candidate.id, :project_id=> @project.id
+  %br
+  %br
+  - if @project.projects_roles.count > 0
+    %list
+      - @project.projects_roles.each do |role|
+        %br
+        #row
+          .experience_details_wrapper
+          .experience_details_left
+            %br
+            %br
+            %strong
+              = Role.find_by_id(role.role_id).name
+          .experience_details_right
+            = link_to "Edit", :controller => "projects_roles", :action => "update", id:@candidate.id, :project_id=> @project.id, :projects_role_id=> role.id
+            &nbsp;&nbsp;&nbsp;
+            = link_to "Delete", url_options = { :controller => "projects_roles", :action => "destroy", id:@candidate.id, :project_id=> @project.id, :projects_role_id=> role.id }, html_options = { :confirm => "Are you sure you want to delete this role?" }
+          %br
+          .experience_details_wrapper
+          .experience_details_left
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            = role.date_in
+            &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+            = role.date_out
+          .experience_details_wrapper
+          .experience_details_left
+            %br
+            %h5.page_headline 
+              %i.iconResponsibilitiesHeadLine
+              .tag_left
+                Responsibilities&nbsp;&nbsp;&nbsp;
+                = link_to "Add new", :controller => "roles_responsibilities", :action => "new", id:@candidate.id, :project_id=> @project.id, :projects_role_id=> role.id
+              .divider-headline-mini
+          - if role.roles_responsibilities.count > 0
+            %list
+              - role.roles_responsibilities.each do |respon|
+                %br
+                #row
+                  .experience_details_wrapper
+                  .experience_details_left
+                    %pre
+                      &nbsp;&nbsp;&nbsp;&nbsp;&bull;
+                      = respon.description
+                  .experience_details_right
+                    = link_to "Delete", url_options = { :controller => "roles_responsibilities", :action => "destroy", id:@candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :rolerespon_id=> respon.id }, html_options = { :confirm => "Are you sure you want to delete this resposibilitie?" }
+          - else
+            .experience_details_wrapper
+            .experience_details_left
+              Please create at least one responsibility.
+          %br
+          %br
+          %br
+          %br
+          .experience_details_wrapper
+          .experience_details_left
+            %br
+            %h5.page_headline 
+              %i.iconTechnologyHeadLine
+              .tag_left
+                Technologies&nbsp;&nbsp;&nbsp;
+                = link_to "Add new", :controller => "projects_tags", :action => "new", :id=> @candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :type_id=>"3" 
+              .divider-headline-mini
+          - if role.tags3.count > 0
+            %list
+              - role.tags3.each do |pt|
+                %br
+                #row
+                  .experience_details_wrapper
+                  .experience_details_left
+                    &nbsp;&nbsp;&nbsp;&nbsp;&bull;     
+                    = Tag.find(pt.tags_id).name 
+                    %a{:href => '#!', :id=>"techs#{pt.tags_id}_#{role.id}", :onclick=>"showTechs(#{pt.tags_id}, #{role.id});"}
+                      = "(" + role.technames(pt.tags_id).strip + ")"
+                  .experience_details_right
+                    = link_to "Delete", url_options = { :controller => "projects_tags", :action => "destroy", id:@candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :projtag_id=> pt.id }, html_options = { :confirm => "Are you sure you want to delete this technology?" }
+                  .experience_details_wrapper
+                  .experience_details_left
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    = pt.date_in
+                    &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+                    = pt.date_out
+          - else
+            .experience_details_wrapper
+            .experience_details_left
+              Please create at least one technology.
+          %br
+          %br
+          %br
+          %br
+          .experience_details_wrapper
+          .experience_details_left
+            %br
+            %h5.page_headline 
+              %i.iconKnowledgeHeadLine
+              .tag_left
+                Knowledges&nbsp;&nbsp;&nbsp;
+                = link_to "Add new", :controller => "projects_tags", :action => "new", :id=> @candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :type_id=>"2"
+              .divider-headline-mini
+          - if role.tags2.count > 0
+            %list
+              - role.tags2.each do |pt|
+                %br
+                #row
+                  .experience_details_wrapper
+                  .experience_details_left
+                    %pre
+                      &nbsp;&nbsp;&nbsp;&nbsp;&bull;
+                      = Tag.find(pt.tags_id).name 
+                      &nbsp---&nbsp
+                      = pt.description
+                  .experience_details_right
+                    = link_to "Delete", url_options = { :controller => "projects_tags", :action => "destroy", id:@candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :projtag_id=> pt.id }, html_options = { :confirm => "Are you sure you want to delete this knowledge?" }
+                  .experience_details_wrapper
+                  .experience_details_left
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    = pt.date_in
+                    &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+                    = pt.date_out
+          - else
+            .experience_details_wrapper
+            .experience_details_left
+              Please create at least one knowledge.
+          %br
+          %br
+          %br
+          %br
+          .experience_details_wrapper
+          .experience_details_left
+            %br
+            %h5.page_headline 
+              %i.iconToolsHeadLine
+              .tag_left
+                Tools&nbsp;&nbsp;&nbsp;
+                = link_to "Add new", :controller => "projects_tags", :action => "new", :id=> @candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :type_id=>"1"
+              .divider-headline-mini
+          - if role.tags1.count > 0
+            %list
+              - role.tags1.each do |pt|
+                %br
+                #row
+                  .experience_details_wrapper
+                  .experience_details_left
+                    %pre
+                      &nbsp;&nbsp;&nbsp;&nbsp;&bull;
+                      = Tag.find(pt.tags_id).name 
+                      &nbsp---&nbsp                     
+                      = pt.description
+                  .experience_details_right
+                    = link_to "Delete", url_options = { :controller => "projects_tags", :action => "destroy", id:@candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :projtag_id=> pt.id }, html_options = { :confirm => "Are you sure you want to delete this tool?" }
+                  .experience_details_wrapper
+                  .experience_details_left
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    = pt.date_in
+                    &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+                    = pt.date_out
+          - else
+            .experience_details_wrapper
+            .experience_details_left
+              Please create at least one tool.
+          %br
+          %br
+          %br
+          %br
+        %br
+        %br 
+        %br
+        %br
+  - else
+    .experience_details_wrapper
+    .experience_details_left
+      Please create at least one role.
+  %br
+  %br
+  %br
+  %br
+  %br 
+  %div{:id => 'dlgTechnologies', :title => 'Choose technologies for that platform'}
+    %form{:id=>'frmTechs', :name=>'frmTechs'}
+      %fieldset
+        #techContent
+  .clear 

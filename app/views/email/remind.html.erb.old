@@ -1,0 +1,42 @@
+<!-- Content -->			
+<div id="content">
+  <img src="http://www.4thsource.com//public/images/subheader_services.jpg" alt="Sub Header" class="subheader" />
+  <ul id="breadcrumbs">
+    <li><a href="#">Home</a> &raquo; </li>
+    <li><em>Forgot password</em></li>
+	<div class="clear"></div>
+  </ul>
+  <h3 class="page_headline ">Change my old password</h3>
+  <div class="divider"></div>
+    <%= form_for :candidate do |f| %> 
+      <% flash.each do |key, value| %>
+        <div class="flash <%= key %>"><%= value %></div><br/>
+      <% end %>
+      <% logger.info "inside the form..." %>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.text_field :email%> 
+      </div>
+      <div class="actions">
+        <%= f.submit "Submit",{"class"=>"btn btn-primary"}%> 
+      </div>
+    <% end %>
+    <% logger.info "Exit the form..." %>
+    <p>New candidate? <%= link_to "Sign up now!", signup_path %></p>
+    <div class="clear"></div>
+</div> <!-- End Content -->
+	
+<!-- Sidebar -->
+<div id="sidebar">
+  <!-- Subnav -->
+  <h4 id="if_sub_nav"><a href="#">About</a></h4>
+  <div id="if_subnav" class="divider"></div>
+  <ul id="nav_sub" class="sub_navigation">
+    <li><a href="#">Corporate Overview</a></li>
+    <li><a href="#">Clients</a></li>
+    <li class="last"><a href="#">Executive Leadership</a></li>
+  </ul>
+  <img src="http://www.4thsource.com//public/images/sidebar_about.jpg" alt="about" class="sidebar_img" />
+  <div class="clear"></div>
+</div> <!-- End Sidebar -->
+

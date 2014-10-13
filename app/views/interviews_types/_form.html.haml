@@ -1,0 +1,28 @@
+.fluid-row
+  .span6
+    = form_for(@interview_type, :html => {:class => "experience", 'data-validate' => "parsley", :method => "post"}) do |f|
+      .field
+        = f.label "Description"
+        %br
+        = f.text_field :name, :onkeyup => "checkMaxlength(this);", :maxlength => 30, :data => { :required => "true" }
+
+      .fluid-row
+        .span6
+          Interview Questions
+          
+          %br
+      =f.fields_for :interviews_questions do |iq_f|
+        .fluid-row
+          .span6
+            .field
+              =iq_f.label "Question"
+              %br
+              =iq_f.text_field :question
+
+      .fluid-row
+        .span6
+        .actions
+          %br
+          =f.submit "Update", :class => "btn btn-primary"
+          =link_to "Add question", "javascript:void(0)", :id => "btn-question", :class => "btn", :style => "color: black;"
+

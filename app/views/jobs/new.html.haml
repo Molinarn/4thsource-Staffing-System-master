@@ -1,0 +1,63 @@
+= stylesheet_link_tag 'jqwidgets/styles/jqx.base.css' 
+= javascript_include_tag 'jqwidgets/jqxcore.js' 
+= javascript_include_tag 'jqwidgets/jqxbuttons.js' 
+= javascript_include_tag 'jqwidgets/jqxscrollbar.js' 
+= javascript_include_tag 'jqwidgets/jqxpanel.js' 
+= javascript_include_tag 'jqwidgets/jqxtree.js' 
+= javascript_include_tag 'jqwidgets/jqxcheckbox.js' 
+= javascript_include_tag 'newprofile.js'
+
+<!-- Content -->    
+
+%section
+=form_for(:new_job, url:jobs_path, :html=>{'data-validate' => "parsley"}) do |f|
+	%h4
+		Please enter the following information
+	.divider
+	%br
+	.field
+		= f.label "Job Title"
+		%br
+		=f.text_field :title,:onkeyup=>"checkMaxlength(this);",:maxlength=>100,:data=>{:required=>"true"}
+	%br
+	.field
+		=f.label "Description"
+		%br
+		=f.text_area :description,:data=>{:required=>"true"}
+	%br
+	%br
+	%h4
+		Technical requirements
+	.divider
+	Select the technical requirements for this job.
+	%br
+	#jqxTree{:style => 'width:50%'}
+		=raw('<ul>')     
+		=raw("<li level='project' custom-value='#{'1'}'>" +  'Platform<ul>')
+		-@platforms.each do |p|
+			=raw("<li level='platform' custom-value='#{p.id}'>" + p.name + '<ul>')
+			=raw('</ul></li>')
+		=raw('</ul>')
+		=raw("<li level='project' custom-value='#{'1'}'>" +  'Knowledge<ul>')
+		-@knowledge.each do |k|
+			=raw("<li level='platform' custom-value='#{k.id}'>" + k.name + '<ul>')
+			=raw('</ul></li>')
+		=raw('</ul></li>')
+		=raw("<li level='project' custom-value='#{'1'}'>" +  'Tool<ul>')
+		-@tools.each do |t|
+			=raw("<li level='platform' custom-value='#{t.id}'>" + t.name + '<ul>')
+			=raw('</ul></li>')
+		=raw('</ul></li>')
+		=raw('</ul>')
+	%h4
+		Other requiremnets
+	.divider
+	Non-technical and other kind of requirements for this job.
+	%br
+	.field
+		=f.text_area :other_req, :maxlength => 30
+	%br
+	.actions
+		=f.submit "Create Job", :class=> "btn btn-primary"
+	%br
+	.clear

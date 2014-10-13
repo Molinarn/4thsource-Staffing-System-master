@@ -1,0 +1,81 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      = link_to_resume("Experience", @candidate.id, :action => "experience")
+      = raw '&raquo;'
+    %li
+      = link_to 'Details', '#'
+      = raw '&raquo;'
+    %li= raw('<em>new</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconCoinsHeadLine
+    .h3-page-headline
+      Experience Details
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+    %br
+    #list
+      #row
+        .experience_wrapper
+          .experience_left
+            %h6= @experience.company_name
+            %h6= @experience.job_position
+            #experience-date
+              = Date::MONTHNAMES[@experience.start_date.month]
+              = @experience.start_date.year
+              = raw(' - ')
+              = Date::MONTHNAMES[@experience.end_date.month]
+              = @experience.end_date.year
+              %br
+            %br
+            #experience-description
+              = @experience.description
+              %br
+            %br
+            %ul
+              - @experience.experience_details.each do |detail|
+                .experience_details_wrapper
+                  .experience_details_left
+                    %li= detail.content
+                  .experience_details_right
+                    = link_to "Delete", :controller => "experience_details", :action => "destroy", :id => detail.id
+            %br
+            %br
+            %br
+            %br
+            %h6
+              %br
+              %br
+              Tools used
+            %ul
+              - @experience.skills.each do |skill|
+                %li
+                  = skill.name
+                  = skill.version
+            %br
+            %br
+            %br
+            - form_for(:experience_details) do |f|
+              %h4
+                Please enter the following information
+              .divider-headline 
+              .field
+                = f.label "Detail"
+                %br
+                %br
+                = f.text_area :content
+              .actions
+                %br
+                = f.submit "Sign in"
+          .experience_right
+    .clear	

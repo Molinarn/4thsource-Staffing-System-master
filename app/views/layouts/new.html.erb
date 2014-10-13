@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+  <head>
+    <title>Nearshore Outsourcing Solutions | Ruby on Rails Solutions |&nbsp;</title>
+
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag 'jqwidgets/globalization/globalize.js' %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+
+    <!-- Stylesheets -->
+    <%= stylesheet_link_tag "bootstrap.min.css" %>
+    <%= stylesheet_link_tag "index" %>
+    <%= stylesheet_link_tag "flick/jquery-ui-1.10.2.custom.css" %>
+    <%= stylesheet_link_tag "demo_page" %>
+    <%= stylesheet_link_tag "demo_table" %>
+    <%= stylesheet_link_tag "adan" %>
+    <%= stylesheet_link_tag "reports" %>
+    <!--link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css"-->
+      <%= javascript_include_tag "bootstrap.min" %>
+        <%= javascript_include_tag "jquery.endless-scroll" %>
+      <%= javascript_include_tag "parsley" %>
+      <%= stylesheet_link_tag 'jqwidgets/styles/jqx.base.css' %>
+      <%= javascript_include_tag 'scripts/gettheme.js' %>
+      <%= javascript_include_tag 'jqwidgets/jqxcore.js' %>
+      <%= javascript_include_tag 'jqwidgets/jqxbuttons.js' %>
+      <%= javascript_include_tag 'jqwidgets/jqxscrollbar.js' %>
+      <%= javascript_include_tag 'jqwidgets/jqxpanel.js' %>
+      <%= javascript_include_tag 'jqwidgets/jqxtree.js' %>
+      <%= javascript_include_tag 'jqwidgets/jqxcheckbox.js' %>
+      <%= javascript_include_tag 'jquery.dataTables.js' %>
+      <%= javascript_include_tag 'jquery.slides.min.js' %>
+    <%= yield :styles %>
+
+
+    <!--[if IE]>
+    <link rel="stylesheet" href="http://www.4thsource.com/en//public/css/ie.css" type="text/css">
+    <![endif]-->
+
+    <!-- Scripts -->
+  </head>
+  <body>
+    <div id="top_bar">
+      <div id="top_bar_contents">
+        <div class="clear"/>
+      </div> <!-- end top_bar_contents -->
+    </div> <!-- end top_bar -->
+    <div id="container">
+      <!-- Logo, Branding -->
+      <h1><a href="http://www.4thsource.com/en/">4th Source - Proximity Matters</a></h1>
+      <div id="site_url" class="http://www.4thsource.com/"></div>
+
+      <!-- Primary Navigation -->
+    <ul id="nav_full">
+        <li><%= link_to "Home", root_path %></li>
+        <% if signed_in? %>
+      <% if ['Admin', 'Super Admin'].include?( get_user_type ) %>
+        <li><%= link_to "Candidates", "/staff/#{current_candidate.id}/candidates" %></li>
+      <% end %>
+        <li class="parent_here"><%=link_to_resume('My Profile', current_candidate.id, :action => 'resume')%></li>
+        </li>
+        <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
+        <% else %>
+          <li><%= link_to "Sign in", signin_path %></li>
+      <% end %>
+      </ul>
+    <!-- page -->
+    <div id="page">
+    <%= yield %>
+        <div class="clear"></div>
+      </div> <!-- end page -->
+      <div class="clear"></div>
+    </div> <!-- end container -->
+    <div id="footer">
+      <div id="footer_contents">
+      <div class="column two_thirds">
+        <p class="copyright" style="text-align: center;">Copyright &copy; 2013 4th Source Inc. All rights reserved.</p>
+        </div> <!-- end left_column -->
+      </div> <!-- end footer_contents -->
+    </div> <!-- end footer -->
+  </body>
+</html>

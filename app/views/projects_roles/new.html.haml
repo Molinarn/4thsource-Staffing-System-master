@@ -1,0 +1,49 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      =link_to_project("Projects", @candidate.id, :action => "index")
+      = raw '&raquo;'
+    %li
+      = link_to "Roles", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+      = raw '&raquo;'
+    %li= raw('<em>new</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconRolesHeadLine
+    .h3-page-headline
+      Role for
+      = @title
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+  %br
+  %br
+  = form_for(:projectsrole, :html => {:class => "experience", :method => "post"}) do |f|
+    %h4
+      Please enter the following information
+    .divider
+    %br  
+    .field
+      = f.label "Role type"
+      %br
+      = f.select :role_id, options_from_collection_for_select(Role.where({:approved_flag => [true]}).order("name").all, "id", "name")
+    .field
+      = f.label "Date In"
+      %br
+      = date_select(:projectsrole, :date_in, :start_year => 1950, :order => [:month, :day, :year])
+    .field
+      = f.label "Date Out"
+      %br 
+      = date_select(:projectsrole, :date_out, :start_year => 1950, :order => [:month, :day, :year])
+    .actions
+      %br
+      = f.submit "Update"

@@ -1,0 +1,6 @@
+- unless @page_results.empty?
+  %table{:class => 'microposts'}
+    = render :partial => 'shared/feed_item', :collection => @page_results
+  %br
+  #feed-pagination
+    = will_paginate @page_results

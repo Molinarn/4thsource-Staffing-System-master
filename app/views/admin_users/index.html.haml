@@ -1,0 +1,71 @@
+= javascript_include_tag 'admin_users.js' 
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li= raw('<em>Admin users</em>')
+    .clear
+  %h3.page_headline
+    All Admin Users
+  .divider
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "New", '/admin_users/new'
+  %br
+  %br
+  %br
+  %img(id="imgloading" src="/images/loading.gif" style="display: none; padding-left: 200px;padding-top:25px")
+  #datatbl
+    = form_for(:table, :url=>{:action=>'index'}) do |f|
+      %table#adminusers_table.display
+        %thead
+          %tr
+            %th
+              First 
+              %br
+              Name
+            %th
+              Middle
+              %br
+              Name
+            %th
+              First 
+              %br
+              Last
+              %br
+              Name
+            %th
+              Second 
+              %br
+              Last 
+              %br
+              Name
+            %th
+              User
+            %th
+              Admin
+            %th
+              Super admin
+        %tbody 
+          -@candidates.each do |row|
+            %tr
+              %td
+                = link_to row.first_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.middle_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.first_last_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.second_last_name, "/candidates/#{row.id}/resume"
+              %td
+                = radio_button_tag 'Role'+row.id.to_s, 'User', ( !row.admin_users.lvl? and !row.admin_users.is_active? )  ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/0',2)"
+              %td
+                = radio_button_tag 'Role'+row.id.to_s, 'Admin', ( !row.admin_users.lvl? and row.admin_users.is_active? )  ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/1',2)"
+              %td
+                = radio_button_tag 'Role'+row.id.to_s, 'SuperAdmin', ( row.admin_users.lvl? and row.admin_users.is_active? ) ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/2',2)"                  
+  %br
+  %br
+  .clear

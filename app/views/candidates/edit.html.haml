@@ -1,0 +1,28 @@
+= javascript_include_tag "parsley.js"
+= javascript_include_tag "jquery.maskedinput.js"
+= javascript_include_tag "profile_extras.js"
+
+= stylesheet_link_tag "flick/jquery-ui-1.10.2.custom" 
+ 
+
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = raw '<em>My Profile</em>'
+    .clear
+  %h3.page_headline
+    %i.iconContact-infoHeadLine
+    .h3-page-headline
+      Contact Information
+      - if has_admin_role?
+        - if !current_candidate.is_follow?(@candidate.id)
+          = button_tag "Follow", :id => "follow_button", :class => "btn btn-primary",  :style => "float:right;", :type => "button", :value => "Follow"
+        -else
+          = button_tag "Unfollow", :id => "follow_button", :class => "btn btn-primary",  :style => "float:right;", :type => "button", :value => "Unfollow"
+  .divider-headline
+  %br
+  
+  = render 'personal_info_edit'

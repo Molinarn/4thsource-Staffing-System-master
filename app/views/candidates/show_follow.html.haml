@@ -1,0 +1,62 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', '#'
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      = @user.name
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    = @title
+  .divider
+  %br
+  #list
+    - unless @users.empty?
+      #row
+        = render @users 
+  %br
+  %br
+  #feed-pagination
+    = will_paginate @users
+  .clear
+<!-- Sidebar -->
+#sidebar
+  %h4#if_sub_nav
+    = link_to 'User Information', '#'
+  #if_subnav.divider
+  %strong
+    Name
+  = @user.name
+  %br
+  %strong
+    URL
+  = link_to user_path(@user), @user
+  %br
+  %strong
+    Microposts
+  = @user.microposts.count
+  %br
+  %br
+  %br
+  %strong
+    Following
+  = link_to @user.following.count, following_user_path(@user)
+  %br
+  %strong
+    Followers
+  = link_to @user.followers.count, followers_user_path(@user)
+  %br
+  %br
+  %ul#nav_sub.sub_navigation
+    %li= link_to 'Microsoft Solutions', '#'
+    %li= link_to 'Custom Mobile Software & Smartphone Development', '#'
+    %li= link_to 'Application Maintenance Outsourcing', '#'
+    %li= link_to 'Sharepoint, Portals & CMS', '#'
+    %li= link_to 'Custom Application Development', '#'
+    %li= link_to 'Quality Assurance & Testing', '#'
+    %li= link_to 'Strategic Guidance', '#'
+    %li.last= link_to 'Nearshore Staff Augmentation', '#'
+  %br
+  .clear

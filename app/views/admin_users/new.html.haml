@@ -1,0 +1,78 @@
+= javascript_include_tag 'admin_users.js'
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = link_to 'Admin users', '/admin_users/'
+      = raw '&raquo;'
+    %li
+      = raw('<em>Add New</em>')
+    .clear
+  %h3.page_headline
+    Add Admin User
+  .divider
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br  
+  %img(id="imgloading" src="/images/loading.gif" style="display: none; padding-left: 100px;")
+  #datatbl
+    = form_for(:table, :url=>'') do |f|
+      %table#adminusersnew_table.display
+        %thead
+          %tr
+            %th
+              First 
+              %br
+              Name
+            %th
+              Middle
+              %br
+              Name
+            %th
+              First 
+              %br
+              Last
+              %br
+              Name
+            %th
+              Second 
+              %br
+              Last 
+              %br
+              Name
+            %th
+              Add to admin
+        %tbody 
+          -@candidates.each do |row|
+            %tr
+              %td
+                = link_to row.first_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.middle_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.first_last_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.second_last_name, "/candidates/#{row.id}/resume"
+              -if row.admin_users == nil
+                %td
+                  = link_to 'Add', '#!', :onclick => "addToAdmin('/admin_users/#{row.id}/add',2)"
+              -else
+                %td
+                  = raw 'Already added'                
+  %br
+  %br
+  %div.newdiv{ :style => "text-align: center; width: 100%;" }
+    -@a = ('a'..'z')
+    -for @c in @a
+      = link_to @c, '/admin_users/new/' + @c
+      = raw '&nbsp&nbsp&nbsp'
+      -if @c == 'n'
+        = link_to 'ñ', '/admin_users/new/ñ'
+        = raw '&nbsp&nbsp&nbsp'        
+  %br
+  %br
+  .clear

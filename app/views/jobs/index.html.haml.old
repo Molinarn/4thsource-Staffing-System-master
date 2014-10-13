@@ -1,0 +1,39 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li= raw('<em>Jobs</em>')
+    .clear
+  .divider
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "New Job", url_options = { :controller => "jobs", :action => "new"}, html_options = { }
+  = form_for(:table, :url=>{:action=>'index'}, :html => { :style => '' }) do |f|
+    %br
+    %table#jobs_table.display
+      %thead{:style => "text-align: center;"}
+        %tr
+          %th
+            Job
+          %th{:colspan=>"2"}
+            Desciption
+      %tbody 
+        -@job.each do |row|
+          %tr
+            %td
+              = link_to row.title, url_options = { :controller => "jobs", :action => "show", :job_id => row.id}, html_options = { }
+            %td
+              = link_to "Edit", url_options = { :controller => "jobs", :action => "edit", :job_id => row.id}, html_options = { }
+            %td
+              = link_to "Delete", {:action => "destroy", :job_id => row.id}, {:confirm=>'remove this item?'}
+  %br
+  %br
+  %br
+  .clear  
+  = image_tag "Oracle.jpg", size: "50x20" 
+  = image_tag "java.jpg", size: "30x20" 
+  = image_tag "net.jpg", size: "50x20" 
+  = image_tag "sqlserver.jpg", size: "50x20" 

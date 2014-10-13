@@ -1,0 +1,66 @@
+<!-- Content -->			
+<div id="content">
+  <img src="http://www.4thsource.com//public/images/subheader_services.jpg" alt="Sub Header" class="subheader" />
+  <ul id="breadcrumbs">
+    <li><a href="http://www.4thsource.com/en/index.php">Home</a> &raquo; </li>
+    <li><em><%= @user.name %></em></li>
+	<div class="clear"></div>
+  </ul>
+  <h3 class="page_headline "><%= gravatar_for @user, :size => 30 %> <%= @user.name %></h3>
+  <div class="divider"></div>
+  
+  <div id="content-show">
+    <br/>
+    <div id="flash">
+      <% flash.each do |key, value| %>
+        <div class="flash <%= key %>"><%= value %></div>
+      <% end %>
+    </div>
+    <% if followed_in? @user%>  
+      <% if is_follow? @user %>
+        <%= render 'unfollow' %>
+      <% else %>
+        <%= render 'follow' %>
+      <% end %>
+    <% else %>
+      <h2 class="page_headline">My current posts:</h2>
+    <% end %>
+  <br/>
+  <% unless @user.microposts.empty? %>
+    <table class="microposts" summary="User microposts"> 
+      <%= render @microposts %>
+    </table>
+    <div id="feed-pagination">
+    <%= will_paginate @microposts %>
+    </div>
+  <% end %>
+  </div> 
+
+  <div class="clear"></div>
+</div> <!-- End Content -->
+	
+<!-- Sidebar -->
+<div id="sidebar">
+  <!-- Subnav -->
+  <h4 id="if_sub_nav"><a href="#">User information</a></h4>
+  <div id="if_subnav" class="divider"></div>
+	<strong>Name</strong> <%= @user.name %> <br/>
+  <strong>URL</strong> <%= link_to user_path(@user), @user%> <br/>
+  <strong>Microposts</strong> <%= @user.microposts.count %> <br/>
+  <br/><br/>
+  <strong>Following</strong> <a href="<%= following_user_path(@user) %>"><%= @user.following.count %></a> <br/>
+  <strong>Followers</strong> <a href="<%= followers_user_path(@user) %>"><%= @user.followers.count %></a> <br/>
+  <br/><br/>
+  <ul id="nav_sub" class="sub_navigation">
+    <li><a href="#">Microsoft Solutions</a></li>
+    <li><a href="#">Custom Mobile Software & Smartphone Development</a></li>
+    <li><a href="#">Application Maintenance Outsourcing</a></li>
+    <li><a href="#">Sharepoint, Portals & CMS</a></li>
+    <li><a href="#">Custom Application Development</a></li>
+    <li><a href="#">Quality Assurance & Testing</a></li>
+    <li><a href="#">Strategic Guidance</a></li>
+    <li class="last"><a href="#">Nearshore Staff Augmentation</a></li>
+  </ul>
+  <br/>
+  <div class="clear"></div>
+</div> <!-- End Sidebar -->

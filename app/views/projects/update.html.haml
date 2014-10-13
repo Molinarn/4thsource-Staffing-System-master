@@ -1,0 +1,41 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      =link_to_project("Projects", @candidate.id, :action => "index")
+      = raw '&raquo;'
+    %li= raw('<em>update</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Project
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  =link_to_project("Back", @candidate.id, :action => "index")
+  %br
+  %br
+  = form_for(:project, :action => "update", :html => {:class => "experience"}) do |f|
+    %h4
+      Please enter the following information
+    .divider
+    %br  
+    .field
+      = f.label "Project name"
+      %br
+      = f.text_field :name 
+    .field
+      = f.label "Summary"
+      %br 
+      = f.text_area :summary
+    .actions
+      %br
+      = f.submit "Update"

@@ -1,0 +1,75 @@
+= javascript_include_tag "check.js"
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Catalogs
+      = raw '</em>'
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Roles
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconCertification
+    .h3-page-headline
+      Roles
+  .divider-headline
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  -if has_admin_role?
+    %br
+      %strong
+        = link_to "New", :controller => "roles", :action => "new"
+    %br
+    %br
+    -if @roles.length == 0
+      .educationEmptyTitle
+        Please Insert at Least one Role
+    -else
+      = form_for(:table, :url=>{:action=>'action'}) do |f|
+        %table#education_degree_table.display
+          %thead
+            %tr
+              %th
+                Approved&nbsp;&nbsp;&nbsp;&nbsp;
+              %th
+                Name
+              %th
+                Description
+              %th
+                Approved By
+          %tbody
+            -i = 0
+            -@roles.each do |row|
+              %tr
+                %td
+                  = check_box_tag "id" + i.to_s(), row.id.to_s(), row.approved_flag, :name => "approved_flag_" + row.id.to_s(), :class => "id" + i.to_s()
+                %td
+                  = row.name
+                %td
+                  = row.description
+                %td 
+                  = row.approved_by
+              -i = i + 1
+        .row-fluid
+          .span5
+            .field
+              &nbsp;&nbsp;
+              %label
+                = check_box_tag "approved_flag_all", @roles.count.to_s()
+                &nbsp;Check/Uncheck all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            .field
+              %br
+              = submit_tag "Update", :name => 'update_button', :class => 'btn btn-primary'
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              = submit_tag "Delete", :name => 'delete_button', :class => 'btn', :confirm => "Do you want to delete the selected elements?"        
+  -else
+    .educationEmptyTitle
+      This User Have not Permission in this Catalog

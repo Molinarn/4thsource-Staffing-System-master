@@ -1,0 +1,42 @@
+= javascript_include_tag 'roles_responsibilities.js'
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      =link_to_project("Projects", @candidate.id, :action => "index")
+      = raw '&raquo;'
+    %li
+      = link_to "Roles", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+      = raw '&raquo;'
+    %li= raw('<em>new</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Responsibility for
+      = @title
+  .divider-headline
+
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+  %br
+  %br
+  = form_for(:rolerespon, :html => {:class => "experience", :method => "post"})do |f|
+    %h4
+      Please enter the following information
+    .divider
+    .row-fluid
+      .field
+        = f.label "Responsibility"
+    .row-fluid
+      = f.text_area :description, {"class"=>"width100percent"}
+    .actions
+      %br
+      = f.submit "Add Responsibility",{"class"=>"btn btn-primary", id: "send"}

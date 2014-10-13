@@ -1,0 +1,2 @@
+module UserWallsHelper
+end

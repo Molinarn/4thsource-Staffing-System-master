@@ -1,0 +1,19 @@
+html, body {
+height: 100%;
+}
+
+#container {
+min-height: 100%;
+margin-bottom: -330px;
+position: relative;
+}
+
+#footer {
+height: 330px;
+position: relative;
+}
+
+.clearfooter {
+height: 330px;
+clear: both;
+}

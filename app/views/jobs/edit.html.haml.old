@@ -1,0 +1,38 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = link_to_resume('job', current_candidate.id, :action => 'edit')
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Edit
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconEducation
+    .h3-page-headline
+      edit
+  .divider-headline
+  %br
+    %strong
+      = link_to "Back", :controller => "jobs", :action => "index"
+  %br
+  %br
+  %h3.page_headline
+    = @job_ed.title
+  = form_for(:jobs, :url => {:action=>'edit'}, :html => {:multipart => true}) do |f|
+  = options_from_collection_for_select(Job.all, :id, :title)
+    .field
+      = f.label :title
+      %br
+      = f.text_field :title, :value => @job_ed.title
+      = label_tag :title 
+    .actions
+      = f.submit "Update", :class => "btn btn-primary"
+    %br
+    %br
+    %br
+    %br

@@ -1,0 +1,288 @@
+                                    root        /                                                                                                                           sessions#new
+                     candidates_profiles GET    /candidates_profiles(.:format)                                                                                              candidates_profiles#index
+                                         POST   /candidates_profiles(.:format)                                                                                              candidates_profiles#create
+                  new_candidates_profile GET    /candidates_profiles/new(.:format)                                                                                          candidates_profiles#new
+                 edit_candidates_profile GET    /candidates_profiles/:id/edit(.:format)                                                                                     candidates_profiles#edit
+                      candidates_profile GET    /candidates_profiles/:id(.:format)                                                                                          candidates_profiles#show
+                                         PUT    /candidates_profiles/:id(.:format)                                                                                          candidates_profiles#update
+                                         DELETE /candidates_profiles/:id(.:format)                                                                                          candidates_profiles#destroy
+                            email_remind GET    /email/remind(.:format)                                                                                                     email#remind
+                                         POST   /email/remind(.:format)                                                                                                     email#remind
+                             admin_users GET    /admin_users(.:format)                                                                                                      admin_users#index
+                                         POST   /admin_users(.:format)                                                                                                      admin_users#create
+                          new_admin_user GET    /admin_users/new(.:format)                                                                                                  admin_users#new
+                         edit_admin_user GET    /admin_users/:id/edit(.:format)                                                                                             admin_users#edit
+                              admin_user GET    /admin_users/:id(.:format)                                                                                                  admin_users#show
+                                         PUT    /admin_users/:id(.:format)                                                                                                  admin_users#update
+                                         DELETE /admin_users/:id(.:format)                                                                                                  admin_users#destroy
+                     following_candidate GET    /candidates/:id/following(.:format)                                                                                         candidates#following
+                     followers_candidate GET    /candidates/:id/followers(.:format)                                                                                         candidates#followers
+                        change_candidate GET    /candidates/:id/change(.:format)                                                                                            candidates#change
+                               candidate GET    /candidates/:id(.:format)                                                                                                   candidates#index
+                                         POST   /candidates/:id/change(.:format)                                                                                            candidates#change
+                       search_candidates GET    /candidates/search(.:format)                                                                                                candidates#search
+                              candidates GET    /candidates(.:format)                                                                                                       candidates#index
+                                         POST   /candidates(.:format)                                                                                                       candidates#create
+                           new_candidate GET    /candidates/new(.:format)                                                                                                   candidates#new
+                          edit_candidate GET    /candidates/:id/edit(.:format)                                                                                              candidates#edit
+                                         GET    /candidates/:id(.:format)                                                                                                   candidates#show
+                                         PUT    /candidates/:id(.:format)                                                                                                   candidates#update
+                                         DELETE /candidates/:id(.:format)                                                                                                   candidates#destroy
+                            search_pages GET    /pages/search(.:format)                                                                                                     pages#search
+                                   pages GET    /pages(.:format)                                                                                                            pages#index
+                                         POST   /pages(.:format)                                                                                                            pages#create
+                                new_page GET    /pages/new(.:format)                                                                                                        pages#new
+                               edit_page GET    /pages/:id/edit(.:format)                                                                                                   pages#edit
+                                    page GET    /pages/:id(.:format)                                                                                                        pages#show
+                                         PUT    /pages/:id(.:format)                                                                                                        pages#update
+                                         DELETE /pages/:id(.:format)                                                                                                        pages#destroy
+                       ExportExcel_index GET    /ExportExcel(.:format)                                                                                                      ExportExcel#index
+                                         POST   /ExportExcel(.:format)                                                                                                      ExportExcel#create
+                         new_ExportExcel GET    /ExportExcel/new(.:format)                                                                                                  ExportExcel#new
+                        edit_ExportExcel GET    /ExportExcel/:id/edit(.:format)                                                                                             ExportExcel#edit
+                             ExportExcel GET    /ExportExcel/:id(.:format)                                                                                                  ExportExcel#show
+                                         PUT    /ExportExcel/:id(.:format)                                                                                                  ExportExcel#update
+                                         DELETE /ExportExcel/:id(.:format)                                                                                                  ExportExcel#destroy
+      candidate_candidate_certifications GET    /candidates/:candidate_id/candidate_certifications(.:format)                                                                candidate_certifications#index
+                                         POST   /candidates/:candidate_id/candidate_certifications(.:format)                                                                candidate_certifications#create
+   new_candidate_candidate_certification GET    /candidates/:candidate_id/candidate_certifications/new(.:format)                                                            candidate_certifications#new
+  edit_candidate_candidate_certification GET    /candidates/:candidate_id/candidate_certifications/:id/edit(.:format)                                                       candidate_certifications#edit
+       candidate_candidate_certification GET    /candidates/:candidate_id/candidate_certifications/:id(.:format)                                                            candidate_certifications#show
+                                         PUT    /candidates/:candidate_id/candidate_certifications/:id(.:format)                                                            candidate_certifications#update
+                                         DELETE /candidates/:candidate_id/candidate_certifications/:id(.:format)                                                            candidate_certifications#destroy
+            candidate_candidate_profiles GET    /candidates/:candidate_id/candidate_profiles(.:format)                                                                      candidate_profiles#index
+                                         POST   /candidates/:candidate_id/candidate_profiles(.:format)                                                                      candidate_profiles#create
+         new_candidate_candidate_profile GET    /candidates/:candidate_id/candidate_profiles/new(.:format)                                                                  candidate_profiles#new
+        edit_candidate_candidate_profile GET    /candidates/:candidate_id/candidate_profiles/:id/edit(.:format)                                                             candidate_profiles#edit
+             candidate_candidate_profile GET    /candidates/:candidate_id/candidate_profiles/:id(.:format)                                                                  candidate_profiles#show
+                                         PUT    /candidates/:candidate_id/candidate_profiles/:id(.:format)                                                                  candidate_profiles#update
+                                         DELETE /candidates/:candidate_id/candidate_profiles/:id(.:format)                                                                  candidate_profiles#destroy
+        candidate_candidate_profile_tags GET    /candidates/:candidate_id/candidate_profile_tags(.:format)                                                                  candidate_profile_tags#index
+                                         POST   /candidates/:candidate_id/candidate_profile_tags(.:format)                                                                  candidate_profile_tags#create
+     new_candidate_candidate_profile_tag GET    /candidates/:candidate_id/candidate_profile_tags/new(.:format)                                                              candidate_profile_tags#new
+    edit_candidate_candidate_profile_tag GET    /candidates/:candidate_id/candidate_profile_tags/:id/edit(.:format)                                                         candidate_profile_tags#edit
+         candidate_candidate_profile_tag GET    /candidates/:candidate_id/candidate_profile_tags/:id(.:format)                                                              candidate_profile_tags#show
+                                         PUT    /candidates/:candidate_id/candidate_profile_tags/:id(.:format)                                                              candidate_profile_tags#update
+                                         DELETE /candidates/:candidate_id/candidate_profile_tags/:id(.:format)                                                              candidate_profile_tags#destroy
+                                         GET    /candidates(.:format)                                                                                                       candidates#index
+                                         POST   /candidates(.:format)                                                                                                       candidates#create
+                                         GET    /candidates/new(.:format)                                                                                                   candidates#new
+                                         GET    /candidates/:id/edit(.:format)                                                                                              candidates#edit
+                                         GET    /candidates/:id(.:format)                                                                                                   candidates#show
+                                         PUT    /candidates/:id(.:format)                                                                                                   candidates#update
+                                         DELETE /candidates/:id(.:format)                                                                                                   candidates#destroy
+                                sessions POST   /sessions(.:format)                                                                                                         sessions#create
+                             new_session GET    /sessions/new(.:format)                                                                                                     sessions#new
+                                 session DELETE /sessions/:id(.:format)                                                                                                     sessions#destroy
+                              microposts POST   /microposts(.:format)                                                                                                       microposts#create
+                               micropost PUT    /microposts/:id(.:format)                                                                                                   microposts#update
+                                         DELETE /microposts/:id(.:format)                                                                                                   microposts#destroy
+                       follow_followings POST   /followings/follow(.:format)                                                                                                followings#follow
+                              followings GET    /followings(.:format)                                                                                                       followings#index
+                                         POST   /followings(.:format)                                                                                                       followings#create
+                           new_following GET    /followings/new(.:format)                                                                                                   followings#new
+                          edit_following GET    /followings/:id/edit(.:format)                                                                                              followings#edit
+                               following GET    /followings/:id(.:format)                                                                                                   followings#show
+                                         PUT    /followings/:id(.:format)                                                                                                   followings#update
+                                         DELETE /followings/:id(.:format)                                                                                                   followings#destroy
+                            resume_index GET    /resume(.:format)                                                                                                           resume#index
+                                         POST   /resume(.:format)                                                                                                           resume#create
+                              new_resume GET    /resume/new(.:format)                                                                                                       resume#new
+                             edit_resume GET    /resume/:id/edit(.:format)                                                                                                  resume#edit
+                                  resume GET    /resume/:id(.:format)                                                                                                       resume#show
+                                         PUT    /resume/:id(.:format)                                                                                                       resume#update
+                                         DELETE /resume/:id(.:format)                                                                                                       resume#destroy
+                candidate_prof_summaries GET    /candidate_prof_summaries(.:format)                                                                                         candidate_prof_summaries#destroy
+                                         POST   /candidate_prof_summaries(.:format)                                                                                         candidate_prof_summaries#destroy
+                                         GET    /candidate_prof_summaries(.:format)                                                                                         candidate_prof_summaries#index
+                                         POST   /candidate_prof_summaries(.:format)                                                                                         candidate_prof_summaries#create
+              new_candidate_prof_summary GET    /candidate_prof_summaries/new(.:format)                                                                                     candidate_prof_summaries#new
+             edit_candidate_prof_summary GET    /candidate_prof_summaries/:id/edit(.:format)                                                                                candidate_prof_summaries#edit
+                  candidate_prof_summary GET    /candidate_prof_summaries/:id(.:format)                                                                                     candidate_prof_summaries#show
+                                         PUT    /candidate_prof_summaries/:id(.:format)                                                                                     candidate_prof_summaries#update
+                                         DELETE /candidate_prof_summaries/:id(.:format)                                                                                     candidate_prof_summaries#destroy
+                candidate_certifications GET    /candidate_certifications(.:format)                                                                                         candidate_certifications#destroy
+                                         POST   /candidate_certifications(.:format)                                                                                         candidate_certifications#destroy
+                                         GET    /candidate_certifications(.:format)                                                                                         candidate_certifications#index
+                                         POST   /candidate_certifications(.:format)                                                                                         candidate_certifications#create
+             new_candidate_certification GET    /candidate_certifications/new(.:format)                                                                                     candidate_certifications#new
+            edit_candidate_certification GET    /candidate_certifications/:id/edit(.:format)                                                                                candidate_certifications#edit
+                 candidate_certification GET    /candidate_certifications/:id(.:format)                                                                                     candidate_certifications#show
+                                         PUT    /candidate_certifications/:id(.:format)                                                                                     candidate_certifications#update
+                                         DELETE /candidate_certifications/:id(.:format)                                                                                     candidate_certifications#destroy
+                                    jobs GET    /jobs(.:format)                                                                                                             jobs#index
+                                         POST   /jobs(.:format)                                                                                                             jobs#create
+                                 new_job GET    /jobs/new(.:format)                                                                                                         jobs#new
+                                edit_job GET    /jobs/:id/edit(.:format)                                                                                                    jobs#edit
+                                     job GET    /jobs/:id(.:format)                                                                                                         jobs#show
+                                         PUT    /jobs/:id(.:format)                                                                                                         jobs#update
+                                         DELETE /jobs/:id(.:format)                                                                                                         jobs#destroy
+                                                /staff/:id/job_match(.:format)                                                                                              job_match#index
+                                                /staff/:id/job_match/index(.:format)                                                                                        job_match#index
+                                                /job_match/search/:jobSearch(.:format)                                                                                      job_match#search
+                                                /job_match/match/:jobSearch/:matchPercentage(.:format)                                                                      job_match#match
+                         job_match_match        /job_match/match(.:format)                                                                                                  job_match#match
+                                                /staff/:id/certifications/action(.:format)                                                                                  certifications#action
+                                                /staff/:id/jobs(.:format)                                                                                                   jobs#index
+                                                /staff/:id/jobs/index(.:format)                                                                                             jobs#index
+                                                /staff/:id/jobs/new(.:format)                                                                                               jobs#new
+                                                /staff/:id/jobs/edit(.:format)                                                                                              jobs#edit
+                                                /staff/:id/jobs/create(.:format)                                                                                            jobs#create
+                                                /staff/:id/jobs/:job_id/edit(.:format)                                                                                      jobs#edit
+                                                /staff/:id/jobs/:job_id/update(.:format)                                                                                    jobs#update
+                                                /staff/:id/jobs/:job_id/delete(.:format)                                                                                    jobs#destroy
+                                                /staff/:id/jobs/:job_id/assign/:candidate_id(.:format)                                                                      jobs#assign
+                                                /staff/:id/jobs/:job_id/duplicate(.:format)                                                                                 jobs#duplicate
+                                                /admin_users/:id/edit/:role(.:format)                                                                                       admin_users#edit
+                                                /admin_users/new/:letra(.:format)                                                                                           admin_users#new
+                                                /admin_users/:id/add(.:format)                                                                                              admin_users#add
+                                                /admin_users/search/:txt(.:format)                                                                                          admin_users#search
+                                                /interviewer_user/:interviewer_id/new/:letra(.:format)                                                                      interviewer_user#new
+                                                /interviewer_user/:interviewer_id/new(.:format)                                                                             interviewer_user#new
+                                                /interviewer_user/:interviewer_id/add/:candidate_id(.:format)                                                               interviewer_user#add
+                                  signup        /signup(.:format)                                                                                                           candidates#new
+                                  signin        /signin(.:format)                                                                                                           sessions#new
+                                 signout        /signout(.:format)                                                                                                          sessions#destroy
+                                 contact        /contact(.:format)                                                                                                          pages#contact
+                                   about        /about(.:format)                                                                                                            pages#about
+                                    help        /help(.:format)                                                                                                             pages#help
+                                    home        /home(.:format)                                                                                                             pages#home
+                                                /candidates/:id/followings(.:format)                                                                                        followings#follow
+                                                /candidates/:id/unfollow(.:format)                                                                                          followings#destroy
+                                                /candidates/:id/profiles(.:format)                                                                                          candidates#profiles
+                                                /reply/:id(.:format)                                                                                                        microposts#reply
+                                   reply        /reply(.:format)                                                                                                            microposts#reply
+                                                /microposts/:id(.:format)                                                                                                   microposts#update
+                                                /feed_admin/:id(.:format)                                                                                                   microposts#feed_micropost
+                                                /candidates/:id/wall(.:format)                                                                                              user_walls#show
+                                                /candidates/:id/resume(.:format)                                                                                            resume#index
+                                                /candidates/:id/resume/staff_update(.:format)                                                                               resume#staff_update
+                                                /candidates/:id/resume/summary(.:format)                                                                                    resume#summary
+                                                /candidates/:id/resume/experience(.:format)                                                                                 resume#experience
+                                                /candidates/:id/resume/experience/new(.:format)                                                                             experiences#new
+                                                /candidates/:id/resume/experience/:experience_id/skills/new(.:format)                                                       experiences#skill
+                                                /experiences/:id/destroy(.:format)                                                                                          experiences#destroy
+                                                /candidates/:id/resume/experience/:experience_id/details/new(.:format)                                                      experience_details#new
+         candidate_prof_summaries_destro        /candidate_prof_summaries/destro(.:format)                                                                                  candidate_prof_summaries#destro
+                                                /candidates/:id/projects(.:format)                                                                                          projects#index
+                                                /candidates/:id/projects/profile(.:format)                                                                                  projects#profile
+                                                /candidates/:id/projects/projects/profile(.:format)                                                                         projects#profile
+                                                /candidates/:id/projects/buildprofile(.:format)                                                                             projects#buildprofile
+                                                /candidates/:id/projects/projects/buildprofile(.:format)                                                                    projects#buildprofile
+                                                /candidates/:id/projects/techs(.:format)                                                                                    projects#techs
+                                                /candidates/:id/projects/techs/save(.:format)                                                                               projects#techs_save
+                                                /candidates/:id/project/:project_id/projects/techs(.:format)                                                                projects#techs
+                                                /candidates/:id/project/:project_id/projects/techs/save(.:format)                                                           projects#techs_save
+                                                /candidates/:id/projects/new(.:format)                                                                                      projects#new
+                                                /candidates/:id/project/:project_id/update(.:format)                                                                        projects#update
+                                                /candidates/:id/project/:project_id/show(.:format)                                                                          projects#show
+                                                /candidates/:id/project/:project_id/destroy(.:format)                                                                       projects#destroy
+                                                /candidates/:id/project/:project_id/projects_roles/new(.:format)                                                            projects_roles#new
+                                                /candidates/:id/project/:project_id/projects_role/:projects_role_id/update(.:format)                                        projects_roles#update
+                                                /candidates/:id/project/:project_id/projects_role/:projects_role_id/show(.:format)                                          projects_roles#show
+                                                /candidates/:id/project/:project_id/projects_role/:projects_role_id/destroy(.:format)                                       projects_roles#destroy
+                                                /candidates/:id/projects/:project_id/projects_roles/:projects_role_id/roles_responsibilities/new(.:format)                  roles_responsibilities#new
+                                                /candidates/:id/project/:project_id/projects_role/:projects_role_id/roles_responsibilities/:rolerespon_id/destroy(.:format) roles_responsibilities#destroy
+                                                /candidates/:id/projects/:project_id/projects_roles/:projects_role_id/projects_tags/:type_id/new(.:format)                  projects_tags#new
+                                                /candidates/:id/project/:project_id/projects_role/:projects_role_id/projects_tags/:projtag_id/destroy(.:format)             projects_tags#destroy
+                     candidate_education        /education/:id(.:format)                                                                                                    education#index
+                       education_destroy        /education/destroy(.:format)                                                                                                candidate_education#destroy
+                                                /candidates/:id/resume/education(.:format)                                                                                  candidate_education#index
+                                                /candidates/:id/resume/education/new(.:format)                                                                              candidate_education#new
+               candidate_education_index        /candidates/:id/resume/education/create(.:format)                                                                           candidate_education#create
+                                                /candidates/:id/resume/education/edit(.:format)                                                                             candidate_education#edit
+                                                /candidates/:id/resume/education/update(.:format)                                                                           candidate_education#update
+                                                /candidates/:id/resume/education/destroy(.:format)                                                                          candidate_education#destroy
+                                                /candidates/:id/education_degree(.:format)                                                                                  educ_degree#index
+                                                /candidates/:id/education_degree/new(.:format)                                                                              educ_degree#new
+                                                /candidates/:id/education_degree/create(.:format)                                                                           educ_degree#create
+                                                /candidates/:id/education_degree/edit(.:format)                                                                             educ_degree#edit
+                                                /candidates/:id/education_degree/update(.:format)                                                                           educ_degree#update
+                                                /candidates/:id/education_degree/destroy(.:format)                                                                          educ_degree#destroy
+                                                /candidates/:id/education_degree/action(.:format)                                                                           educ_degree#action
+                                                /candidates/:id/candidate_certifications/new(.:format)                                                                      candidate_certifications#new
+                                                /staff/:id/candidates(.:format)                                                                                             staff_candidates#index
+                                                /staff/:id/candidates/detail(.:format)                                                                                      staff_candidates#search
+                                                /staff/:id/candidate_status(.:format)                                                                                       status#index
+                                                /staff/:id/candidate_status/create(.:format)                                                                                status#create
+                                                /staff/:id/candidate_status/destroy(.:format)                                                                               status#destroy
+                                                /staff/:id/interviewers(.:format)                                                                                           interviewers#index
+                                                /staff/:id/interviewers/new(.:format)                                                                                       interviewers#new
+                             interviewer        /staff/:id/interviewers/:interviewer_id/edit(.:format)                                                                      interviewers#edit
+                                                /staff/:id/interviewers/:interviewer_id/delete(.:format)                                                                    interviewers#delete
+                                                /candidates/:id/certification(.:format)                                                                                     candidate_certification#index
+         candidate_certifications_destro        /candidate_certifications/destro(.:format)                                                                                  candidate_certifications#destro
+                                                /staff/:id/certifications(.:format)                                                                                         certifications#index
+                                                /staff/:id/certifications/action(.:format)                                                                                  certifications#action
+                                                /staff/:id/certifications/new(.:format)                                                                                     certifications#new
+                                                /staff/:id/certifications/:certification_id/edit(.:format)                                                                  certifications#edit
+                                                /staff/:id/certifications/:certification_id/delete(.:format)                                                                certifications#delete
+                                                /staff/:id/roles(.:format)                                                                                                  roles#index
+                                                /staff/:id/roles/action(.:format)                                                                                           roles#action
+                                                /staff/:id/roles/new(.:format)                                                                                              roles#new
+                                                /staff/:id/roles/:role_id/edit(.:format)                                                                                    roles#edit
+                                                /staff/:id/roles/:role_id/delete(.:format)                                                                                  roles#delete
+                                                /candidates/:id/resume/training(.:format)                                                                                   candidate_training#index
+          candidates_resume_training_new        /candidates/resume/training/new(.:format)                                                                                   candidate_training#new
+                        training_destroy        /training/destroy(.:format)                                                                                                 candidate_training#destroy
+                                                /candidates/:id/resume/languages(.:format)                                                                                  candidate_languages#index
+         candidates_resume_languages_new        /candidates/resume/languages/new(.:format)                                                                                  candidate_languages#new
+                                                /candidates/:id/resume/:candidate_language/languages/edit(.:format)                                                         candidate_languages#edit
+                       languages_destroy        /languages/destroy(.:format)                                                                                                candidate_languages#destroy
+                                                /staff/:id/languages(.:format)                                                                                              languages#index
+                                                /staff/:id/languages/new(.:format)                                                                                          languages#new
+                                                /staff/:id/languages/create(.:format)                                                                                       languages#create
+                                                /staff/:id/languages/action(.:format)                                                                                       languages#action
+                                                /staff/:id/tags(.:format)                                                                                                   tags#index
+                                                /staff/:id/tags/new(.:format)                                                                                               tags#new
+                                                /staff/:id/tags/create(.:format)                                                                                            tags#create
+                                                /staff/:id/tags/edit(.:format)                                                                                              tags#edit
+                                                /staff/:id/tags/update(.:format)                                                                                            tags#update
+                                                /staff/:id/tags/destroy(.:format)                                                                                           tags#destroy
+                                                /staff/:id/tags/action(.:format)                                                                                            tags#action
+                                                /staff/:id/tags/knowledges(.:format)                                                                                        tags#knowledges
+                                                /staff/:id/tags/knowledges/process(.:format)                                                                                tags#knowledges_process
+                                                /staff/:id/tags/knowledges/delete(.:format)                                                                                 tags#knowledges_delete
+                                                /staff/:id/tags/tools(.:format)                                                                                             tags#tools
+                                                /staff/:id/tags/tools/process(.:format)                                                                                     tags#tools_process
+                                                /staff/:id/tags/tools/delete(.:format)                                                                                      tags#tools_delete
+                                                /staff/:id/tags/languages(.:format)                                                                                         tags#languages
+                                                /staff/:id/tags/languages/process(.:format)                                                                                 tags#languages_process
+                                                /staff/:id/tags/languages/delete(.:format)                                                                                  tags#languages_delete
+                                                /staff/:id/tags/languages/:tech/tech(.:format)                                                                              tags#technologies
+                                                /staff/:id/tags/languages/:tech/tech/process(.:format)                                                                      tags#technologies_process
+                                                /staff/:id/tags/languages/:tech/tech/delete(.:format)                                                                       tags#technologies_delete
+                                                /staff/:id/report(.:format)                                                                                                 report#index
+                                                /staff/:id/report/search(.:format)                                                                                          report#search
+                                                /staff/:id/interviews/report(.:format)                                                                                      candidates_interviews#report
+                            staff_report        /staff/report(.:format)                                                                                                     report#reportform
+                  staff_report_buildlist        /staff/report/buildlist(.:format)                                                                                           report#buildlist
+                       tool_autocomplete        /tool/autocomplete(.:format)                                                                                                tool_tag#autocomplete
+                       tech_autocomplete        /tech/autocomplete(.:format)                                                                                                technology_tag#autocomplete
+                       know_autocomplete        /know/autocomplete(.:format)                                                                                                knowledge_tag#autocomplete
+                                  skills        /skills(.:format)                                                                                                           skills#index
+                              skills_new        /skills/new(.:format)                                                                                                       skills#new
+                                                /candidates/:id/candidates_interviews(.:format)                                                                             candidates_interviews#index
+                                                /candidates/:id/candidates_interviews/new(.:format)                                                                         candidates_interviews#new
+                                                /candidates/:id/candidates_interviews/:cand_inter_id/edit(.:format)                                                         candidates_interviews#edit
+                    candidates_interview        /candidates/:id/candidates_interviews/:cand_inter_id/doit(.:format)                                                         candidates_interviews#doit
+                                                /candidates/:id/candidates_interviews/:cand_inter_id/view(.:format)                                                         candidates_interviews#view
+                                                /candidates/:id/candidates_interviews/:cand_inter_id/delete(.:format)                                                       candidates_interviews#delete
+candidates_candidates_interviews_editest        /candidates/candidates_interviews/editest(.:format)                                                                         candidates_interviews#status_process
+                                                /staff/:id/interviews_types(.:format)                                                                                       interviews_types#index
+                                                /staff/:id/interviews_types/new(.:format)                                                                                   interviews_types#new
+                                                /interviews_types/search/:interview_type_id(.:format)                                                                       interviews_types#search
+                         interviews_type        /staff/:id/interviews_types/:interview_type_id/edit(.:format)                                                               interviews_types#edit
+                                                /staff/:id/interviews_types/:interview_type_id/delete(.:format)                                                             interviews_types#delete
+                                                /staff/:id/interviews_questions/:interview_type_id/add(.:format)                                                            interviews_questions#new
+                                                /candidates_profiles(.:format)                                                                                              candidates_profiles#index
+                                                /candidates_profiles/:candidate_profile_id/editprofile(.:format)                                                            candidates_profiles#editprofile
+                 candidates_profiles_new        /candidates_profiles/new(.:format)                                                                                          candidates_profiles#new
+                candidates_profiles_save        /candidates_profiles/save(.:format)                                                                                         candidates_profiles#save
+                                                /candidates_profiles/:candidate_profile_id/update(.:format)                                                                 candidates_profiles#update
+                                                /candidates_profiles/:candidate_profile_id/show(.:format)                                                                   candidates_profiles#show
+                                                /candidates_profiles/:candidate_profile_id/delete(.:format)                                                                 candidates_profiles#delete
+                                                /candidates_profiles/:candidate_profile_id/createjob(.:format)                                                              candidates_profiles#createjob
+                                                /candidates/:candidate_id/admin(.:format)                                                                                   candidates_profiles#admin
+                      staff_newcandidate        /staff/newcandidate(.:format)                                                                                               candidates#newcandidate
+                                                /candidates/:candidate_id/docx(.:format)                                                                                    candidate_profiles#docx

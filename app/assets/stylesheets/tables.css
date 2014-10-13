@@ -1,0 +1,14 @@
+table{
+	width: 33%;
+	float: left;	
+}
+
+table thead tr th{
+	text-align: center;
+	font-color: #000000;
+	font-weight: bold;
+}
+
+table tbody tr td{
+	text-align: center;	
+}

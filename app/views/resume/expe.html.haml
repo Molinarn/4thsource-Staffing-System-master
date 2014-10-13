@@ -1,0 +1,37 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li= raw('<em>Experience</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Experience
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  =link_to_resume("Add Labor Experience", @candidate.id, :action => "experience-new")
+  %br
+  %br
+  - if @experience_items.count > 0
+    #list
+      - @experience_items.each do |experience|
+        %br
+        #row
+          = render experience
+          %br
+          %br
+        %br
+  - else
+    %h4 Please create at least one labor experience.
+    .divider
+  %br
+  .clear	

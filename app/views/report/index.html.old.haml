@@ -1,0 +1,123 @@
+<!-- Content -->      
+#content
+  = stylesheet_link_tag "flick/jquery-ui-1.10.2.custom" 
+  - if !signed_in?
+    %img(src="http://www.4thsource.com//public/images/subheader_services.jpg" alt="Sub Header" class="subheader")
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li= raw('<em>Report</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconReport
+    .h3-page-headline
+      Report
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = form_for(:search, :url=>{:action=>'search'}, :html => {:id => "reportSearchForm"}) do |f|
+    %table.reportTable
+      %tbody
+        %tr
+          %td{:colspan => 3}
+            .field
+              = f.label "Processing Date"
+              %br
+              = check_box_tag "recruitingProcess"
+              = "Is the Candidate in a Recruiting Process?"
+              %br
+              %table
+                %tr
+                  %td{:width => "120px"}
+                    = f.label "From: "
+                  %td
+                    //= date_select "search", "date_processing_from", {:start_year => 1950, :order => [:month, :day, :year]}, {:class => "dateFormStyle", :disabled => true}
+                    = f.text_field :seach, :id => 'date_processing_from', :readonly => 'true', :style => 'cursor: pointer; background-color: white'
+                %tr
+                  %td
+                    = f.label "To: "
+                  %td
+                    // = f.date_select :date_processing_to, {:start_year => 1950, :order => [:month, :day, :year]}, {:class => "dateFormStyle", :disabled => true}
+                    = f.text_field :search, :id => 'date_processing_to', :readonly => 'true', :style => 'cursor: pointer; background-color: white'
+        %tr
+          %td{:colspan => 3}
+            .field
+              = f.label "Candidates Recruited"
+              %br
+              = check_box_tag "isRecruited"
+              = "Is the Candidate Recruited?"
+              %br
+              %table
+                %tr
+                  %td{:width => "120px"}
+                    = f.label "Hire Date: "
+                  %td
+                    //= f.date_select :hire_date, {:start_year => 1950, :order => [:month, :day, :year]}, {:class => "dateFormStyle", :disabled => true}
+                    = f.text_field :seach, :id => 'hire_date', :readonly => 'true', :style => 'cursor: pointer; background-color: white'
+                %tr
+                  %td
+                    = f.label "Start Date: "
+                  %td
+                    //= f.date_select :start_date, {:start_year => 1950, :order => [:month, :day, :year]}, {:class => "dateFormStyle", :disabled => true}
+                    = f.text_field :seach, :id => 'start_date', :readonly => 'true', :style => 'cursor: pointer; background-color: white'
+                %tr
+                  %td
+                    = "Assignment's place: "
+                  %td
+                    = f.select :office_id, options_from_collection_for_select(Office.order("id").all, "id", "name")
+        %tr
+          %td{:width => "30%"}
+            .field
+              = f.label "All Technologies"
+              %br
+              - Tag.where("type_tag = 3").each do |row|
+                = check_box_tag "technologies_id[]", row.id
+                = row.name
+                %br
+          %td{:width => "40%", :style => "vertical-align: top;"}
+            .field
+              = f.label "Interview Results"
+            %br
+            %table
+              - InterviewsType.all.each do |row|
+                %tr
+                  %td{:width => "20px"}
+                    = radio_button("interviewTypesOption", "id", row.id, :checked => true)
+                  %td
+                    = row.name
+              %tr
+                %td{:colspan => 2}
+                  = "Result: "
+                  = f.text_field "points", :class => "percentageFormStyle"
+            %br
+          %td{:width => "30%", :style => "vertical-align: top;"}
+            .field
+              = f.label " "
+            %table
+              %tr
+                %td{:width => "90px"}
+                  = "Place of Origin: "
+              %tr 
+                %td
+                  = f.text_field "placeOrigin", :class => "textFormStyle"
+    %br
+    .actions
+      
+      = submit_tag "Search"
+      
+       
+    %br
+  .clear
+  :javascript
+    jQuery(document).ready(function(){ 
+      $("#date_processing_from").datepicker({changeMonth: true,changeYear: true, dateFormat: 'yy-mm-dd', yearRange: "1920:2013"});
+      $("#date_processing_to").datepicker({changeMonth: true,changeYear: true, dateFormat: 'yy-mm-dd', yearRange: "1920:2013"});
+      $("#hire_date").datepicker({changeMonth: true,changeYear: true, dateFormat: 'yy-mm-dd', yearRange: "1920:2013"});
+      $("#start_date").datepicker({changeMonth: true,changeYear: true, dateFormat: 'yy-mm-dd', yearRange: "1920:2013"});
+      
+    });
+<!-- Sidebar -->
+= render 'shared/sidebar_signed'

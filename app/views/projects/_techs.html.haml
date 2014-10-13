@@ -1,0 +1,11 @@
+- @Techs.each do |t|
+	- @found = ''
+	- @Current.each do |c|
+		- if (c.id == t.id)
+			- @found = 'checked'
+	- if (@found != '')
+		%input{:type=>'checkbox', 'custom-data'=>"#{t.technology}", :name=>"chk[#{t.id}]", :value=>"#{t.id}", :checked=>'checked'}
+	- else
+		%input{:type=>'checkbox', 'custom-data'=>"#{t.technology}", :name=>"chk[#{t.id}]", :value=>"#{t.id}"}
+	= t.technology
+	%br

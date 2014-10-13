@@ -1,0 +1,26 @@
+%section
+  %ul#breadcrumbs
+    %li
+      =link_to 'Home', root_path 
+      =raw '&raquo;'
+    %li
+      = raw('<em>Forgot password</em>')
+    .clear
+  %h3.page_headline
+    Change my old password
+  .divider
+
+  =form_for :candidate do |f|
+    -flash.each do |key, value|
+      .flash{:class => key}= value
+    .field
+      =f.label :email
+      %br
+      =f.text_field :email
+    .actions
+      =f.submit "Submit", :class => "btn btn-primary"
+    %p
+      New candidate? 
+      =link_to "Sign up now!", signup_path
+    .clear
+

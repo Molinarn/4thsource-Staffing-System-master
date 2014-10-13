@@ -1,0 +1,28 @@
+%ul#breadcrumbs
+  %li
+    = link_to 'Home', root_path
+    = raw '&raquo;'
+  %li= link_to raw('<em>Login</em>'), signin_path
+  .clear
+%h3.page_headline Login credentials
+.divider
+= form_for(:session, :url => sessions_path) do |f|
+  - flash.each do |key, value|
+    .flash{:class => key}= value
+  .field
+    = f.label :email
+    %br
+    = f.text_field :email
+  .field
+    = f.label :password
+    %br
+    = f.password_field :password
+  .actions
+    = f.submit "Sign in",{"class"=>"btn btn-primary"}
+%p
+  New candidate?
+  = link_to "Register now!", signup_path
+%p
+  Forgot your email or password?
+  = link_to "Forgot password", :controller => "email", :action => "remind"
+.clear

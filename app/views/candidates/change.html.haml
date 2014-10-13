@@ -1,0 +1,50 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', '#'
+      = raw '&raquo;'
+    %li 
+      = raw '<em>'
+      Change password
+      = raw '</em>'
+    .clear
+  %h3.page_headline 
+    Change password
+  .divider
+  = gravatar_for @user
+  %br
+  - form_for :user do |f|
+    = render 'shared/error_messages', :object => f.object
+    .field
+      = f.label :name
+      %br
+      = f.text_field :name, :disabled => 'true'
+    .field
+      = f.label :email 
+      %br
+      = f.text_field :email, :disabled => 'true'
+    .field
+      = f.label :password 
+      %br
+      = f.password_field :password
+    .field
+      = f.label :password_confirmation, "Confirmation"
+      %br 
+      = f.password_field :password_confirmation
+    .actions
+      %br
+      = f.submit "Change", :class => "btn btn-primary" 
+  .clear
+<!-- Sidebar -->
+#sidebar
+  <!-- Subnav -->
+  %h4#if_sub_nav
+    = link_to 'About', '#'
+  #if_subnav.divider
+  %ul#nav_sub.sub_navigation
+    %li= link_to 'Corporate Overview', '#'
+    %li= link_to 'Clients', '#'
+    %li.last= link_to 'Executive Leadership', '#'
+  %img(src="http://www.4thsource.com//public/images/sidebar_about.jpg" alt="about" class="sidebar_img")
+  .clear
+<!-- End Sidebar -->

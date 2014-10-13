@@ -1,0 +1,51 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li= raw('<em>Candidates</em>')
+    .clear
+  %h3.page_headline
+    All Candidates
+  .divider
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  #back_new{:style => "display: inline-block; width: 100%"}
+    = link_to "Back", root_path, :style => "float: left"
+    -if current_candidate.admin_users
+      = link_to "New candidate", "/staff/newcandidate", :style => "float: right"
+  %br
+  %br
+  = form_for(:table, :url=>{:action=>'index'}, :html => { :style => '' }) do |f|
+    %br
+    %table#candidates_table.display
+      %thead{:style => "text-align: center;"}
+        %tr
+          %th
+            Name          
+          %th
+            E-Mail
+          %th
+            Interview  
+          -if current_candidate.admin_users
+            %th
+              Info         
+      %tbody 
+        -@candidates.each do |row|
+          %tr
+            %td
+              = link_to row.first_name+" "+row.middle_name+" "+row.first_last_name+" "+row.second_last_name, "/candidates/#{row.id}/wall"
+            %td
+              = row.email
+            %td
+              = link_to "Interview", "/candidates/#{row.id}/candidates_interviews"
+            -if current_candidate.admin_users
+              %td
+                = link_to "Edit", "/candidates/#{row.id}/edit" , {:target => '__blank'}                  
+  %br
+  = will_paginate @candidates, :class => "digg_pagination"
+  %br
+  %br
+  .clear

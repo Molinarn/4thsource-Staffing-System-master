@@ -1,0 +1,45 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Catalogs
+      = raw '</em>'
+      = raw '&raquo;'
+    %li
+      = link_to "Roles", :controller => "roles", :action => "index"
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      New Role
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconCertification
+    .h3-page-headline
+      Roles
+  .divider-headline
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value  
+  %br
+    %strong
+      = link_to "Back", :controller => "roles", :action => "index"
+  %br
+  %br
+  %h3.page_headline
+    New:
+  = form_for(:role, :url=>{:action=>'new'}, :html => {:multipart => true, 'data-validate' => "parsley", :id => "RoleForm"}) do |f|
+    .field
+      = f.label :name
+      %br
+      = f.text_field :name, :data => { :required => "true" }
+    %br
+    .field
+      = f.label :description
+      %br
+      = f.text_field :description
+    .actions
+      = f.submit "Accept", {"class"=>"btn btn-primary"}

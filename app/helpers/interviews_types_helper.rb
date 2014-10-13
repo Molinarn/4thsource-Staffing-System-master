@@ -1,0 +1,2 @@
+module InterviewsTypesHelper
+end

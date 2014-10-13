@@ -1,0 +1,56 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li= raw('<em>Projects</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Projects
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  =link_to_project("Add Project", @candidate.id, :action => "new")
+  %br
+  %br
+  - if @projroles_items.count > 0
+    #list
+      %br
+      - @projroles_items.each do |role|
+        %br
+        #row
+          .experience_details_wrapper
+          .experience_details_left
+            %strong
+              = role.roles_id
+          .experience_details_right
+            = link_to "View", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+            &nbsp;&nbsp;&nbsp;
+            = link_to "Edit", :controller => "projects", :action => "update", id:@candidate.id, :project_id=> @project.id
+            &nbsp;&nbsp;&nbsp;
+            = link_to "Delete", url_options = { :controller => "projects", :action => "destroy", id:@candidate.id, :project_id=> @project.id }, html_options = { :confirm => "Are you sure you want to delete this project?" }
+          %br
+          .experience_details_wrapper
+          .experience_details_left
+            &nbsp;&nbsp;&nbsp;&nbsp;&bull;
+            = role.date_in
+          %br
+          .experience_details_area
+            = role.date_out
+          %br 
+        %br
+        %br
+        %br
+  - else
+    %h4 Please create at least one project.
+    .divider
+  %br
+  .clear

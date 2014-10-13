@@ -1,0 +1,46 @@
+= javascript_include_tag 'match.js'
+%h4
+	Candidates and Employees Match
+	.divider	
+%table.table.dataTable#match_table
+	%thead
+		%tr
+			%th
+				Name
+			%th
+				Tags Match
+			%th
+				Actions
+	%tbody
+		-@candidateHash.each_pair do |k, v|
+			-if v["show"] == 'yes'
+				%tr
+					%td					
+						=v["first_name"] + ' ' + v["first_last_name"]
+					%td
+						=v["percentage"]
+					%td
+						=link_to "View"
+	%tfoot
+		%th
+		%th
+		%th
+//-@listCandidates.each do |lt|
+//%tr
+//%td					
+//=lt.candidate.first_name
+//%td
+//=@candidateHash.values_at(lt.candidate_id.to_s)
+//%td
+//=link_to "View"					
+//-if @candidateHash != nil
+//Si hay resultados id del candidato
+//-@candidateHash.each do |id, value|
+//"#{id}: #{value}"
+//-else
+//No hay resultados
+
+//-if @arrayCandidates != nil and @arrayCandidates.length!=0
+//=@arrayCandidates.first(@arrayCandidates.length).to_s
+//-else
+//No hay resultados

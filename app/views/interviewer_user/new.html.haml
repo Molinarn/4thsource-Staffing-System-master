@@ -1,0 +1,77 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = link_to "Interviewers", url_options = { :controller => "interviewers", :action => "index", :id => current_candidate.id}
+      = raw '&raquo;'
+    %li
+      = raw('<em>Add Interviewer</em>')
+    .clear
+  %h3.page_headline
+    Add Interviewer to 
+    = @interviewer.name
+    Group
+  .divider
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br  
+  #datatbl
+    = form_for(:table, :url=>'') do |f|
+      %table#adminusersnew_table.display
+        %thead
+          %tr
+            %th
+              First 
+              %br
+              Name
+            %th
+              Middle
+              %br
+              Name
+            %th
+              First 
+              %br
+              Last
+              %br
+              Name
+            %th
+              Second 
+              %br
+              Last 
+              %br
+              Name
+            %th
+              Add to interviewers 
+        %tbody 
+          -@candidates.each do |row|
+            %tr
+              %td
+                = link_to row.first_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.middle_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.first_last_name, "/candidates/#{row.id}/resume"
+              %td
+                = link_to row.second_last_name, "/candidates/#{row.id}/resume"
+              %td
+                -if row.interviewer_user.nil? or row.outOfInterviewerGroup?(@interviewer)
+                  = link_to 'Add', "/interviewer_user/#{@interviewer.id}/add/#{row.id}"
+                -else
+                  = raw 'Already added'                
+  %br
+  %br
+  %div.newdiv{ :style => "text-align: center; width: 100%;" }
+    -@a = ('a'..'z')
+    -for @c in @a
+      = link_to @c, "/interviewer_user/#{@interviewer.id}/new/" + @c
+      = raw '&nbsp&nbsp&nbsp'
+      -if @c == 'n'
+        = link_to 'ñ', "/interviewer_user/#{@interviewer.id}/new/ñ"
+        = raw '&nbsp&nbsp&nbsp'        
+  %br
+  %br
+  .clear

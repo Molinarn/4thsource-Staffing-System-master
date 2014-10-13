@@ -1,0 +1,50 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Catalogs</em>')
+      = raw '&raquo;'
+    %li
+      = raw('<em>Interview Types</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Interview Type
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  %br
+  = link_to "New", :controller => "interviews_types", :action => "new"
+  %br
+  %br
+  - if InterviewsType.all.count > 0 
+    #list
+      %br
+      - InterviewsType.all.each do |interview_type|
+        %br
+        #row
+          .experience_details_wrapper
+          .experience_details_left
+            %strong
+              = interview_type.name
+          -if interview_type.used?
+            = link_to "Edit", url_options = {:controller => "interviews_types", :action => "edit", :id => current_candidate.id, :interview_type_id => interview_type.id}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
+          -else
+            .btn-group
+              = link_to "Edit", url_options = {:controller => "interviews_types", :action => "edit", :id => current_candidate.id, :interview_type_id => interview_type.id}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
+              %button.btn.btn-primary.dropdown-toggle
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to "Delete", url_options = { :controller => "interviews_types", :action => "delete", :id => current_candidate.id, :interview_type_id => interview_type.id }, html_options = {:confirm => "Are you sure you want to delete the entry?"}
+          %br 
+  - else
+    %h4 Please create at least one interview type.
+    .divider
+  %br
+  .clear

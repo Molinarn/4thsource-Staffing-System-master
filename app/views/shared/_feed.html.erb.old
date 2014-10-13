@@ -1,0 +1,9 @@
+<% unless @page_results.empty? %>
+  <table class="microposts" summary="Candidate microposts">
+    <%= render :partial => 'shared/feed_item', :collection => @page_results %> 
+  </table>
+  <br/>
+  <div id="feed-pagination">
+    <%= will_paginate @page_results %>
+  </div>
+<% end %>

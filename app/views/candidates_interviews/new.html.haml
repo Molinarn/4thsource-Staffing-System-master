@@ -1,0 +1,57 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Administration</em>')
+      = raw '&raquo;'
+    %li
+      = link_to "Interviews", :controller => "candidates_interviews", :action => "index", id:@candidate.id
+      = raw '&raquo;'
+    %li= raw('<em>new</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      New interview for
+      = @candidate.actual_name
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "candidates_interviews", :action => "index", id:@candidate.id
+  %br
+  %br
+  = form_for(:cand_inter, :html => {:class => "experience", :method => "post"}) do |f|
+    %h4
+      Please enter the following information
+    .divider
+    %br  
+    .row-fluid
+      .span6
+        .field
+          = f.label "Interview type"
+          %br
+          = f.select :interviews_type_id, options_from_collection_for_select(InterviewsType.order("id").all, "id", "name"), {include_blank: '- Select one -'}
+      .span4 
+        .field
+          = f.label "Interviewer"
+          %br
+          %img(id="imgloading" src="/images/loading.gif" style="display: none; padding-left: 100px; width: 15%; height: 15%;")
+          %div#interviewer
+            = f.select :interviewer_user_id, options_from_collection_for_select(@interviewers, "id", "name"), {include_blank: '- Select one -'}
+          = f.hidden_field :candidate_id, value: @candidate.id
+    .row-fluid
+      .span4
+        .field 
+          =f.label "Job"
+          %br
+          =f.select :jobs_id, options_from_collection_for_select(@jobs.collect,"id","title"),{include_blank: '- Select one -'}
+          //= select_tag "jobSearch", options_from_collection_for_select(@jobs, "id", "title",@jobId), :include_blank => "- Select one -"
+    .row-fluid
+      .span6
+        .actions
+          %br
+          = f.submit "Save", :class => "btn btn-primary"

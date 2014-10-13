@@ -1,0 +1,125 @@
+=javascript_include_tag 'jquery.dataTables.js'
+=javascript_include_tag 'jquery.dataTables.columnFilter.js'
+=javascript_include_tag 'interviews_filter.js'
+%ul#breadcrumbs
+  %li
+    = link_to 'Home', root_path 
+    = raw '&raquo;'
+  %li
+    = raw('<em>Candidates</em>')
+    = raw '&raquo;'
+  %li= raw('<em>Interviews Report</em>')
+  .clear
+%h3.page_headline 
+  %i.iconExperienceHeadLine
+  .h3-page-headline
+    Interviews Report
+.divider-headline
+#flash
+  - flash.each do |key, value|
+    .flash{:class => key}= value
+//=render "candidates_interviews/filter"
+//%br
+//%br
+- if !@interviews.empty?
+  %fieldset#filter.collapsible
+    %legend#toggle-filter
+      Filter
+    %section#filter-data
+      .row-fluid{:style=>"padding-left:8%"}
+        .span4
+          .field
+            %label{:style=>"font-size:12px;font-weight:bold;font-color:#000000;background:#ffffff;"} 
+              Type:
+            %p#filtroType
+        .span4
+          .field
+            %label{:style=>"font-size:12px;font-weight:bold;font-color:#000000;background:#ffffff;"} 
+              Interviewer: 
+            %p#filtroInterviewer
+        .span3
+          .field
+            %label{:style=>"font-size:12px;font-weight:bold;font-color:#000000;background:#ffffff;"} 
+              Candidate:
+            %p#filtroCandidate
+      .row-fluid{:style=>"padding-left:7%"}
+        .span4
+          .field
+            %label{:style=>"font-size:12px;font-weight:bold;font-color:#000000;background:#ffffff;"} 
+              Results:
+            %p#filtroResult{:style=>"font-size:11px;font-weight:bold;font-color:#000000;background:#ffffff;"} 
+        .span4
+          .field
+            %label{:style=>"font-size:12px;font-weight:bold;font-color:#000000;background:#ffffff;"} 
+              Dates of interview: 
+            %p#filtroDate{:style=>"font-size:11px;font-weight:bold;font-color:#000000;background:#ffffff;"}
+
+      %button{:id=>"btnClean",:class=>"btn-primary"}
+        Clear filters
+    
+  #datatble
+    = form_for(:table, :url=>{:action=>'index'}) do |f|
+      %br
+      %br
+      %table.table.dataTable#interviews_table
+        %thead
+          %tr
+            %th
+              Type
+            %th
+              Interviewer
+            %th
+              Candidate
+            %th
+              Result
+            %th
+              Date
+            %th
+              =raw '&nbsp&nbsp&nbsp'
+        %tbody
+          - @interviews.each do |interview|
+            %tr
+              %td= interview.interviews_type.name         
+              //%td= interview.candidate.actual_name
+              -if interview.interviewer_user_id == 0
+                %td=raw 'Unknown'
+              -else
+                %td=Candidate.find(InterviewerUser.find(interview.interviewer_user_id).candidate_id).first_name
+              %td= interview.candidate.first_name
+              %td= interview.result
+              %td= interview.updated_at.strftime("%Y-%m-%d")
+              %td
+                = link_to "View", :controller => "candidates_interviews", :action => "view", id:interview.candidate.id, :cand_inter_id => interview.id
+          %tfoot
+            %tr
+              %th
+                
+              %th
+                
+              %th
+                
+              %th
+                
+              %th
+                
+              %th
+                
+  //%br
+  //  = will_paginate @interviews, :class => "digg_pagination"
+- else
+  %h4 There is no interviews with requested details!
+  .divider
+%br
+.clear
+:javascript
+  (function($) {
+    $("#toggle-filter").click(function() {
+      $("#filter-data").toggle("blind",{} , 500);
+      if ($("#filter").hasClass("collapsed")){
+        $("#filter").removeClass("collapsed");
+      } else {
+        $("#filter").addClass("collapsed");
+      }
+      return false;
+    });
+  })(jQuery);

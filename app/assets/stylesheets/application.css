@@ -1,0 +1,203 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require index
+ */
+ paging_labels{ 
+ 	float:		left; 
+ 	clear:		none; 
+ 	display:	block; 
+ 	padding: 	2px 1em 0 0; 
+ }
+
+.front{
+	width:		100%;
+}
+
+.page_link{
+	color: 		#6699CC;
+	cursor: 	pointer;
+	padding: 	5px 10px;
+	float: 		left;
+}
+
+.micopost_box{
+	display: 	inline-block;
+	width: 		100%;
+}
+
+.chain_micropost_box{
+	display: 	inline-block;
+	padding-left: 20px;	
+	width: 95%;
+}
+
+.microimg{
+	display: 	inline;
+	float: 		left;
+}
+
+.content_information{
+	display: 	inline;
+	float: 		left;
+	padding: 	0px 0px 0px 10px;
+	width: 80%;
+}
+
+.content_information label{
+	width: 100%;	
+}
+
+.reply_micropost_container{
+	overflow-y: scroll;
+}
+
+.reply_button{
+	display: inline;
+	float: right;
+}
+
+.button_container{
+	padding-top: 8px;
+}
+
+	
+.tag_button{
+	width: 85%; 
+	background: #9999FF; 
+	color: #000000;
+	border-radius: 3px; 
+	height: 30px; 
+	padding-top: 9px; 
+	cursor: pointer;
+	transition: background-color 1s;
+	-webkit-transition: background-color 1s;
+}
+
+.tag_button:hover{
+	background-color: #99FF99;
+}
+
+#unread_microposts{
+	display: inline;	
+}
+
+#reply_text{
+	width: 98%;
+}
+
+#pages_container{
+	position: 	absolute;
+	text-align: center;
+}
+
+#pages_rail{
+	display: 	inline-block;
+}
+
+#checkbox_container{
+	display:	inline;
+}
+#checkbox_container input{
+	display: 	inline;
+}
+
+#select_container{
+	display: 	inline;	
+}
+
+#select_follower{
+	width: 50%;
+}
+
+#happening{
+	display: 	inline-block;
+}
+
+#microposts_feed{
+	opacity: 	0;
+}
+
+#micropost_box{
+	display: 	inline;
+}
+
+#content_margin{
+	height: 588px;
+}
+
+#select_container{
+	display: inline-block;
+	width: 	100%
+}
+
+#loading_image{
+	float:	right;
+	opacity: 0;
+	padding-top: 7px;
+}
+
+fieldset.collapsible {
+	border-width: 1px 0 0 0;
+	font-size: 0.9em;
+}
+
+fieldset.collapsible>legend {
+	padding-left: 16px;
+	background: url(/assets/arrow_expanded.png) no-repeat 0% 40%;
+	cursor: pointer;
+}
+
+fieldset.collapsible.collapsed>legend {
+	background-image: url(/assets/arrow_collapsed.png);
+}
+
+.filter-field {
+	height: 12px;
+	width: 7em;
+}
+
+#reports_container{
+	padding-top: 20px;
+	overflow: hidden;
+}
+
+#report_search_form{
+	padding-top: 30px;
+}
+
+#picks_tree{
+	/*left: -180px;*/
+	/*position: relative;*/
+	/*top: -169px;*/
+	opacity: 0;
+	width: 153px;
+	border-radius: 10px;
+	padding-top: 3px;
+}
+
+#tools_pick{
+	opacity: 0;
+	width: 153px;
+	border-radius: 10px;
+	padding-top: 3px;
+}
+
+#selection_containers{
+	left: -157px;
+	top: 70px;
+	position: absolute;
+	background:	#FFFFFF;
+	width: 153px;
+	border: 1px solid #99CCCC;
+	border-radius: 10px;
+	padding-top: 3px;
+}

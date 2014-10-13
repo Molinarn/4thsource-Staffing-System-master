@@ -1,0 +1,12 @@
+<!-- Sidebar -->
+#sidebar
+  <!-- Subnav -->
+  %h4#if_sub_nav
+    = link_to 'About', '#'
+  #if_subnav.divider
+  %ul#nav_sub.sub_navigation
+    %li= link_to 'Corporate Overview', '#'
+    %li= link_to 'Clients', '#'
+    %li.last= link_to 'Executive Leadership', '#'
+  %img(src="http://www.4thsource.com//public/images/sidebar_about.jpg" alt="about" class="sidebar_img")
+  .clear

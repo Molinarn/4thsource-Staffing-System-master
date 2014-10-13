@@ -1,0 +1,283 @@
+
+
+= form_for(@candidate, :html => {:multipart => true, 'data-validate' => 'parsley', :id => 'candidateForm' }) do |f|
+  = render 'shared/error_messages', :object => f.object    
+  #image_field{:style => "display: inline-block; width: 100%;"}            
+    = image_tag @candidate.avatarurl, :style => "display: inline; float: left"
+    #file_filed{:style => "display: inline-block; padding-top: 5px; padding-left: 20px;"}
+      = f.file_field :avatar, :id => 'avatar'
+  .row-fluid
+    .span5
+      .field
+        = f.label :first_name 
+        .mandatory *
+        = f.text_field :first_name, :maxlength => '255', 'data-required' => 'true'
+    .span5
+      .field
+        = f.label :middle_name
+        = f.text_field :middle_name, :maxlength => '255'
+  .row-fluid
+    .span5
+      .field
+        = f.label :first_last_name
+        .mandatory *
+        = f.text_field :first_last_name, :maxlength => '255', 'data-required' => 'true'
+    .span5
+      .field
+        = f.label :second_last_name
+        .mandatory *
+        = f.text_field :second_last_name, :maxlength => '255', 'data-required' => 'true' 
+ 
+  .row-fluid
+    .span5
+      .field
+        = f.label :gender
+        .mandatory *
+        %br
+        = f.select :gender, gender_list, 'data-required' => 'true' 
+    .span3
+      .field
+        = f.label :marital_status
+        .mandatory *
+        = f.select :marital_status, marital_status_list, 'data-required' => 'true'        
+  .row-fluid      
+    .span5
+      .field
+        = f.label :birthdate
+        .mandatory *
+        .birthdate
+          = f.text_field :birthdate, :id => 'birthdate', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @candidate.try(:birthdate).try(:strftime,'%Y-%m-%d')
+    -if has_admin_role?
+      .span3
+        .field
+          = f.label :referral_type
+        = f.select :referral_type, options_for_select(Candidate::TYPE, @candidate.referral_type)
+
+  .divider
+  .row-fluid
+    .span5
+      .field
+        = f.label :email
+        .mandatory *
+      = f.text_field :email,:id => 'mail1', :maxlength => '255', 'data-type' => 'email', 'data-required' => 'true', 'data-regexp' => '(\W|^)[\w.+\-]{0,25}@(yahoo|hotmail|bing||msn|live|gmail)\.com(\W|$)' 
+    .span5
+      .field
+        = f.label "alternate email"
+        .mandatory *
+      = f.text_field :email_alternate_1, :maxlength => '255', 'data-required' => 'true', 'data-regexp' => '(\W|^)[\w.+\-]{0,25}@(yahoo|hotmail|bing||msn|live|gmail)\.com(\W|$)', 'data-type' => 'email'
+  
+  .divider
+  .row-fluid
+    .span5
+      .field
+        = f.label :address
+        .mandatory *
+      = f.text_field :address, :maxlength => '255', 'data-required' => 'true'
+    .span3
+      .field
+        = f.label :city
+        .mandatory *
+      = f.text_field :city, :maxlength => '255', 'data-required' => 'true'
+    .span3
+      .field
+        = f.label :zip_code
+        .mandatory *
+      = f.text_field :zip_code, {:as => "integer", :minlength => 5, :maxlength => '5','data-required' => 'true', 'data-minlength' => '5'}
+  .row-fluid 
+    .span5          
+      .field
+        = f.label :country
+      = f.select :country, country_list, 'data-required' => 'true'                 
+  %br
+  .divider
+  .row-fluid
+    .span3
+      .field
+        = f.label :home_phone
+        .mandatory *
+      = f.text_field :home_phone, :maxlength => 10, 'data-type' => 'phone', 'data-required' => 'true'
+    .span3
+      .field
+        = f.label :office_phone
+        .mandatory *
+      = f.text_field :office_phone, :maxlength => 10, 'data-type' => 'phone', 'data-required' => 'true'
+    .span3
+      .field
+        = f.label :cell_phone
+        .mandatory *
+      = f.text_field :cell_phone, :maxlength => 10, 'data-type' => 'phone', 'data-required' => 'true'
+  .divider
+  .row-fluid
+    .span3
+      .field
+        .alignCheckBox= f.check_box :is_willing_to_relocate
+        .alignCheckBox= f.label :is_willing_to_relocate
+    .span3
+      .field#relocateListShowHide
+        = f.label :options_to_relocate
+        = f.select :location, locations_list 
+        // = f.select :gender, gender_list,
+  .row-fluid 
+    .span3
+      .field
+        .alignCheckBox= f.check_box :is_willing_to_travel
+        .alignCheckBox= f.label :is_willing_to_travel
+  .row-fluid{:id => 'passport_row_fluid'} 
+    .span3
+      .field
+        .alignCheckBox= f.check_box :has_passport
+        .alignCheckBox= f.label :has_passport
+    .span3
+      .field#passportShowHide
+        = f.label :passport_expiration_year
+        .mandatory *
+        = f.text_field :passport_expiration_year, {:readonly => 'true', :maxlength=>'4', 'data-type' => 'digits', 'data-required' => 'true'}    
+  .row-fluid{:id => 'visa_row_fluid'} 
+    .span3
+      .field
+        .alignCheckBox= f.check_box :has_visa
+        .alignCheckBox= f.label :has_visa
+    .span3
+      .visaContent
+        .field#visaShowHide
+          = f.label :visa_expiration_year
+          .mandatory *
+          = f.text_field :visa_expiration_year, {:readonly => 'true',:maxlength=>'4', 'data-type' => 'digits', 'data-required' => 'true'}
+  
+       
+
+  %br
+  .divider
+  #row_container
+    .row-fluid
+      .span3
+        .field.currentlyEmployed
+          .alignCheckBox= f.check_box :currently_employed
+          .alignCheckBox= f.label :currently_employed
+      .span3
+        .field.employedShowHide
+          = f.label :company
+          = f.text_field :company, :maxlength => '255'
+      .span3
+        .field.employedShowHide
+          = f.label :position
+          = f.text_field :position, :maxlength => '255'        
+    .row-fluid
+      .span3
+        .field.employedShowHide
+          = f.label 'Current Net monthly salary'
+          = f.text_field :current_salary, :maxlength=>'7', :value => (number_to_currency(@candidate.current_salary, :precision => 0) || "0")
+      .span3
+        .field
+          = f.label 'Monthly Salary Expectancy'
+          .mandatory *
+          = f.text_field :salary_expectancy, :maxlength=>'7', :value => (number_to_currency(@candidate.salary_expectancy, :precision => 0) || "0"), 'data-required' => 'true'
+  .divider
+    .row-fluid
+      .span3
+        .field
+          = f.label :availability
+          %br
+          .alignCheckBox= f.check_box :availability_Immediate
+          .alignCheckBox= f.label :Immediate
+      .span3
+        /*it supose the next block show two list that have to desapear when the checkbox is  unchecked but this is not working yet. to make the effect I've done the .js named 
+        /*profile_extras.js and added it in the edit.html.haml view
+        /*i supose that this is not working because still I dont add some parameter like display none in the idex.css because the others ShowHide fields have that parameters specified.
+
+        .field#availabilityShowHide 
+          = f.label :"I'll be available in:"
+          = f.select :time_blocks, time_blocks_list 
+          = f.select :time_periods, time_periods_list
+  %br       
+  
+    .row-fluid
+    .divider
+      .field
+        = f.label :comments
+        = f.text_area :comments, :maxlength => '255'
+    .row-fluid
+    %br
+    %br
+    %br
+    %br
+    %br
+    %br
+    %br
+    .actions       
+    = f.button "Update",{"class"=>"btn btn-primary", "id" => "submit_usr_data"}
+    :javascript
+      jQuery(document).ready(function(){
+            Profile.start();
+      });  
+    .row-fluid          
+    .mandatory * 
+    Field is mandatory
+  %br
+  %br
+  #password_message{:style => "display: inline-block; opacity: 0;"}
+  
+:javascript
+  jQuery(function($){$("#candidate_home_phone").mask("(999) 999-9999",{placeholder:" "});});
+:javascript 
+  jQuery(function($){$("#candidate_office_phone").mask("(999) 999-9999",{placeholder:" "});});
+:javascript 
+  jQuery(function($){$("#candidate_cell_phone").mask("(999) 999-9999",{placeholder:" "});});
+
+
+:javascript 
+  $("#candidate_passport_expiration_year").datepicker({
+        dateFormat: 'yy',
+        changeYear: true,
+        changeMonth: true,
+        onSelect: function(dateText) { 
+          if($(".formerrormsg").length){
+                  $( "h4" ).remove( ".formerrormsg" );
+          }    
+          value = $("#candidate_passport_expiration_year").val();
+           if(value<(new Date).getFullYear()){
+               $("#passport_row_fluid").append("<h4 class='formerrormsg' > expired! </h4>" );    
+            }
+        }
+  }); 
+ 
+
+:javascript 
+  $("#candidate_visa_expiration_year").datepicker({
+        dateFormat: 'yy',
+        changeYear: true,
+        changeMonth: true,
+        onSelect: function(dateText) {
+        if($(".formerrormsg").length){
+                  $( "h4" ).remove( ".formerrormsg" );
+        }    
+          value2 = $("#candidate_visa_expiration_year").val();
+           if(value2<(new Date).getFullYear()){
+               $("#visa_row_fluid").append("<h4 class='formerrormsg' > expired! </h4>" ); 
+            }
+        }
+  }); 
+ 
+
+  
+:javascript 
+  jQuery(document).ready(function(){       
+                                                                   
+    $('#candidate_country > option[value="MX"]').attr('selected', 'selected');  
+      
+
+  var content_height = parseInt(jQuery("#content").css('height'));
+     $("#birthdate").datepicker(
+        {changeMonth: true,changeYear: true, dateFormat: 'yy-mm-dd', yearRange: "1920:2013"});
+
+    $("#candidateForm").submit(function(e){ 
+      if(!checkForm()){
+        e.preventDefault();          
+      }
+    })    
+
+
+
+
+  });
+  

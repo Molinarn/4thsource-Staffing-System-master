@@ -1,0 +1,88 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', home_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li= raw('<em>Education</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconEducationHeadLine
+    .h3-page-headline
+      Education
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+    %br
+    = link_to_resume('Back to Resume', @candidate.id, :action => 'resume')
+    %br
+    %br
+    %br
+    %h4
+      Information about your education
+    .divider
+    %br
+    - if @total_educations.count > 0
+      #list
+        - @total_educations.each do |education|
+          %br
+          #row
+            .experience_details_wrapper
+              .experience_details_left
+                %li
+                  %h6
+                    = education.name
+                  #experience-date
+                    = Date::MONTHNAMES[education.start_date.month]
+                    = education.start_date.year
+                    = raw ' - '
+                    = Date::MONTHNAMES[education.end_date.month]
+                    = education.end_date.year                    
+                  #experience-description
+                    = education.degree_level
+                /%br
+              .experience_details_right
+                = link_to "Delete", :controller => "educations", :action => "destroy", :id=> education.id
+          %br
+    - else
+      %h4 Please specify at least one education in your resume.
+      .divider
+    %br 
+  %br 
+  %br 
+  .experience_details_wrapper
+    .experience_details_left
+      - form_for(:education, @education) do |f|
+        = render 'shared/error_messages', :object => f.object
+        %br
+        %h4
+          Add Education in your resume
+        .divider
+        %br
+        .field
+          = f.label "School name"
+          %br
+          = f.text_field :name
+        .field
+          = f.label :start_date
+          %br 
+          %br
+          = date_select(:education, :start_date, :start_year => 1950, :discard_day => true, :order => [:month, :year])
+        .field
+          = f.label :end_date
+          %br
+          %br 
+          = date_select(:education, :end_date, :start_year => 1950, :discard_day => true, :order => [:month, :year])
+        .field
+          = f.label :degree_level
+          %br
+          = f.select :degree_level, degree_level_list
+        .actions
+          %br
+          = f.submit "Submit"
+        .clear	
+    .experience_details_right

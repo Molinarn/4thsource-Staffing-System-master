@@ -1,0 +1,43 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      Catalogs
+      = raw '&raquo;'
+    %li
+      = link_to 'Tags', '/staff/' + current_candidate.id.to_s + '/tags'
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Add New Tag
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconEducation
+    .h3-page-headline
+      Tag
+  .divider-headline
+  %br
+    %strong
+      = link_to "Back", :controller => "tags", :action => "index"
+  %br
+  %br
+  %h3.page_headline
+    New Tag:
+  = form_for(:tag, :url=>{:action=>'create'}, :html => {:multipart => true, 'data-validate' => "parsley", :id => "TagDegreeForm"}) do |f|
+    .field
+      = f.label :name
+      %br
+      = f.text_field :name, :data => { :required => "true" }
+    .field
+      = f.label "Tag Type"
+      %br
+      = f.select :type_tag,  tag_type_list, {}, { :data => { :required => "true" } }
+    .field
+      = f.label :description
+      %br
+      = f.text_field :description
+    .actions
+      = f.submit "Accept", :class => 'btn btn-primary'

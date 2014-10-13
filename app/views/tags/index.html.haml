@@ -1,0 +1,74 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      Catalogs
+      = raw '&raquo;'
+    %li
+      = raw('<em>Tags</em>')
+    .clear
+  %h3.page_headline
+    Tags
+  .divider
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  -if has_admin_role?
+    %br
+      %strong
+        = link_to "New", :controller => "tags", :action => "new"
+    %br
+    %br
+    -if @tags.length == 0
+      .educationEmptyTitle
+        Please Insert at Least one Tag
+    -else
+      = form_for(:table, :url=>{:action=>'index'}) do |f|
+        %table.display
+          %thead
+            %tr
+              %th
+                Name
+              %th
+                Tag Type
+              %th
+                Description
+              %th
+                Option
+          %tbody 
+            -@tags.each do |row|
+              %tr
+                %td
+                  = link_to row.name, url_options={:controller => "tags", :action => "edit", id:row.id, name:row.name, type_tag:row.type_tag, description:row.description}
+                -if row.type_tag==1
+                  -type='Tool'
+                -if row.type_tag==2
+                  -type='Knowledge'
+                -if row.type_tag==3
+                  -type='Platform'
+                %td
+                  =type
+                %td
+                  =row.description
+                %td
+                  -if !row.used
+                    .btn-group
+                      = link_to "Edit", url_options = {:controller => "tags", :action => "edit", :id => row.id, :name => row.name, :type_tag => row.type_tag, :description => row.description}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
+                      %button.btn.btn-primary.dropdown-toggle
+                        %span.caret
+                      %ul.dropdown-menu
+                        %li
+                          = link_to "Delete", url_options = { :controller => "tags", :action => "destroy", :id => row.id}, html_options = { :confirm => "Are you sure you want to delete the entry? This cannot be undone." }
+                  -else
+                    = link_to "Edit", url_options = {:controller => "tags", :action => "edit", :id => row.id, :name => row.name, :type_tag => row.type_tag, :description => row.description}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
+      %br
+      = will_paginate @candidates, :class => "digg_pagination"
+  -else
+    .educationEmptyTitle
+      This User Have not Permission in this Catalog
+  %br
+  %br
+  .clear

@@ -1,0 +1,14 @@
+Hello,
+
+Your login information is:
+
+Full Name: <%= @user.name %>
+Code: <%= @user.change_password_flag %>
+
+Follow the below instructions in order to change your password:
+
+1.- Visit this link: http://localhost:3000/users/<%= @user.id %>/change?code=<%= @user.change_password_flag%>
+2.- Enter your new password and confirm it.
+3.- Enjoy it!
+
+-- The 4thsource team

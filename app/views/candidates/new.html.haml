@@ -1,0 +1,70 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      Register
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    Candidate registration
+  .divider
+  = form_for(@candidate, :html => { :multipart => true }) do |f|
+    = render 'shared/error_messages', :object => f.object
+    .field
+      = f.label :first_name
+      %br
+      = f.text_field :first_name
+
+    .field
+      = f.label :middle_name
+      %br
+      = f.text_field :middle_name
+
+    .field
+      = f.label :first_last_name
+      %br
+      = f.text_field :first_last_name
+
+    .field
+      = f.label :second_last_name
+      %br
+      = f.text_field :second_last_name
+      = f.hidden_field :referral_type, :value => Candidate::TYPE[1][0] 
+    %br
+    %br
+    %h4
+      Select an ID and password
+    .divider
+    %br
+    .field
+      = f.label :email
+      %br
+      = f.text_field :email
+    .field
+      = f.label :password
+      %br
+      = f.password_field :password
+    .field
+      = f.label :password_confirmation, "Confirmation"
+      %br
+      = f.password_field :password_confirmation
+    %br    
+    #password_message{:style => "display: inline-block; opacity: 0;"}    
+    .divider
+    = recaptcha_tags
+    %br
+    .actions
+      = f.submit "Sign up", :class => "btn btn-primary"
+  .clear   
+  :javascript
+    jQuery(document).ready(function(){ 
+      var content_height = parseInt(jQuery("#content").css('height'));
+      $("#new_candidate").submit(function(e){                    
+        if(!checkForm()){
+          e.preventDefault();          
+        }
+      })
+    });

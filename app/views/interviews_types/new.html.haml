@@ -1,0 +1,38 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = raw('<em>Catalogs</em>')
+      = raw '&raquo;'
+    %li
+      = link_to 'Interview Types', '/staff/' + current_candidate.id.to_s + '/interviews_types'
+      = raw '&raquo;'
+    %li
+      = raw('<em>New</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      New Interview Type
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  = link_to "Back", :controller => "interviews_types", :action => "index", :id => current_candidate.id
+  %br
+  %br
+  = form_for(:interviewtype, :html => {:class => "experience", 'data-validate' => "parsley", :method => "post"}) do |f|
+    %h4
+      Please enter the following information
+    .divider
+    %br  
+    .field
+      = f.label "Description"
+      %br
+      = f.text_field :name, :onkeyup => "checkMaxlength(this);", :maxlength => 30, :data => {         :required => "true" }
+    .actions
+      %br
+      = f.submit "Accept", :class => "btn btn-primary"

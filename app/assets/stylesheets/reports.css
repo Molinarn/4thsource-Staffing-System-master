@@ -1,0 +1,26 @@
+.dateFormStyle {
+	width: 120px;
+}
+
+.percentageFormStyle {
+	width: 40px;
+}
+
+.textFormStyle {
+	width: 120px;
+}
+
+.reportTable {
+	text-align: center;
+	border-top: 8px solid #9baff1;
+	border-bottom: 8px solid #9baff1;
+}
+
+.reportTable tbody tr td {
+	border-top: 1px solid #9baff1;
+	border-bottom: 1px solid #9baff1;
+}
+
+.reportTable tbody tr td td {
+	border: none;
+}

@@ -1,0 +1,58 @@
+<!-- Content -->			
+<div id="content">
+  <img src="http://www.4thsource.com//public/images/subheader_services.jpg" alt="Sub Header" class="subheader" />
+  <ul id="breadcrumbs">
+    <li><a href="http://www.4thsource.com/en/index.php">Home</a> &raquo; </li>
+    <li><em><%= link_to "Users", users_path %></em></li>
+	<div class="clear"></div>
+  </ul>
+  <h3 class="page_headline ">All users</h3>
+  <div class="divider"></div>
+  <br/>
+  <div id="search">
+    <div id="search-form">	
+      <% form_tag({ :action => "search" }, :method => "get") do %>
+        <fieldset>
+          <div class="form_row">
+            <label for="q">Search:</label>
+            <%= text_field_tag "q", params[:q] %>
+            <input type="submit" value="Search" />
+          </div>
+        </fieldset>
+      <% end %>
+    </div> <!-- end form -->
+    <div id="search-results">
+	  <div id="flash">
+	    <% flash.each do |key, value| %>
+		  <div class="flash <%= key %>"><%= value %></div>
+        <% end %>
+	  </div>
+	</div> <!-- end search-results -->
+  </div> <!-- end search-->
+  <div id="list">
+    <% @page_results.each do |user| %>
+      <div id="row">
+        <%= render user %>
+      </div>
+    <% end %>
+  </div>
+  <br/><br/>
+  <div id="feed-pagination">
+    <%= will_paginate @page_results %>
+  </div> 
+  <div class="clear"></div>
+</div> <!-- End Content -->
+	
+<!-- Sidebar -->
+<div id="sidebar">
+  <!-- Subnav -->
+  <h4 id="if_sub_nav"><a href="#">About</a></h4>
+  <div id="if_subnav" class="divider"></div>
+  <ul id="nav_sub" class="sub_navigation">
+    <li><a href="#">Corporate Overview</a></li>
+    <li><a href="#">Clients</a></li>
+    <li class="last"><a href="#">Executive Leadership</a></li>
+  </ul>
+  <img src="http://www.4thsource.com//public/images/sidebar_about.jpg" alt="about" class="sidebar_img" />
+  <div class="clear"></div>
+</div> <!-- End Sidebar -->

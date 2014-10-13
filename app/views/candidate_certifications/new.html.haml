@@ -1,0 +1,52 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', home_path
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Certification', current_candidate.id, :action => 'certification')
+      = raw '&raquo;'
+    %li
+      = raw('<em>New Certification</em>')
+    .clear
+  %h3.page_headline
+    %i.iconInterestsHeadLine
+    .h3-page-headline
+      Certifications
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+    %br
+    = link_to 'Back', :controller => "candidate_certifications", :action => "index"
+    %br
+    %br
+    %br
+    %h4
+      Add a Certification in your Resume
+    .divider
+    %br
+    .experience_details_wrapper
+      .experience_details_left
+        = form_for(:certification, :url=>{:action=>'create'}, :html => {:multipart => true, :data => { :validate => 'parsley' }}) do |f|
+          = render 'shared/error_messages', :object => f.object
+          .field
+            = hidden_field_tag "candidate_id",@candidate_id
+          .field
+            = f.label "Certification"
+            %br
+            =  f.select :selectName, options_from_collection_for_select(Certification.where({:approved_flag => [true]}).order("name").all, "id", "name")
+            %br
+            = f.label :chBNotInList, "The Certification is not in the List, add Manually. "
+            &nbsp;
+            %input{:type=>"checkbox", :id=>"certification_chBNotInList", :name=>"certification_chBNotInList", :value=>"1", :checked=>false}
+            = f.text_field :name, :maxlength => 50
+          .actions
+            %br
+            = f.submit "Accept", :class => "btn btn-primary"
+          .clear
+      .experience_details_right

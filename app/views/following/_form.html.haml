@@ -1,0 +1,6 @@
+%b
+  Send a message
+= form_for(:microposts, :url=>{:controller => "microposts", :action=>'create'}, :html => {:id => "createMicroPostForm"}) do |f|
+  = hidden_field_tag :candidate_id , @follow_candidate_id
+  = text_area_tag "message_text"
+  = submit_tag "Send", :class => "btn btn-primary"

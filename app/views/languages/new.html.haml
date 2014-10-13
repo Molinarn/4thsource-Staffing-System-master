@@ -1,0 +1,37 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li
+      = "Catalogs" 
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      = link_to "Languages", :controller => "languages", :action => "index"
+      = raw '</em>'
+      = raw '&raquo;'
+    %li
+      = raw '<em>'
+      = "New Language"
+      = raw '</em>'
+    .clear
+  %h3.page_headline
+    %i.iconEducation
+    .h3-page-headline
+      Languages
+  .divider-headline
+  %br
+    %strong
+      = link_to "Back", :controller => "languages", :action => "index"
+  %br
+  %br
+  %h3.page_headline
+    New:
+  = form_for(:language, :url=>{:action=>'create'}, :html => {:multipart => true, 'data-validate' => "parsley", :id => "EducationDegreeForm"}) do |f|
+    .field
+      = f.label :name
+      %br
+      = f.text_field :name, :data => { :required => "true" }
+    .actions
+      = f.submit "Accept", :class => "btn btn-primary"

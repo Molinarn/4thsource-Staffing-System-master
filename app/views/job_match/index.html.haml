@@ -1,0 +1,43 @@
+=stylesheet_link_tag 'job_match.css'
+= javascript_include_tag 'job_match.js'
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path
+      = raw '&raquo;'
+    %li= raw('<em>Match Up</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconReport
+    .h3-page-headline
+      Match Up
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  =form_for(:match_up, :url=>{:action=>'match'},  :html=>{'data-validate' => "parsley"}) do |f|
+    %h4
+      Please enter the following information
+    .divider
+    %br
+    .row-fluid
+      .span5
+        .field
+          = f.label "Choose a Job"
+          %br
+          = select_tag "jobSearch", options_from_collection_for_select(@jobs, "id", "title",@jobId), :include_blank => true
+      .span5    
+        .field
+          =f.label "Match Percentage"
+          %br
+          =select_tag "matchPercentage", options_for_select(percentage_list, @matchPercentage)
+        .field
+          //=f.submit "Search" , :class => 'btn btn-primary'
+    #dataTables
+      #tableJobs
+      %br
+      %br
+      %br    
+      #tableMatch
+      %br         

@@ -1,0 +1,69 @@
+= stylesheet_link_tag 'jqwidgets/styles/jqx.base.css' 
+= javascript_include_tag 'jqwidgets/jqxcore.js' 
+= javascript_include_tag 'jqwidgets/jqxbuttons.js' 
+= javascript_include_tag 'jqwidgets/jqxscrollbar.js' 
+= javascript_include_tag 'jqwidgets/jqxpanel.js' 
+= javascript_include_tag 'jqwidgets/jqxtree.js' 
+= javascript_include_tag 'jqwidgets/jqxcheckbox.js' 
+= javascript_include_tag 'project.js'
+
+<!-- Content -->      
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li
+      =link_to_project("Projects", @candidate.id, :action => "index")
+      = raw '&raquo;'
+    %li= raw('<em>Make Profile</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      = @title
+  .divider-headline
+  %br
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
+  =link_to_project("Back", @candidate.id, :action => "index")
+  %br
+  %br
+  %br
+  %br
+  %button.btn.btn-primary{:type=>'button',:id=>'btnMake'} Make Profile
+  %br
+  %br
+  %br
+  #jqxTree{:style => 'width:80%'}
+    =raw('<ul>')
+    - @candidate.projects.includes(:projects_roles).each do |p|      
+      = raw("<li level='project' custom-value='#{p.id}'>" + p.name + '<ul>')
+      - p.projects_roles.includes(:roles).each do |r|
+        = raw("<li level='role' custom-value='#{p.id}/#{r.roles.id}'>"+ r.roles.name + '<ul>')
+        = raw('<li>Tools<ul>') if r.tags1.size > 0
+        - r.tags1.includes(:tags).each do |t1|
+          = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.id}/#{t1.tags.id}'>"+ t1.tags.name + '</li>')
+        = raw('</ul></li>') if r.tags1.size > 0
+        = raw('<li>Knowledges<ul>') if r.tags2.size > 0
+        - r.tags2.includes(:tags).each do |t2|
+          = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.id}/#{t2.tags.id}'>"+ t2.tags.name + '</li>')
+        = raw('</ul></li>') if r.tags2.size > 0
+        = raw('<li>Technologies<ul>') if r.tags3.size > 0
+        - r.tags3.includes(:tags).each do |t3|
+          = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.id}/#{t3.tags.id}'>"+ t3.tags.name + '<ul>')
+          - CustomQueries.getTechnologies(t3.tags.id).each do |techs|
+            = raw("<li level='tech' custom-value='#{p.id}/#{r.roles.id}/#{t3.tags.id}/#{techs[0]}'>#{techs[2]}</li>")
+          = raw('</ul></li>')
+        = raw('</ul></li>') if r.tags3.size > 0
+        = raw('</ul></li>')          
+      =raw('</ul></li>')
+    =raw('</ul>')
+    %br
+  %form{:id=>'frmProfile', :action=>'buildprofile', :method=>'post'}
+    %input{:name=>'filter', :id=>'filter', :type=>'hidden'}
+  .clear

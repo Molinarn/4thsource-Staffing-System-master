@@ -1,0 +1,36 @@
+#shortcuts{:style => "padding-left: 6%;"}
+	#edit_candidate{:style => "float:left; padding-left: 30px; padding-right: 30px; text-align: center;"}
+		= link_to image_tag('edit_info2.png', :style => ""), "/candidates/" + current_candidate.id.to_s + "/edit", :style => "padding-left: 3px;"	
+		%br
+		%span{:style => "padding-top: 3px;"}
+			%l
+				Info
+	#edit_resume{:style => "float:left; padding-left: 30px; padding-right: 30px; text-align: center;"}
+		= link_to image_tag('edit_resume2.png', :style => ""), "/candidates/" + current_candidate.id.to_s + "/resume"	
+		%br
+		%span{:style => "padding-top: 3px;"}
+			%l
+				Resume
+	#apply_job{:style => "float:left; padding-left: 30px; padding-right: 30px; text-align: center;"}
+		= link_to image_tag('apply_for2.png', :style => ""), root_path
+		%br	
+		%span{:style => "padding-top: 3px;"}
+			%l
+				Application
+	#review_applications{:style => "float:left; padding-left: 30px; padding-right: 30px; text-align: center;"}
+		= link_to image_tag('rev_app2.png', :style => ""), root_path		
+		%br
+		%span{:style => "padding-top: 3px;"}
+			%l
+				Jobs
+-if has_admin_role?
+	#reporting{:style => "float:left; padding-left: 30px; padding-right: 30px; text-align: center;cursor: pointer;"}
+		= image_tag('report.png', :style => "", :onclick => "display_report_form(); return false;", :id => "repot_shortcut")
+		%br	
+		%span{:style => "padding-top: 3px;"}
+			%l
+				Reports
+%br{:style =>"clear:both;"}
+%br
+%ul#breadcrumbs
+.clear

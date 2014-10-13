@@ -1,0 +1,162 @@
+%section
+  %ul#breadcrumbs
+    %li
+      = link_to 'Home', root_path 
+      = raw '&raquo;'
+    %li
+      = link_to_resume('Resume', current_candidate.id, :action => 'resume')
+      = raw '&raquo;'
+    %li= raw('<em>Projects</em>')
+    .clear
+  %h3.page_headline 
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Projects
+  .divider-headline
+  %br
+  %br
+  
+  = form_for(:candidateprofiletags) do |f|
+  
+    - if @projects_items.count > 0
+      %br
+      - @projects_items.each do |project|
+        %br
+        .project_left
+          %h6= project.company_name
+          %h6= project.name
+        .project_right
+        %br
+        #project-description
+          = project.summary
+        - if project.projects_roles.count > 0
+          %list
+            - project.projects_roles.each do |role|
+              %br
+              %br
+              #row
+                %i.iconRolesHeadLine
+                .project_role_left
+                  %h6
+                    = Role.find_by_id(role.roles_id).name
+                  .divider-headline-middle
+                .project_role_right
+                  = Date::MONTHNAMES[role.date_in.month]
+                  = role.date_in.year
+                  = raw(' - ')
+                  = Date::MONTHNAMES[role.date_out.month]
+                  = role.date_out.year
+                %br
+                %i.iconResponsibilitiesHeadLine
+                .responsibility_left
+                  %h6
+                    Responsibilities
+                - if role.roles_responsibilities.count > 0
+                  - role.roles_responsibilities.each do |respon|
+                    .responsibility_left
+                      = check_box_tag "tagId#{ respon.id }"
+                      %il
+                        = respon.description
+                - else
+                  &nbsp;----
+                %br
+                %br
+                %i.iconTechnologyHeadLine
+                .tag_left
+                  %h6
+                    Technologies
+                %br 
+                - if role.tags3.count > 0
+                  - role.tags3.each do |pt|
+                    %il                    
+                      .tag_left
+                        = check_box_tag "tagId#{ pt.id }"
+                        %strong
+                          = Tag.find(pt.tags_id).name
+                        &nbsp;&bull;
+                        = pt.description
+                      .tag_right
+                        = Date::MONTHNAMES[pt.date_in.month]
+                        = pt.date_in.year
+                        = raw(' - ')
+                        = Date::MONTHNAMES[pt.date_out.month]
+                        = pt.date_out.year 
+                - else
+                  .tag_left
+                    &nbsp;----
+                %br
+                %br
+                %i.iconKnowledgeHeadLine
+                .tag_left
+                  %h6
+                    Knowledges
+                %br 
+                - if role.tags2.count > 0
+                  - role.tags2.each do |pt|
+                    %il                    
+                      .tag_left
+                        = check_box_tag "tagId#{ pt.id }"
+                        %strong
+                          = Tag.find(pt.tags_id).name
+                        &nbsp;&bull;
+                        = pt.description
+                      .tag_right
+                        = Date::MONTHNAMES[pt.date_in.month]
+                        = pt.date_in.year
+                        = raw(' - ')
+                        = Date::MONTHNAMES[pt.date_out.month]
+                        = pt.date_out.year
+                - else
+                  .tag_left
+                    &nbsp;----
+                %br
+                %br
+                %i.iconToolHeadLine
+                .tag_left
+                  %h6
+                    Tools
+                %br 
+                - if role.tags1.count > 0
+                  - role.tags1.each do |pt|
+                    %il
+                      .tag_left                      
+                        %h6
+                          = check_box_tag "tagId#{ pt.id }"
+                          = Tag.find(pt.tags_id).name
+                      .tag_right
+                        = Date::MONTHNAMES[pt.date_in.month]
+                        = pt.date_in.year
+                        = raw(' - ')
+                        = Date::MONTHNAMES[pt.date_out.month]
+                        = pt.date_out.year 
+                      .tag_left
+
+                        = pt.description
+                - else
+                  .tag_left
+                    &nbsp;----
+                %br
+                %br
+            
+            
+            
+          %br
+          %br 
+          %br
+          %br
+        - else
+          .experience_details_wrapper
+          .experience_details_left
+            Please create at least one role.
+        
+        %br
+        %br
+    - else
+      %h4 Please create at least one project.
+      .divider
+    %br
+    .actions
+      %br
+      = f.submit "Submit",{"class"=>"btn btn-primary"}      
+
+  .clear
