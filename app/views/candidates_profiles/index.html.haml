@@ -30,13 +30,13 @@
           - @candidates_profiles.each do |row|
             %tr
               %td
-                = link_to row.name, url_options = { :controller => "candidates_profiles", :action => "show", :candidate_profile_id => row.id}, html_options = { }
+                = link_to row.name, url_options = { :controller => "candidates_profiles", :action => "show", :candidates_profiles_id => row.id}, html_options = { }
               %td
-                = link_to "Edit", url_options = { :controller => "candidates_profiles", :action => "editprofile", :candidate_profile_id => row.id}, html_options = { }
+                = link_to "Edit", url_options = { :controller => "candidates_profiles", :action => "editprofile", :candidates_profiles_id => row.id}, html_options = { }
               %td
-                = link_to "Delete", {:action => "delete", :candidate_profile_id => row.id}, {:confirm=>'remove this item?'}
+                = link_to "Delete", {:action => "delete", :candidates_profiles_id => row.id}, {:confirm=>'remove this item?'}
               %td						
-                = link_to "Create Job", {:action => "createjob", :candidate_profile_id => row.id}        
+                = link_to "Create Job", {:action => "createjob", :candidates_profiles_id => row.id}
   - else
     = link_to "New profile", url_options = { :controller => "candidates_profiles", :action => "new", :candidate_id => @candidate.id}, html_options = { }
     = form_for(:table, :url=>{:action=>'index'}, :html => { :style => '' }) do |f|
@@ -52,11 +52,11 @@
           - @candidates_profiles.each do |row|
             %tr
               %td
-                = link_to row.name, url_options = { :controller => "candidates_profiles", :action => "show", :candidate_profile_id => row.id}, html_options = { }
+                = link_to row.name, url_options = { :controller => "candidates_profiles", :action => "show", :candidates_profiles_id => row.id}, html_options = { }
               %td
-                = link_to "Edit", url_options = { :controller => "candidates_profiles", :action => "editprofile", :candidate_profile_id => row.id}, html_options = { }
+                = link_to "Edit", url_options = { :controller => "candidates_profiles", :action => "editprofile", :candidates_profiles_id => row.id}, html_options = { }
               %td
-                = link_to "Delete", {:action => "delete", :candidate_profile_id => row.id}, {:confirm=>'remove this item?'}
+                = link_to "Delete", {:action => "delete", :candidates_profiles_id => row.id}, {:confirm=>'remove this item?'}
               
   = will_paginate @candidates_profiles, :class => "digg_pagination"
   %br

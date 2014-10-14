@@ -9,7 +9,9 @@ before_filter :isSuperAdmin
 
   def new
 
-    @admin_user = AdminUser.new
+    #@admin_user = AdminUser.new
+    @candidate = Candidate.find_by_id(params[:candidate_id])
+    @admin_user = @canidate.AdminUser.new
     @error = admin_user.errors
 
     puts "\nadmin_user#new".blue

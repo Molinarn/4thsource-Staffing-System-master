@@ -18,7 +18,8 @@ class ApplicationController < ActionController::Base
 
   def set_user_type(user)
   
-    admin_user = AdminUsers.find_by_candidates_id(user.id)
+    #admin_user = AdminUsers.find_by_candidates_id(user.id)
+    admin_user = AdminUser.find_by_candidate_id(user.id)
     roles = {'0' => 'Admin', '1' => 'Super Admin'}
 	
     if admin_user 

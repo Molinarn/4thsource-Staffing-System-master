@@ -26,6 +26,9 @@ class CandidateEducationController < ApplicationController  #
 
   def create
     #Creates a new education for a candidate
+
+    puts "\ncandidate_education#create".green
+
     id=params[:id] unless params.blank?
     if params[:education_educ_degree_id_new] == ""
       if id.nil?
@@ -43,6 +46,9 @@ class CandidateEducationController < ApplicationController  #
       if @cat_degree_rows.length > 0
         flash[:notice] = "The Education Degree Already Exists"
       else
+
+        puts "\nCreate EducDegree".cyan
+
         cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
         cat_degree.save!
       

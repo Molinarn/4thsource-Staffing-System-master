@@ -5,6 +5,8 @@ class Resume < ActiveRecord::Base
   :updated_at,
   :updated_by 
 
+  belongs_to      :candidate
+
   has_many        :resume_details,  :foreign_key => "resume_id",
                        :dependent => :destroy   
   #has_many        :education

@@ -14,7 +14,7 @@ class ProjectsRole < ActiveRecord::Base
   #belongs_to   :role, :class_name => 'Role', :foreign_key => :role_id
 
   #added
-  has_many     :roles #:dependent => :destroy
+  has_many      :roles
   #accepts_nested_attributes_for :roles
 
   #has_one     :project

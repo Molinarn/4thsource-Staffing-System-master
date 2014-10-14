@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def new # is called every time you go to the login view
 
-    puts "session#new".blue
+    puts "\nsession#new".green
 
     #Candidate.find(session[:remember_token])
 
@@ -22,6 +22,9 @@ class SessionsController < ApplicationController
       #session[:expires_at] = Time.now + 2.minutes
            #render "@resume = resume.index"
       when false
+
+        puts "\nsigned_in == false".red
+
       flash.now[:error] = "false.No Session Active"
       #Does nothing when no session active
       else
@@ -33,7 +36,7 @@ class SessionsController < ApplicationController
 
   def create
 
-    puts "\nsession#create".blue
+    puts "\nsession#create".green
 
     @flag = false
     @var = [nil,"nil"]
@@ -46,7 +49,7 @@ class SessionsController < ApplicationController
       #if authCandidateInPopEmailServer(params[:session][:email], params[:session][:password])
         candidate = Candidate.find_by_email(params[:session][:email])    
 
-        puts ["session_create/candidate: ".green, "#{candidate.email}"]
+        puts ["session_create/candidate: ".cyan, "#{candidate.email}"]
 
         #@flag = true
 
@@ -57,7 +60,7 @@ class SessionsController < ApplicationController
       #end
     else
 
-      puts "\nelse/validateEmail4thSource".yellow
+      puts "\nelse_validateEmail4thSource".yellow
 
       @var = Candidate.authenticate(params[:session][:email],params[:session][:password])
       #candidate = Candidate.authenticate_with_salt(params[:session][:email],params[:session][:password])
@@ -72,15 +75,24 @@ class SessionsController < ApplicationController
     #Wrong validation @flag = candidate.nil
     #if candidate.nil?
     if @var[1] === "nil"
+
+      puts "\n@var[1]: #{@var[1]}".magenta
+
       #if @flag
         flash.now[:error] = "You do not have a profile. Please, go to Register now!."
       #else
     elsif @var[1] === "wrong"
+
+        puts "\n@var[1]: #{@var[1]}".magenta
+
         flash.now[:error] = "Invalid email/password combination."
       #end
       @title = "Sign in"
       render :new
     else
+
+      puts "\n@var[1]: #{@var[1]}".magenta
+
       if set_user_type(candidate)
         sign_in(candidate)
         #redirect_back_or root_path
@@ -117,7 +129,7 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
-	session[:user_type] = nil
+	  session[:user_type] = nil
     redirect_to root_path
   end
   

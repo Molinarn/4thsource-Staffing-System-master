@@ -1,5 +1,5 @@
 class CandidateProfSummariesController < ApplicationController
-	before_filter :authenticate, only: [:destroy]
+	before_filter :authenticate, :only => [:destroy]
 
   def destroy
     CandidateProfSummary.find(params[:id]).destroy

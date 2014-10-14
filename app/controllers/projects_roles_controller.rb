@@ -3,12 +3,17 @@ class ProjectsRolesController < ApplicationController
   def new
 
     #@candidate = current_candidate
-    
+
+    puts "\nprojects_roles#new".green
+
+    @candidate = Candidate.find(params[:id])
+    @project = @candidate.projects.find(params[:project_id])
+
     if request.post?
-      @candidate = Candidate.find(params[:id])
-      @project = @candidate.projects.find(params[:project_id])
-      @projectsrole = @project.projects_roles.build(params[:projectsrole])
-      if @projectsrole.save
+      #@candidate = Candidate.find(params[:id])
+      #@project = @candidate.projects.find(params[:project_id])
+      @projects_role = @project.projects_roles.build(params[:projects_role])
+      if @projects_role.save
         flash[:success] = "Role was saved successfully."
         #render 'projects/show'
         render 'projects_roles/new'        
@@ -16,11 +21,11 @@ class ProjectsRolesController < ApplicationController
         flash[:notice] = "An error occurred while the system save the role."
       end
     else
-      @candidate = Candidate.find(params[:id])
-      @project = @candidate.projects.find(params[:project_id])
+      #@candidate = Candidate.find(params[:id])
+      #@project = @candidate.projects.find(params[:project_id])
+      @projects_role  = ProjectsRole.new
+      @error = @projects_role.errors
       @title = @project.name
-      @projectsrole  = ProjectsRole.new
-      @error = @projectsrole.errors
     end
   end
 
@@ -34,21 +39,21 @@ class ProjectsRolesController < ApplicationController
     if request.post?
       @candidate = Candidate.find(params[:id])
       @project = @candidate.projects.find(params[:project_id])
-      @projectsrole = @project.projects_roles.find(params[:projects_role_id])
-      @projectsrole.update_attributes(params[:projectsrole])
-      if @projectsrole.save
+      @projects_role = @project.projects_roles.find(params[:projects_role_id])
+      @projects_role.update_attributes(params[:projects_role])
+      if @projects_role.save
         flash[:success] = "Role was saved successfully."
         #render 'projects/show'
         render 'projects_roles/update'
       else
-        @projectsrole.errors.full_messages.each do |msg|
+        @projects_role.errors.full_messages.each do |msg|
           flash[:notice] = msg
         end
       end
     else
       @candidate = Candidate.find(params[:id])
       @project = @candidate.projects.find(params[:project_id])
-      @projectsrole = @project.projects_roles.find(params[:projects_role_id])
+      @projects_role = @project.projects_roles.find(params[:projects_role_id])
       @error = @project.errors
       @roles_items = Role.all
     end
@@ -57,7 +62,7 @@ class ProjectsRolesController < ApplicationController
   def destroy
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
-    @projectsrole = @project.projects_roles.find(params[:projects_role_id])
+    @projects_role = @project.projects_roles.find(params[:projects_role_id])
     ProjectsRole.find(params[:projects_role_id]).destroy
     #render 'projects/show'
     redirect_to :back

@@ -2,7 +2,7 @@ class ResumeController < ApplicationController
   
   def index
 
-    puts "\nresume#index".blue
+    puts "\nresume#index".green
 
     @candidate = Candidate.find(params[:id])
 

@@ -6,8 +6,16 @@ class RolesController < ApplicationController
   end
 
   def new
+
+    puts "\nroles#new".green
+
+    #@candidate = Candidate.find(params[:id])
+    #@project = @candidate.projects.find(params[:project_id])
+    #@projects_role = @project.projects_roles.find(params[:projects_role_id])
+
     if request.post?
       @role = Role.new(params[:role])
+      #@role = @projects_role.new(params[:role])
       @cat_role_rows = Role.where("name = ?", @role.name)
       if @cat_role_rows.length > 0
         flash[:notice] = "The Role already exists"

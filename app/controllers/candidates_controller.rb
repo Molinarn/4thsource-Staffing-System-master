@@ -19,7 +19,9 @@ class CandidatesController < ApplicationController
 
   def new
 
-    puts "\ncandidate#new".blue
+    puts "\ncandidate#new".green
+
+    current_candidate = @candidate
 
     @candidate  = Candidate.new
     @error = @candidate.errors
@@ -31,7 +33,7 @@ class CandidatesController < ApplicationController
 
     id = params[:id] unless params.blank?
 
-    puts "\ncandidates#edit".blue
+    puts "\ncandidates#edit".green
 
     puts ["\nid: ".yellow,"#{id}".red]
 
@@ -60,7 +62,7 @@ class CandidatesController < ApplicationController
 
       #set_wall_candidate(nil)
 
-      puts "\nset_wall_candidate(nil)".magenta
+      #puts "\nset_wall_candidate(nil)".magenta
 
       set_my_wall(@candidate)
 
@@ -98,17 +100,22 @@ class CandidatesController < ApplicationController
 
   def create
   
-	  puts "\ncandidate#create".blue
+	  puts ["\ncandidate#create".green,"candidate.nil? #{current_candidate.nil?}".red]
 
     #If no current_candidate, there's no login so act as new candidate.
+    #if current_candidate.nil?
     if !current_candidate.nil?
+
+      puts ["\nget_user_type: ".cyan, "#{get_user_type}".red]
+
       if @@admin_roles.include?( get_user_type ) #!current_candidate.admin_flag.nil?
         #algo
         @candidate = Candidate.new(params[:candidate])
         @error = @candidate.errors
 
         if @candidate.save
-          UserMailer.welcome_email(@candidate).deliver
+
+          #UserMailer.welcome_email(@candidate).deliver
           #Se guardo, redireccionar al edit http://localhost:3000/candidates/6/admin
           @canditate.build_default_candidate_profile
           redirect_to "/candidates/#{@candidate.id}/edit" #"/candidates/#{@candidate.id}/admin"

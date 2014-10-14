@@ -1,6 +1,6 @@
 class CandidateProfSummary < ActiveRecord::Base
 
-  attr_accessible :summary 
+  attr_accessible :summary,:candidate_id
  
   belongs_to :candidate  
 

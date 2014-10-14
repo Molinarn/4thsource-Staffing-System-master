@@ -5,8 +5,8 @@ class RolesResponsibility < ActiveRecord::Base
   
   belongs_to :projects_roles
   
-  validates :projects_role_id,   presence: true
+  validates :projects_role_id,   :presence => true
   
-  validates :description,         presence: true
+  validates :description,         :presence => true
 
 end

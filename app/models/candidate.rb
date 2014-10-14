@@ -120,7 +120,7 @@ class Candidate < ActiveRecord::Base
 
   has_many        :candidates_profiles,      :dependent => :destroy                                            
 
-  #belongs_to      :admin_user, :class_name => 'AdminUser', :foreign_key => "candidate_id",
+  #has_one         :admin_user, :class_name => 'AdminUser', :foreign_key => "candidate_id"
                   #:dependent => :destroy
 
   #accepts_nested_attributes_for :admin_users
@@ -247,7 +247,7 @@ class Candidate < ActiveRecord::Base
   def self.authenticate(email, submitted_password)
     #add self before find
 
-    puts "\ncandidate#authenticate".blue
+    puts "\ncandidate#authenticate".green
 
     #puts "#{email}".blue
     #puts "#{submitted_password}".blue
@@ -280,15 +280,15 @@ class Candidate < ActiveRecord::Base
 
   def self.authenticate_with_salt(id, cookie_salt)
 
-    puts "\ncandidate#authenticate_with_salt".blue
+    puts "\ncandidate#authenticate_with_salt".magenta
 
     #add self before find
     user = find_by_id(id)
 
     if user != nil
 
-      puts ["\nuser.id: ".yellow, "#{user.id}".red]
-      puts ["cookie: ".yellow, "#{cookie_salt}".red]
+      puts ["\nuser.id: ".cyan, "#{user.id}".red]
+      puts ["cookie: ".cyan, "#{cookie_salt}".red]
 
       #(user && user.salt == cookie_salt) ? user : nil
 
@@ -365,6 +365,11 @@ class Candidate < ActiveRecord::Base
     }
     #projects_role = project.projects_roles.build(role_attrs)
     projects_role = project.projects_roles.new
+    projects_role.date_in = DateTime.now
+    projects_role.date_out = DateTime.now
+
+    #role = roles.new
+    #projects_role.role_id = role.id
 
     #projects_role.project_id = project.id
 
@@ -382,7 +387,7 @@ class Candidate < ActiveRecord::Base
     puts ["\nbuild_default_projects_role: ".yellow, "#{projects_role.save}".red]
 
   end
-  
+
   def build_default_education
     #edu_degree = EducDegree.first.id
     #education_attrs =
@@ -403,11 +408,11 @@ class Candidate < ActiveRecord::Base
     puts ["\nbuild_default_education".yellow , "#{edu.save}".red]
   end
 
-  #def build_default_admin_users
+  def build_default_admin_users
 
     #puts ["\nself: ".magenta, "#{self.id}".green]
 
-    #if self.admin_user == nil
+    #if self.admin_user != nil
     #if false
 
       #puts "\nadmin_user = nil > destroy".red
@@ -419,13 +424,17 @@ class Candidate < ActiveRecord::Base
 
       #puts "\nadmin_user ~= nil".cyan
 
-      #admin_user = self.admin_users.new
+      admin_user = self.admin_users.new
+
       #admin = self.admin_users.create
       #admin = self.AdminUser.new
       #admin = self.admin_user.new
-      #puts ["\nbuild_default_admin_user".yellow , "#{admin_user.save}".red]
+
+      puts ["\nbuild_default_admin_user".yellow , "#{admin_user.save}".red]
+
     #end
-  #end
+
+  end
 
   def build_prerequisites
     build_default_project
@@ -437,7 +446,7 @@ class Candidate < ActiveRecord::Base
 
     build_prerequisites
 
-    puts "\nbuild_prerequisites".blue
+    puts "\nbuild_prerequisites".green
 
     #profile_data = ""
     #self.projects.includes(:projects_roles).each do |project|
@@ -459,17 +468,20 @@ class Candidate < ActiveRecord::Base
       #end
     #end
 
-    if @flag
-      # The code starts here
-      candidates_profile = self.candidates_profiles.new
-      #candidates_profile.candidate_id = self.id
-      candidates_profile.name = "Default profile"
-      candidates_profile.summary = "Default Summary"
-      candidates_profile.profiledata = "Default Data"
+    # The code starts here
+    candidates_profile = self.candidates_profiles.new
+    #candidates_profile.candidate_id = self.id
+    candidates_profile.name = "Default profile"
+    candidates_profile.summary = "Default Summary"
+    candidates_profile.profiledata = "Default Data"
 
-      puts ["\ncandidate_profile: ".yellow, "#{candidates_profile.save}".red]
+    puts ["\ncandidate_profile: ".yellow, "#{candidates_profile.save}".red]
 
-    end
+    #if self.admin_user == nil
+      #self.destroy
+      #puts "\nadmin_user == nil > DESTROY".red
+    #end
+
     #candidates_profile.save
 
     # binding.pry

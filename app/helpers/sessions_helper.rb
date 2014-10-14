@@ -111,29 +111,32 @@ module SessionsHelper
 
     def role
 
-      puts "\nsessions_helper#role".blue
+      puts "\nsessions_helper#role".green
 
       if !current_candidate.nil?
 
-        puts ["\ncurrent_candidate != nil".yellow,"#{!current_candidate.nil?}".red]
+        puts ["\ncurrent_candidate == nil".yellow,"#{current_candidate.nil?}".red]
 
-        if current_candidate.admin_users != nil
-          if !current_candidate.admin_users.is_active?
+        #if current_candidate.admin_users != nil
+        #if current_candidate.admin_users != nil
+         # if !current_candidate.admin_users.is_active?
             0
-          elsif current_candidate.admin_users.is_active? and !current_candidate.admin_users.lvl?
-            1
-          elsif current_candidate.admin_users.is_active? and current_candidate.admin_users.lvl?
-            2
-          end
-        else
-          0
-        end
-      else
-        -1
+          #elsif current_candidate.admin_users.is_active? and !current_candidate.admin_users.lvl?
+           # 1
+          #elsif current_candidate.admin_users.is_active? and current_candidate.admin_users.lvl?
+           # 2
+          #end
+        #else
+         # 0
+        #end
+      #else
+        #-1
       end
     end
 
     def validateEmail4thSource(email)
+
+      puts "\nvalidateEmail_regex".red
 
       email_regex = %r{
 	       ^
