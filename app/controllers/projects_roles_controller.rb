@@ -13,7 +13,6 @@ class ProjectsRolesController < ApplicationController
       #@candidate = Candidate.find(params[:id])
       #@project = @candidate.projects.find(params[:project_id])
       @projects_role = @project.projects_roles.build(params[:projects_role])
-
       if @projects_role.save
         flash[:success] = "Role was saved successfully."
         #render 'projects/show'
@@ -28,9 +27,6 @@ class ProjectsRolesController < ApplicationController
       @error = @projects_role.errors
       @title = @project.name
     end
-
-    #@role = @projects_role.roles.new
-
   end
 
   def show

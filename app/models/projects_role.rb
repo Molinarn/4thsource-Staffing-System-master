@@ -6,7 +6,7 @@ class ProjectsRole < ActiveRecord::Base
 
   #added
   belongs_to    :project
-  #accepts_nested_attributes_for :project
+  accepts_nested_attributes_for :project
 
   #belongs_to   :candidate
 
@@ -14,8 +14,7 @@ class ProjectsRole < ActiveRecord::Base
   #belongs_to   :role, :class_name => 'Role', :foreign_key => :role_id
 
   #added
-  #has_many      :roles
-  has_many      :roles, :foreign_key => :role_id, :dependent => :destroy
+  has_many      :roles
   #accepts_nested_attributes_for :roles
 
   #has_one     :project

@@ -13,8 +13,6 @@ class RolesController < ApplicationController
     #@project = @candidate.projects.find(params[:project_id])
     #@projects_role = @project.projects_roles.find(params[:projects_role_id])
 
-    #puts "\n@projects_role.id: #{@projects_role.id}".cyan
-
     if request.post?
       @role = Role.new(params[:role])
       #@role = @projects_role.new(params[:role])
@@ -32,7 +30,7 @@ class RolesController < ApplicationController
                                 current_candidate.second_last_name
           @role.save
           @role = Role.all
-          redirect_to File.join('/staff/', current_candidate.id.to_s, '/roles')
+          redirect_to File.join('/staff/', current_candidate.id.to_s(), '/roles')
         end
       end
     else
@@ -43,14 +41,14 @@ class RolesController < ApplicationController
   def action
     @roles = Role.all
 
-    if params[:update_button] != nil
+    if(params[:update_button] != nil)
       @roles.each do |row|
-        @role = params["approved_flag_" + row.id.to_s]
+        @role = params["approved_flag_" + row.id.to_s()]
         row.approved_by = current_candidate.first_name + " " + 
                           current_candidate.middle_name + " " + 
                           current_candidate.first_last_name + " " + 
                           current_candidate.second_last_name
-        if @role == nil
+        if(@role == nil)
           Role.update(row.id, 
                       :approved_flag => false,
                       :approved_by => row.approved_by)
@@ -62,9 +60,9 @@ class RolesController < ApplicationController
       end
     else
       @roles.each do |row|
-        @role = params["approved_flag_" + row.id.to_s]
+        @role = params["approved_flag_" + row.id.to_s()]
 
-        if @role != nil && !row.used
+        if(@role != nil && !row.used)
           Role.delete(row.id)
         else
           flash[:notice] = "The Role #{row.name} is assigned can not be deleted."
@@ -72,6 +70,6 @@ class RolesController < ApplicationController
       end
     end
 
-    redirect_to File.join('/staff/', current_candidate.id.to_s, '/roles')
+    redirect_to File.join('/staff/', current_candidate.id.to_s(), '/roles')
   end
 end

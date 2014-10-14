@@ -28,9 +28,9 @@ class CandidatesProfilesController < ApplicationController
 
   end
 
-  def IsValueInFilter(hasfilterputs, value, filter)
+  def IsValueInFilter(hasfilter, value, filter)
     @include = false
-    if hasfilterputs
+    if hasfilterputs "\ncandidates_profile#index".green
       if filter.include? "{##{value}#}"
         @include = true
       end
@@ -43,7 +43,7 @@ class CandidatesProfilesController < ApplicationController
   def getCheckedValue(item, candprof)  
     @hasFilter = false
     @hasfilter = true if (candprof.profiledata != "")
-    if IsValueInFilter(@hasfilter, item, candprof.profiledata)
+    if (IsValueInFilter(@hasfilter, item, candprof.profiledata))
       "item-checked='true'"
     else
       "item-checked='false'"
