@@ -5,7 +5,9 @@ class Role < ActiveRecord::Base
 
   #has_many :projects_roles
   #has_many :projects, :through => :projects_roles
-  
+
+  validates :name, :presence => true
+
   def used
     (ProjectsRole.where("role_id = ?", id).length > 0)  
   end

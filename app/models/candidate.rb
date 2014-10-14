@@ -350,11 +350,22 @@ class Candidate < ActiveRecord::Base
 
       #save fails
       #puts ["\n#{project.name}".green,"#{project.summary}".blue]
-      build_default_role_in_project(project)
+      build_default_role_in_project(project,build_default_role)
     end
   end
-  
-  def build_default_role_in_project(project)
+
+  def build_default_role
+
+    role = Role.new
+    role.name = "Default role"
+
+    puts ["\nbuild_default_role: ".yellow, "#{role.save}".red]
+
+    role
+
+  end
+
+  def build_default_role_in_project(project,role)
     #default_role_id = Role.first.id
     role_attrs =
     {
@@ -384,7 +395,18 @@ class Candidate < ActiveRecord::Base
 
     #projects_role.save
 
+    #role = Roles.new
+    #role.name = "Default role"
+    #role.save
+
+    #puts ["\nbuild_default_role: ".yellow, "#{role.save}".red]
+
+    #projects_role.role_id = role.id
+
+    projects_role.role_id = role.id
+
     puts ["\nbuild_default_projects_role: ".yellow, "#{projects_role.save}".red]
+
 
   end
 
@@ -438,7 +460,7 @@ class Candidate < ActiveRecord::Base
 
   def build_prerequisites
     build_default_project
-    build_default_education
+    #build_default_education
     #build_default_admin_users
   end
 
@@ -469,13 +491,13 @@ class Candidate < ActiveRecord::Base
     #end
 
     # The code starts here
-    candidates_profile = self.candidates_profiles.new
+    #candidates_profile = self.candidates_profiles.new
     #candidates_profile.candidate_id = self.id
-    candidates_profile.name = "Default profile"
-    candidates_profile.summary = "Default Summary"
-    candidates_profile.profiledata = "Default Data"
+    #candidates_profile.name = "Default profile"
+    #candidates_profile.summary = "Default Summary"
+    #candidates_profile.profiledata = "Default Data"
 
-    puts ["\ncandidate_profile: ".yellow, "#{candidates_profile.save}".red]
+    #puts ["\ncandidate_profile: ".yellow, "#{candidates_profile.save}".red]
 
     #if self.admin_user == nil
       #self.destroy
