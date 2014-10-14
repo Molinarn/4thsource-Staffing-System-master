@@ -1,130 +1,274 @@
-class CandidatesProfilesController < ApplicationController
+require 'ProfileBuilder2'
 
+class CandidatesProfilesController < ApplicationController
+  # GET /candidates_profiles
+  # GET /candidates_profiles.json  
+  def index
+
+    puts "\ncandidates_profile#index".green
+
+    id = current_candidate.id
+
+    puts "\ncurrent_candidate.id:  #{id}".cyan
+
+    id = params[:id] unless (params[:id] == nil)
+
+    puts "\nparams[:id]:  #{id}".cyan
+
+    @candidate = Candidate.find_by_id(id)
+
+    puts "\n@candidate.id: #{@candidate.id}".magenta
+
+    @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
+    #@candidates_profile = @candidate.candidates_profiles.find(params[:candidates_profile_id])
+
+    #@candidates_profile = CandidatesProfile.find_by :candidate_id => id
+
+    puts "\n@candidates_profile.id: #{@candidates_profile.id}".magenta
+
+  end
+
+  def IsValueInFilter(hasfilter, value, filter)
+    @include = false
+    if hasfilterputs "\ncandidates_profile#index".green
+      if filter.include? "{##{value}#}"
+        @include = true
+      end
+    else
+      @include = true
+    end 
+    @include   
+  end
+
+  def getCheckedValue(item, candprof)  
+    @hasFilter = false
+    @hasfilter = true if (candprof.profiledata != "")
+    if (IsValueInFilter(@hasfilter, item, candprof.profiledata))
+      "item-checked='true'"
+    else
+      "item-checked='false'"
+      #candprof.profiledata
+    end
+  end
+
+
+  # GET /candidates_profiles/1
+  # GET /candidates_profiles/1.json
+  def show
+
+    puts "\ncandidates_profile#show".green
+
+    @candidates_profile = CandidatesProfile.find_by_id(params[:candidates_profile_id])
+    #@candidate = Candidate.find_by_id(@candidates_profile.candidate_id)   
+    @builder = ProfileBuilder2.new
+    @builder.filter = @candidates_profile.profiledata
+    @builder.nameprof = @candidates_profile.name
+    @builder.summaryprof = @candidates_profile.summary
+    @builder.candidate_id = @candidates_profile.candidate_id
+    @filename = @builder.build
+    File.open(@filename, 'rb') do |f|
+      send_data f.read, :type => "application/msword", :disposition => "inline", :filename => "profile" + Time.now().to_s + ".docx"
+    end    
+  end
+
+  # GET /candidates_profiles/new
+  # GET /candidates_profiles/new.json
   def new
 
+    puts "\ncandidates_profile#new".green
+
+    @candidate = Candidate.find_by_id(params[:candidate_id])
+    @candidates_profile = CandidatesProfile.new
   end
 
-  def index
-    
-    id = params[:candidate_id] unless params.blank?
-    if !current_candidate.admin_flag.nil?
-      @candidate  = Candidate.find(params[:candidate_id])
-      @error = @candidate.errors
-    else
-      @candidate = Candidate.find(current_candidate.id)
-      @error  = current_candidate.errors
-    end
-    @total_candidate_profiles = @candidate.candidates_profiles
-    #@total_candidate_profiles = CandidateProfile.all
+  # GET /candidates_profiles/1
+  # GET /candidates_profiles/1.json
+  def editprofile
+
+    puts "\ncandidates_profile#edit".green
+
+    @candidates_profile = CandidatesProfile.find_by_id(params[:candidates_profile_id])
+    @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)  
+    render :edit 
   end
 
+  # POST /candidates_profiles
+  # POST /candidates_profiles.json
   def create
-    #binding.pry
-    @candidates_profile = CandidatesProfiles.new(params[:candidates_profiles])
-    @candidates_profile.candidate_id = params[:candidate_id]
-    @candidates_profile.save
-    @error = @candidates_profile.errors.full_messages.to_sentence
-    if !current_candidate.admin_flag.nil?
-      #is admin
-      redirect_to File.join('/candidates/', @candidates_profile.candidate_id.to_s, '/candidates_profiles')
-    else
-      #not an admin
-      redirect_to File.join('/candidates/', current_candidate.id.to_s, '/candidates_profiles')
-    end
-  end
 
-  def edit
-    @candidates_profile  = CandidatesProfiles.find(params[:id])
-    @total_candidate_profile_tags = @candidates_profile.candidate_profile_tags
-    @candidate  = Candidate.find(params[:candidate_id])
-    @total_projects = @candidate.projects
-  end
+    puts "\ncandidates_profile#create".green
 
-  def update
-    @candidate = current_candidate
-    #binding.pry
-    if request.post?
-      @candidate = Candidate.find(params[:candidate_id])
-      @profile = CandidatesProfiles.find(params[:candidates_profiles_id])
-      @profile.update_attributes(params[:candidates_profiles])
-      if @profile.save
-        if !current_candidate.admin_flag.nil?
-          #is admin
-          redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidates_profiles')
-        else
-          #not an admin
-          redirect_to File.join('/candidates/', current_candidate.id.to_s, '/candidates_profiles')
-        end
-        flash[:success] = "Candidate Profile was saved successfully."
+    @candidates_profile = CandidatesProfile.new(params[:candidates_profile])
+
+    respond_to do |format|
+      if @candidates_profile.save
+        format.html { redirect_to @candidates_profile, :notice => 'Candidates profile was successfully created.' }
+        format.json { render json = @candidates_profile, status = :created, location = @candidates_profile }
       else
-        flash[:notice] = "An error occurred while the system save the candidate profile."
-      end
-    else
-      @profile = CandidatesProfiles.find_by_id(params[:candidates_profiles_id])
-      @error = @profile.errors
-    end 
-  end   
-
-  def delete
-    CandidatesProfiles.delete(params[:candidates_profiles_id])
-    @candidate  = Candidate.find(params[:candidate_id])
-    render :index
-  end
-
-  def update_tags
-    CandidateProfileTag.where(:candidates_profiles_id => params[:id]).destroy_all
-
-    if !params[:projects_tags_id].nil?
-      params[:projects_tags_id].each do |t|
-          @relation = CandidateProfileTag.new
-          @relation.candidates_profiles_id =  params[:id]
-          @relation.project_tags_id = t.to_i
-          @relation.save
+        format.html { render action = "new" }
+        format.json { render json = @candidates_profile.errors, status = :unprocessable_entity }
       end
     end
-
-    redirect_to File.join('/candidates/', current_candidate.id.to_s, '/candidates_profiles/' + params[:id] + '/edit')
   end
 
+  def save
+    @candidates_profile = CandidatesProfile.new
+    @candidates_profile.candidate_id = params[:candidate_id]
+    @candidates_profile.name = params[:name]
+    @candidates_profile.summary = params[:summary]
+    @candidates_profile.profiledata = params[:profiledata]
+    if @candidates_profile.save
+      @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)   
+      @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
+      redirect_to action:"index", id = @candidates_profile.candidate_id
+    else
+      render text = "Error while saving profile " + @candidates_profile.errors.to_xml
+    end
+  end
 
-  def docx
-    # Generate docx file
-    @candidate = Candidate.find(params[:candidate_id])
-    @profSum = CandidateProfSummary.where("candidate_id = #{@candidate.id}")
+  # PUT /candidates_profiles/1
+  # PUT /candidates_profiles/1.json
+  def update
+    @candidates_profile = CandidatesProfile.find(params[:id])
+
+    @candidates_profile.name = params[:name]
+    @candidates_profile.summary = params[:summary]
+    @candidates_profile.profiledata = params[:profiledata]
+    if @candidates_profile.save
+      @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)   
+      @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
+      redirect_to action:"index", id = @candidates_profile.candidate_id
+    else
+      render text = "Error while saving profile " + @candidates_profile.errors.to_xml
+    end
+  end
+
+  # DELETE /candidates_profiles/1
+  # DELETE /candidates_profiles/1.json
+  def delete
+    @candidates_profile = CandidatesProfile.find(params[:candidates_profile_id])
+    id = @candidates_profile.candidate_id
+    @candidates_profile.destroy
+    redirect_to action:"index", id = id
+  end
+
+  def admin
     #binding.pry
-    require 'docx_builder'
+    @candidate = Candidate.find_by_id(params[:candidate_id])
 
-    file_path = "#{File.dirname(__FILE__)}/cvtemplate.xml"
-    dir_path = "#{File.dirname(__FILE__)}/cvtemplate"
 
-    report = DocxBuilder.new(file_path, dir_path).build do |template|
-      template['candiname'] = @candidate.first_name
-      template['candilast'] = @candidate.first_last_name
-      template['candemail'] = @candidate.email
-      template['company'] = @candidate.company
-      template['positionheld'] = @candidate.position
-      template['profsum'] = @profSum[0].summary
-      template['workxpsum_company'] = ""
-      template['workxpsum_position'] = ""
-      template['workxpsum_jdate'] = ""
-      template['workxpsum_fdate'] = ""
-      template['techskills_os'] = ""
-      template['techskills_db'] = ""
-      #template['profsum'] = CandidateProfSummary.where(:candidate_id => params[:candidate_id])[0].summary
+    render "candidate_profiles/admin"
+  end
+
+  #Estoy trabajando en este clone, el original es el de jobs
+  def createjob
+
+    id = current_candidate.id
+    strTags = ""
+    experience = ""
     
-      if @candidate.candidate_education.count > 0
-         @candidate.candidate_education.each do |education|
-           #binding.pry
-         end    
-      end
+    query = ProjectsTag.find_by_sql(["SELECT DISTINCT cp.profiledata as pd
+        ,DATEDIFF(pt.date_out,pt.date_in)/365 AS exp
+        FROM projects_tags pt
+        JOIN projects_roles pr ON pt.projects_role_id = pr.id
+        JOIN projects p ON pr.project_id = p.id
+        JOIN candidates c ON p.candidate_id = c.id
+        JOIN candidates_profiles cp ON c.id = cp.candidate_id
+        WHERE c.id = ?",id])
+         
+     
+    candidateProfileId = params[:candidates_profile_id]
+   
+    arrayTags = splitString(query.first.pd)
 
-    end 
-    #binding.pry
-    #send_file(report, :filename => 'CandidateResume_'+@candidate.first_name+'_'+@candidate.first_last_name+'.docx')
-    response.headers['Content-disposition'] = 'attachment; filename=CandidateResume_'+@candidate.first_name+'_'+@candidate.first_last_name+'.docx'
-    render :text => report, :content_type => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    newJobId = createJob
+    arrayTags.each do |tagId|
+      newJob = insertJobMatch(newJobId,tagId,query.first.exp)
+    end
+
+    redirect_to "/staff/#{id}/jobs/#{newJobId}/edit"
+  end 
+
+
+  def createJob
+    newJob = Job.new
+    newJob.title = "Job Clone"
+    newJob.description = "Job Clone "
+    newJob.other_requirements = nil
+    newJob.admin_users_id = nil
+    newJob.id_requester = nil
+    newJob.id_status = 1
+    newJob.id_parent = nil
+    newJob.save
+    last_record_saved_id=Job.last.id
+    logger.debug "New Job created: " + last_record_saved_id.to_s
+    return last_record_saved_id
   end
+
+
+  def insertJobMatch(jobId,tagId,time)
+    newJM = JobMatch.new
+    newJM.job_id = jobId
+    newJM.tag_id = tagId
+    newJM.time_required = time
+    newJM.id_technologie = insertFramework(tagId)
+    newJM.save
+  end
+
+  #Si el tag en la tabla de tags es type_tag=3 quiere decir que se trata de una "Tecnologia" y entonces
+  #puede tener un framework asociado en la tabla technologies. Donde Lang_id es el id de la "Tecnologia"
+  def insertFramework(tagId)
+
+    tag = Tag.find_by_id(tagId)
+    if tag!=nil
+      if tag.type_tag = 3 #Its a Platform, so, could have a technologie
+        framework = Array.new
+        framework << Technology.find_by_lang_id(tagId)
+        if framework[0]!=nil
+          return framework[0].id
+        else
+          return nil
+        end
+      end
+    end      
+  end
+
+  #Input example "{#tag:66/13/15#}{#undefined:undefined#}{#role:66/13#}{#project:66#}{#tag:66/13/24#}{#undefined:undefined#}{#tech:66/13/4/6#}{#tag:66/13/224#}"
+  def splitString(strTags)
+    trace = false
+    strAuxTags = "";
+    strTagPartial = "";
+    arrayTagsLocal = Array.new
+
+    
+    while strTags.include?"{#tag:"
+        initPos = strTags.index('{#tag:')
+        if initPos>0
+          strTags[0..initPos-1] = ""
+          initPos = 0
+        end
+        endPos = strTags.index('#}')+2
+        strTagPartial = strTags[initPos,endPos]
+        strTags[0..endPos] = ""
+        arrayTagsLocal.push(splitTag(strTagPartial))
+        if(trace)
+          logger.debug "====strTags:" + strTags.to_s
+          logger.debug "====strTagPartial:" + strTagPartial.to_s
+          logger.debug "====strTags:" + strTags.to_s
+        end
+    end
+    return arrayTagsLocal
+  end
+
+  #Input {#tag:66/13/5#}
+  #Output 5 
+  #This method will receive input tag as JSON and the output will be the tag id 
+  def splitTag(strTag)
+    initPos = strTag.rindex('/')+1
+    endPos = strTag.length-3
+    tag = strTag[initPos..endPos]
+    return tag
+  end
+
 
 end
-
-

@@ -1,9 +1,9 @@
 class CandidatesProfile < ActiveRecord::Base
   self.per_page = 10
 
-#  attr_accessible :candidate_id, :name, :summary, :profile_data
-attr_accessor :profile_data
-attr_accessible :candidate_id, :name, :summary, :profiledata
+  #  attr_accessible :candidate_id, :name, :summary, :profile_data
+  attr_accessor :profile_data
+  attr_accessible :candidate_id, :name, :summary, :profiledata, :id
   
   belongs_to :candidate
   has_many   :candidate_profile_tags, :dependent => :destroy 

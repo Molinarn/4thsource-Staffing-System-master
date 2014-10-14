@@ -32,7 +32,7 @@ StaffingApp::Application.routes.draw do
   
   resources :candidates do
     resources :candidate_certifications
-    resources :candidate_profiles
+    resources :candidates_profiles
     resources :candidate_profile_tags
   end
 
@@ -289,13 +289,13 @@ StaffingApp::Application.routes.draw do
 
   ## Candidates Profiles
   match "/candidates_profiles" => 'candidates_profiles#index'
-  match "/candidates_profiles/:candidate_profile_id/editprofile" => 'candidates_profiles#editprofile'
+  match "/candidates_profiles/:candidates_profile_id/editprofile" => 'candidates_profiles#editprofile'
   match "/candidates_profiles/new" => 'candidates_profiles#new'
   match "/candidates_profiles/save" => 'candidates_profiles#save'
-  match "/candidates_profiles/:candidate_profile_id/update" => 'candidates_profiles#update'
-  match "/candidates_profiles/:candidate_profile_id/show" => 'candidates_profiles#show'
-  match "/candidates_profiles/:candidate_profile_id/delete" => 'candidates_profiles#delete'
-  match "/candidates_profiles/:candidate_profile_id/createjob" => 'candidates_profiles#createjob'
+  match "/candidates_profiles/:candidates_profile_id/update" => 'candidates_profiles#update'
+  match "/candidates_profiles/:candidates_profile_id/show" => 'candidates_profiles#show'
+  match "/candidates_profiles/:candidates_profile_id/delete" => 'candidates_profiles#delete'
+  match "/candidates_profiles/:candidates_profile_id/createjob" => 'candidates_profiles#createjob'
   #match "/candidates/:candidate_id/candidate_profiles/:candidate_profile_id/update" => 'candidate_profiles#update'
   #match "/candidates/:candidate_id/candidate_profiles/:candidate_profile_id" => 'candidate_profiles#update'
   #match "/candidates/candidate_profiles/:id/update_tags" => 'candidate_profiles#update_tags'
@@ -306,7 +306,7 @@ StaffingApp::Application.routes.draw do
   match "/staff/newcandidate" => 'candidates#newcandidate'
 
   ## Docx Generator
-  match "/candidates/:candidate_id/docx" =>'candidate_profiles#docx'
+  match "/candidates/:candidate_id/docx" =>'candidates_profiles#docx'
 
 #  root :to => 'pages#home'
 end

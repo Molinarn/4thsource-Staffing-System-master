@@ -18,20 +18,20 @@
 
   - if @candidate.candidates_profiles.count > 0
     .clearfix
-      - @candidate.candidates_profiles.each do |candidate_profile|
+      - @candidate.candidates_profiles.each do |candidates_profile|
         %br        
         .experience_details_wrapper
           .experience_details_left
             %h4
-              = candidate_profile.name
+              = candidates_profile.name
             %pre
-              = candidate_profile.summary
+              = candidates_profile.summary
             
             %br
           .experience_details_right
-            = link_to "Edit", url_options = { :controller => "candidate_profiles", :action => "edit", :candidate_id => @candidate.id, :candidate_profile_id=> candidate_profile.id}
+            = link_to "Edit", url_options = { :controller => "candidates_profile", :action => "edit", :candidate_id => @candidate.id, :candidates_profile_id=> candidates_profile.id}
             &nbsp;&nbsp;&nbsp;
-            = link_to "Delete", url_options = { :controller => "candidate_profiles", :action => "delete", :candidate_id => @candidate.id, :candidate_profile_id => candidate_profile.id }, html_options = { :confirm => "Are you sure you want to delete this profile?" }
+            = link_to "Delete", url_options = { :controller => "candidates_profile", :action => "delete", :candidate_id => @candidate.id, :candidates_profile_id => candidates_profile.id }, html_options = { :confirm => "Are you sure you want to delete this profile?" }
             %br
             %br
 
@@ -46,7 +46,7 @@
     %h3.page_headline
       New Candidate Profile
 
-    = form_for(:candidateprofile, :url=>{:action=>'create'}) do |f|
+    = form_for(:candidates_profile, :url=>{:action=>'create'}) do |f|
       %h4
         Please enter the following information
       .divider
