@@ -4,14 +4,16 @@ class ProjectsTag < ActiveRecord::Base
 
   attr_accessible :date_in, :date_out, :description, :tags_id, :projects_role_id
   
-  belongs_to :projects_roles
+  belongs_to :projects_role
+  #belongs_to :projectsRole
+
   belongs_to :tags, :class_name => 'Tag', :foreign_key => :tags_id
   
-  validates :tags_id,       presence: true
+  validates :tags_id,       :presence => true
   
-  validates :description,   presence: true
+  validates :description,   :presence => true
 
-  validates :date_in,       presence: true
+  validates :date_in,       :presence => true
 
   #validates :date_out,     presence: true
   

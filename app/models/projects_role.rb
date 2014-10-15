@@ -1,12 +1,16 @@
+
 class ProjectsRole < ActiveRecord::Base
+
   self.per_page = 10
   validate :validate_end_date_before_start_date
 
   attr_accessible :id, :date_in, :date_out, :project_id, :role_id
 
   #added
-  belongs_to    :project
-  accepts_nested_attributes_for :project
+
+  belongs_to    :project, :foreign_key => "project_id"
+
+  #accepts_nested_attributes_for :project
 
   #belongs_to   :candidate
 
@@ -14,7 +18,12 @@ class ProjectsRole < ActiveRecord::Base
   #belongs_to   :role, :class_name => 'Role', :foreign_key => :role_id
 
   #added
-  has_many      :roles
+
+  #belongs_to    :role,  :foreign_key => :role_id
+
+  has_one      :role, :as => :task, :foreign_key => :role_id
+  #has_many    :roles
+
   #accepts_nested_attributes_for :roles
 
   #has_one     :project

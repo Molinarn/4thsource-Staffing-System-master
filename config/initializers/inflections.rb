@@ -11,5 +11,4 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
    inflect.irregular 'education', 'education'
-   #inflect.irregular 'users', 'users'
 end

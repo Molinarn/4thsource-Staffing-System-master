@@ -12,7 +12,10 @@ class Project < ActiveRecord::Base
   #belongs_to                  :candidate_project
   #has_many   :candidates
   
-  has_many       :projects_roles,    :dependent => :destroy
+  #has_many       :projects_roles,    :dependent => :destroy
+  has_many :projects_roles, :dependent => :destroy
+  #has_many :roles, :through => :projects_roles
+
   #accepts_nested_attributes_for :projects_roles
   #has_many :roles, :through => :projects_roles
   

@@ -104,6 +104,8 @@ class Candidate < ActiveRecord::Base
   has_many        :projects,  :dependent => :destroy
   #accepts_nested_attributes_for :projects
 
+  #has_many        :projects_roles, :through => :projects
+
   has_one         :resume,             :dependent => :destroy 
 
   has_many        :candidate_certifications,      :dependent => :destroy
@@ -280,12 +282,14 @@ class Candidate < ActiveRecord::Base
 
   def self.authenticate_with_salt(id, cookie_salt)
 
-    puts "\ncandidate#authenticate_with_salt".magenta
+    puts "\ncandidate#authenticate_with_salt > user=nil".red
 
     #add self before find
     user = find_by_id(id)
 
     if user != nil
+
+      puts "\ncandidate#authenticate_with_salt".magenta
 
       puts ["\nuser.id: ".cyan, "#{user.id}".red]
       puts ["cookie: ".cyan, "#{cookie_salt}".red]
@@ -329,11 +333,11 @@ class Candidate < ActiveRecord::Base
 
     #if self.projects === nil
 
-      project_attrs =
-      {
+      #project_attrs =
+      #{
         name = 'Default project',
         summary = 'This is the default project for this candidate.'
-      }
+      #}
 
       #project = self.projects.build(project_attrs)
 
@@ -350,55 +354,69 @@ class Candidate < ActiveRecord::Base
 
       #save fails
       #puts ["\n#{project.name}".green,"#{project.summary}".blue]
+      #build_default_role_in_project(project,build_default_role)
+
+      puts "\nself > #{self.reflections.keys}".blue
+      puts "\nself > #{self.reflections[:projects].foreign_key}".blue
+
       build_default_role_in_project(project)
+
     end
   end
 
-  def build_default_role(projects_role)
-
-    role = Role.new
-    role.name = "Default role"
-    role.save
-
-    puts ["\nbuild_default_role: ".yellow, "#{role.save}".red]
-
-    projects_role.role_id = role.id
-
-  end
-
   def build_default_role_in_project(project)
+ #def build_default_role_in_project(project,role)
+
     #default_role_id = Role.first.id
-    role_attrs =
-    {
+    #role_attrs =
+    #{
        #role_id = default_role_id,
        #project_id = project.id,
-       date_in = DateTime.now,
-       date_out = DateTime.now
-    }
+       #date_in = DateTime.now,
+       #date_out = DateTime.now
+    #}
     #projects_role = project.projects_roles.build(role_attrs)
     projects_role = project.projects_roles.new
     projects_role.date_in = DateTime.now
     projects_role.date_out = DateTime.now
 
-    #role = roles.new
-    #projects_role.role_id = role.id
-
-    #projects_role.project_id = project.id
-
-    #role = projects_role.roles.new
+    #role = Roles.new
+    #role.name = "Default Role"
 
     #puts ["\nrole.save: ".yellow, "#{role.save}".red]
 
     #projects_role.role_id = role.id
-    #projects_role.role_id = 0
-
-    #role.save
-
-    #projects_role.save
 
     puts ["\nbuild_default_projects_role: ".yellow, "#{projects_role.save}".red]
 
+    puts "\nproject > #{project.reflections.keys}".blue
+    puts "\nproject > #{project.reflections[projects_role].foreign_key}".blue
+
     build_default_role(projects_role)
+
+  end
+
+  def build_default_role(projects_role)
+
+    #role = Role.new
+    #role.projects_roles = projects_role
+    role = projects_role.role.new
+
+    #role = ProjectsRole.roles.new
+    role.name = "Default role"
+
+    #role = Role.new
+
+    puts ["\nbuild_default_role: ".yellow, "#{role.save}".red]
+
+    puts "\nprojects_role > #{projects_role.reflections.keys}".blue
+    puts "\nprojects_role > #{projects_role.reflections[role].foreign_key}".blue
+
+    puts "\nrole > #{role.reflections.keys}".blue
+
+    #pr = role.projects_roles.new
+
+    #puts ["\nbuild_default_role: ".yellow, "#{pr.save}".red]
 
   end
 
@@ -452,7 +470,7 @@ class Candidate < ActiveRecord::Base
 
   def build_prerequisites
     build_default_project
-    build_default_education
+    #build_default_education
     #build_default_admin_users
   end
 
@@ -483,13 +501,12 @@ class Candidate < ActiveRecord::Base
     #end
 
     # The code starts here
-    candidates_profile = self.candidates_profiles.new
-    #candidates_profile.candidate_id = self.id
-    candidates_profile.name = "Default profile"
-    candidates_profile.summary = "Default Summary"
-    candidates_profile.profiledata = "Default Data"
+    #candidates_profile = self.candidates_profiles.new
+    #candidates_profile.name = "Default profile"
+    #candidates_profile.summary = "Default Summary"
+    #candidates_profile.profiledata = "Default Data"
 
-    puts ["\ncandidate_profile: ".yellow, "#{candidates_profile.save}".red]
+    #puts ["\ncandidate_profile: ".yellow, "#{candidates_profile.save}".red]
 
     #if self.admin_user == nil
       #self.destroy

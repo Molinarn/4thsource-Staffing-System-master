@@ -118,6 +118,7 @@ StaffingApp::Application.routes.draw do
   match "/feed_admin/:id" => 'microposts#feed_micropost'
   match "/candidates/:id/wall" => 'user_walls#show' 
 
+  #Resume
   match "/candidates/:id/resume" => 'resume#index'
   match "/candidates/:id/resume/staff_update" => 'resume#staff_update'
   match "/candidates/:id/resume/summary" => 'resume#summary'
@@ -209,6 +210,7 @@ StaffingApp::Application.routes.draw do
   match "/staff/:id/certifications/:certification_id/delete" => 'certifications#delete'
   
   # Roles
+  #match "/candidates/:id/project/project_id/projects_role/projects_role_id/roles" => 'roles#index'
   match "/staff/:id/roles" => 'roles#index'
   match "/staff/:id/roles/action" => 'roles#action'
   match "/staff/:id/roles/new" => 'roles#new'
@@ -288,6 +290,10 @@ StaffingApp::Application.routes.draw do
   match "/staff/:id/interviews_questions/:interview_type_id/add" => 'interviews_questions#new'  
 
   ## Candidates Profiles
+
+  ##Added
+  match "/candidates/:id/candidate_profiles" => 'candidates_profiles#index'
+
   match "/candidates_profiles" => 'candidates_profiles#index'
   match "/candidates_profiles/:candidates_profile_id/editprofile" => 'candidates_profiles#editprofile'
   match "/candidates_profiles/new" => 'candidates_profiles#new'

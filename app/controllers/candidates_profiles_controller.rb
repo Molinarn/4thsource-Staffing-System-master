@@ -28,9 +28,9 @@ class CandidatesProfilesController < ApplicationController
 
   end
 
-  def IsValueInFilter(hasfilter, value, filter)
+  def IsValueInFilter(hasfilterputs, value, filter)
     @include = false
-    if hasfilterputs "\ncandidates_profile#index".green
+    if hasfilterputs
       if filter.include? "{##{value}#}"
         @include = true
       end
@@ -41,9 +41,9 @@ class CandidatesProfilesController < ApplicationController
   end
 
   def getCheckedValue(item, candprof)  
-    @hasFilter = false
+    @hasfilter = false
     @hasfilter = true if (candprof.profiledata != "")
-    if (IsValueInFilter(@hasfilter, item, candprof.profiledata))
+    if IsValueInFilter(@hasfilter, item, candprof.profiledata)
       "item-checked='true'"
     else
       "item-checked='false'"
@@ -67,7 +67,7 @@ class CandidatesProfilesController < ApplicationController
     @builder.candidate_id = @candidates_profile.candidate_id
     @filename = @builder.build
     File.open(@filename, 'rb') do |f|
-      send_data f.read, :type => "application/msword", :disposition => "inline", :filename => "profile" + Time.now().to_s + ".docx"
+      send_data f.read, :type => "application/msword", :disposition => "inline", :filename => "profile" + Time.now.to_s + ".docx"
     end    
   end
 
@@ -85,10 +85,14 @@ class CandidatesProfilesController < ApplicationController
   # GET /candidates_profiles/1.json
   def editprofile
 
-    puts "\ncandidates_profile#edit".green
+    puts "\ncandidates_profile#editprofile".green
 
     @candidates_profile = CandidatesProfile.find_by_id(params[:candidates_profile_id])
-    @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)  
+    @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)
+
+    puts "\n@candidate: #{@candidate.id}".cyan
+    puts "@candidates_profile: #{@candidates_profile.id}".cyan
+
     render :edit 
   end
 
@@ -157,7 +161,7 @@ class CandidatesProfilesController < ApplicationController
     @candidate = Candidate.find_by_id(params[:candidate_id])
 
 
-    render "candidate_profiles/admin"
+    render "candidates_profiles/admin"
   end
 
   #Estoy trabajando en este clone, el original es el de jobs
