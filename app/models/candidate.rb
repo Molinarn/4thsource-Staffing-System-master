@@ -442,6 +442,18 @@ class Candidate < ActiveRecord::Base
     edu.title = 'n/a'
 
     puts ["\nbuild_default_education".yellow , "#{edu.save}".red]
+
+    build_default_edu_degree(edu)
+
+  end
+
+  def build_default_edu_degree(education)
+
+    degree = education.educ_degrees.new
+    degree.name = "default degree"
+
+    puts ["\nbuild_default_edu_degree".yellow , "#{degree.save}".red]
+
   end
 
   def build_default_admin_users

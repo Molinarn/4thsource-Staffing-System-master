@@ -22,7 +22,7 @@ class ProjectsRole < ActiveRecord::Base
   #belongs_to    :role,  :foreign_key => :role_id
 
   #belongs_to   :projectRole, :polymorphic => true
-  has_many      :roles
+  has_many      :roles, :dependent => :destroy
 
   #belongs_to     :role #, :foreign_key => "role_id"
   #has_many      :roles, :foreign_key => "role_id"

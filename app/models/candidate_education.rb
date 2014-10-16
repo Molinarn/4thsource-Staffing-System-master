@@ -9,7 +9,7 @@ class CandidateEducation < ActiveRecord::Base
                   :university
 
   belongs_to :candidate
-  belongs_to :educ_degree
+  has_many   :educ_degrees, :dependent => :destroy
   
   validates :candidate_id, :presence => true
   validates :title, :presence => true
