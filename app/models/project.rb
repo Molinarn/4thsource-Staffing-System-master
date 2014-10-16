@@ -13,7 +13,7 @@ class Project < ActiveRecord::Base
   #has_many   :candidates
   
   #has_many       :projects_roles,    :dependent => :destroy
-  has_many :projects_roles, :dependent => :destroy
+  has_many :projects_roles, :as => :projectRole, :dependent => :destroy, :foreign_key => "project_id"
   #has_many :roles, :through => :projects_roles
 
   #accepts_nested_attributes_for :projects_roles

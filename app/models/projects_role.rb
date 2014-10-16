@@ -8,7 +8,7 @@ class ProjectsRole < ActiveRecord::Base
 
   #added
 
-  belongs_to    :project, :foreign_key => "project_id"
+  #belongs_to    :project, :foreign_key => "project_id"
 
   #accepts_nested_attributes_for :project
 
@@ -21,8 +21,10 @@ class ProjectsRole < ActiveRecord::Base
 
   #belongs_to    :role,  :foreign_key => :role_id
 
-  has_one      :role, :as => :task, :foreign_key => :role_id
-  #has_many    :roles
+  #has_one      :role, :as => :task, :foreign_key => "projects_role_id"
+  has_many      :roles, :foreign_key => "role_id"
+
+  belongs_to   :projectRole, :polymorphic => true
 
   #accepts_nested_attributes_for :roles
 

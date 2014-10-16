@@ -390,7 +390,7 @@ class Candidate < ActiveRecord::Base
     puts ["\nbuild_default_projects_role: ".yellow, "#{projects_role.save}".red]
 
     puts "\nproject > #{project.reflections.keys}".blue
-    puts "\nproject > #{project.reflections[projects_role].foreign_key}".blue
+    #puts "\nproject > #{project.reflections[projects_role].foreign_key}".blue
 
     build_default_role(projects_role)
 
@@ -400,7 +400,7 @@ class Candidate < ActiveRecord::Base
 
     #role = Role.new
     #role.projects_roles = projects_role
-    role = projects_role.role.new
+    role = projects_role.roles.new
 
     #role = ProjectsRole.roles.new
     role.name = "Default role"
@@ -410,7 +410,7 @@ class Candidate < ActiveRecord::Base
     puts ["\nbuild_default_role: ".yellow, "#{role.save}".red]
 
     puts "\nprojects_role > #{projects_role.reflections.keys}".blue
-    puts "\nprojects_role > #{projects_role.reflections[role].foreign_key}".blue
+    #puts "\nprojects_role > #{projects_role.reflections[role].foreign_key}".blue
 
     puts "\nrole > #{role.reflections.keys}".blue
 
