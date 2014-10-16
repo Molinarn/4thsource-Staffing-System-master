@@ -129,11 +129,11 @@ class CandidatesController < ApplicationController
       @candidate = Candidate.new(params[:candidate])
       @error = @candidate.errors
 
-      if !verify_recaptcha
-        @candidate.errors[:recaptcha] = "is invalid"
-        @title = "Sign up"
-        render :new
-      else
+      #if !verify_recaptcha
+        #@candidate.errors[:recaptcha] = "is invalid"
+        #@title = "Sign up"
+        #render :new
+      #else
         if @candidate.save
         #if @candidate.valid?
 
@@ -162,7 +162,7 @@ class CandidatesController < ApplicationController
           @title = "Sign up"
           render :new
         end
-      end
+      #end
 	  
     end
 	

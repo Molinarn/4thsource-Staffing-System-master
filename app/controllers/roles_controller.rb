@@ -1,6 +1,9 @@
 class RolesController < ApplicationController
 
   def index
+
+    puts "\nroles#index".green
+
     @roles = Role.all
     set_wall_candidate(nil)
     set_my_wall(nil)
@@ -21,7 +24,7 @@ class RolesController < ApplicationController
 
     if request.post?
       #@role = Role.new(params[:role])
-      @role = @projects_role.new(params[:role])
+      @role = @projects_role.roles.build(params[:role])
       @cat_role_rows = Role.where("name = ?", @role.name)
       if @cat_role_rows.length > 0
         flash[:notice] = "The Role already exists"

@@ -82,9 +82,10 @@
           %pre
             = projects.summary
         %ul
-          - projects.projects_roles.each do |roles|
-            - roles.roles_responsibilities.each do |role_responsibility|
-              %li
+          - projects.projects_roles.each do |pr|
+            - pr.roles.each do |roles|
+              - roles.roles_responsibilities.each do |role_responsibility|
+                %li
                 %pre
                   = role_responsibility.description
 

@@ -3,7 +3,8 @@ class RolesResponsibility < ActiveRecord::Base
 
   attr_accessible :description, :projects_role_id
   
-  belongs_to :projects_roles
+  #belongs_to :projects_roles
+  belongs_to :roles, :dependent => :destroy, :foreign_key => "role_id"
   
   validates :projects_role_id,   :presence => true
   

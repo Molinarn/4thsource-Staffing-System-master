@@ -335,7 +335,7 @@ class Candidate < ActiveRecord::Base
 
       #project_attrs =
       #{
-        name = 'Default project',
+        name = 'Default project'
         summary = 'This is the default project for this candidate.'
       #}
 
@@ -356,8 +356,8 @@ class Candidate < ActiveRecord::Base
       #puts ["\n#{project.name}".green,"#{project.summary}".blue]
       #build_default_role_in_project(project,build_default_role)
 
-      puts "\nself > #{self.reflections.keys}".blue
-      puts "\nself > #{self.reflections[:projects].foreign_key}".blue
+      #puts "\nself > #{self.reflections.keys}".blue
+      #puts "\nself.foreign_key > #{self.reflections[:projects].foreign_key}".blue
 
       build_default_role_in_project(project)
 
@@ -389,14 +389,18 @@ class Candidate < ActiveRecord::Base
 
     puts ["\nbuild_default_projects_role: ".yellow, "#{projects_role.save}".red]
 
-    puts "\nproject > #{project.reflections.keys}".blue
-    #puts "\nproject > #{project.reflections[projects_role].foreign_key}".blue
+    #puts "\nproject > #{project.reflections.keys}".blue
 
     build_default_role(projects_role)
 
   end
 
   def build_default_role(projects_role)
+
+    #puts "\nprojects_role > #{projects_role.reflections.keys}".blue
+    #puts "\nprojects_role > #{projects_role.reflections[role].foreign_key}".blue
+
+    #puts "\nprojects_role.projectRole: #{projects_role.projectRole}".magenta
 
     #role = Role.new
     #role.projects_roles = projects_role
@@ -409,10 +413,10 @@ class Candidate < ActiveRecord::Base
 
     puts ["\nbuild_default_role: ".yellow, "#{role.save}".red]
 
-    puts "\nprojects_role > #{projects_role.reflections.keys}".blue
+    #puts "\nprojects_role > #{projects_role.reflections.keys}".blue
     #puts "\nprojects_role > #{projects_role.reflections[role].foreign_key}".blue
 
-    puts "\nrole > #{role.reflections.keys}".blue
+    #puts "\nrole > #{role.reflections.keys}".blue
 
     #pr = role.projects_roles.new
 
@@ -470,7 +474,7 @@ class Candidate < ActiveRecord::Base
 
   def build_prerequisites
     build_default_project
-    #build_default_education
+    build_default_education
     #build_default_admin_users
   end
 
@@ -501,12 +505,12 @@ class Candidate < ActiveRecord::Base
     #end
 
     # The code starts here
-    #candidates_profile = self.candidates_profiles.new
-    #candidates_profile.name = "Default profile"
-    #candidates_profile.summary = "Default Summary"
-    #candidates_profile.profiledata = "Default Data"
+    candidates_profile = self.candidates_profiles.new
+    candidates_profile.name = "Default profile"
+    candidates_profile.summary = "Default Summary"
+    candidates_profile.profiledata = "Default Data"
 
-    #puts ["\ncandidate_profile: ".yellow, "#{candidates_profile.save}".red]
+    puts ["\ncandidate_profile: ".yellow, "#{candidates_profile.save}".red]
 
     #if self.admin_user == nil
       #self.destroy
