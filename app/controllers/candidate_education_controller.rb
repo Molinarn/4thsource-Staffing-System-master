@@ -75,7 +75,7 @@ class CandidateEducationController < ApplicationController  #
     @candidate_id=params[:candidate_id]
     @e = CandidateEducation.new(:id => params[:id], 
                                 :title => params[:title], 
-                                :degree_id => params[:educ_degree_id],
+                                :degree => params[:degree],
                                 :university => params[:university],
                                 :date_in => params[:date_in],
                                 :date_out => params[:date_out])
@@ -83,7 +83,7 @@ class CandidateEducationController < ApplicationController  #
 
   def destroy
     CandidateEducation.delete(params[:id])
-    redirect_to File.join('/candidates/', current_candidate.id.to_s(), '/resume/education')
+    redirect_to File.join('/candidates/', current_candidate.id.to_s, '/resume/education')
   end
 
   def update
@@ -92,7 +92,7 @@ class CandidateEducationController < ApplicationController  #
     if params[:education_educ_degree_id_new] == ""
       CandidateEducation.update(@education.id, 
                                 :title => @education.title, 
-                                :degree_id => @education.educ_degree.id,
+                                :degree => @education.educ_degrees,
                                 :university => @education.university,
                                 :date_in => @education.date_in,
                                 :date_out => @education.date_out)
@@ -104,7 +104,7 @@ class CandidateEducationController < ApplicationController  #
         flash[:notice] = "The Education Degree Already Exists"
 
       else
-        cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
+        cat_degree = EducDegree.new(:name => degree.name, :description => degree.description, :approved_flag => false)
         cat_degree.save!
       
         CandidateEducation.update(@education.id, 

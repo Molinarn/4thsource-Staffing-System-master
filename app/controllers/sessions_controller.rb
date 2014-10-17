@@ -42,19 +42,29 @@ class SessionsController < ApplicationController
     @var = [nil,"nil"]
     candidate = nil
 
-    if validateEmail4thSource(params[:session][:email])
+    temp = validateEmail4thSource(params[:session][:email])
+
+    puts "#{temp}".cyan
+
+    if temp
+
+    #if validateEmail4thSource(params[:session][:email])
 
       puts "\nvalidEmail4thSource".yellow
 
       #if authCandidateInPopEmailServer(params[:session][:email], params[:session][:password])
-        candidate = Candidate.find_by_email(params[:session][:email])    
+        candidate = Candidate.find_by_email(params[:session][:email])
+        if candidate.nil?
 
-        puts ["session_create/candidate: ".cyan, "#{candidate.email}"]
+          @var[1] = "wrong"
 
-        #@flag = true
+        else
+          puts ["session_create/candidate: ".cyan, "#{candidate.email}"]
 
-        @var[1] = "valid"
+          #@flag = true
 
+          @var[1] = "valid"
+        end
         #puts "\nauthCandidateInPop".yellow
 
       #end

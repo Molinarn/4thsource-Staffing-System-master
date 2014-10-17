@@ -34,9 +34,9 @@
       = f.text_field :title, :value => @e.title
       = label_tag "requiredTitle", "", :id =>"requiredTitle", :class => "educationValidatorText"
     .field
-      = f.label :educ_degree_id
+      = f.label @e.educ_degrees.id
       %br
-      = f.select :educ_degree_id, options_from_collection_for_select(EducDegree.where({:approved_flag => [true, false]}).all, "id", "name", :selected => @e.educ_degree_id)
+      = f.select @e.educ_degrees.id, options_from_collection_for_select(EducDegree.where({:approved_flag => [true, false]}).all, "id", "name", :selected => @e.educ_degrees.id)
       = text_field_tag "education_educ_degree_id_new"
       = button_tag "+", :id => "addButton", :class => "addButton", :type => "button" 
       = label_tag "requiredEducationD", "", :id =>"requiredEducationD", :class => "educationValidatorText"

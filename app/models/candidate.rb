@@ -440,6 +440,7 @@ class Candidate < ActiveRecord::Base
     edu = self.candidate_education.new
     #edu.candidate_id = self.id
     edu.title = 'n/a'
+    edu.university = 'n/a'
 
     puts ["\nbuild_default_education".yellow , "#{edu.save}".red]
 
@@ -450,7 +451,7 @@ class Candidate < ActiveRecord::Base
   def build_default_edu_degree(education)
 
     degree = education.educ_degrees.new
-    degree.name = "default degree"
+    degree.name = "Default degree"
 
     puts ["\nbuild_default_edu_degree".yellow , "#{degree.save}".red]
 

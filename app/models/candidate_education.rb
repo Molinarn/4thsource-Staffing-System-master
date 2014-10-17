@@ -13,5 +13,7 @@ class CandidateEducation < ActiveRecord::Base
   has_many   :educ_degrees
 
   validates :candidate_id, :presence => true
-  validates :title, :presence => true
+  #validates :title, :presence => true
+  #validates :university, :presence => true
+
 end
