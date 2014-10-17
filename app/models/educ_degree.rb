@@ -4,9 +4,12 @@ class EducDegree < ActiveRecord::Base
                   :description,
                   :approved_flag,
                   :approved_by
+                  :candidate_education_id
 
-  belongs_to :candidate_education
-  
+  #belongs_to :candidate_education
+  belongs_to :candidate_education, :dependent => :destroy
+  #accepts_nested_attributes_for  :candidate_education
+
   validates :name, :presence => true
   
   def used

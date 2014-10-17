@@ -75,7 +75,7 @@ class CandidateEducationController < ApplicationController  #
     @candidate_id=params[:candidate_id]
     @e = CandidateEducation.new(:id => params[:id], 
                                 :title => params[:title], 
-                                :educ_degree_id => params[:educ_degree_id],
+                                :degree_id => params[:educ_degree_id],
                                 :university => params[:university],
                                 :date_in => params[:date_in],
                                 :date_out => params[:date_out])
@@ -92,7 +92,7 @@ class CandidateEducationController < ApplicationController  #
     if params[:education_educ_degree_id_new] == ""
       CandidateEducation.update(@education.id, 
                                 :title => @education.title, 
-                                :educ_degree_id => @education.educ_degree_id,
+                                :degree_id => @education.educ_degree.id,
                                 :university => @education.university,
                                 :date_in => @education.date_in,
                                 :date_out => @education.date_out)
@@ -109,7 +109,7 @@ class CandidateEducationController < ApplicationController  #
       
         CandidateEducation.update(@education.id, 
                                   :title => @education.title, 
-                                  :educ_degree_id => cat_degree.id,
+                                  :degree_id => cat_degree.id,
                                   :university => @education.university,
                                   :date_in => @education.date_in,
                                   :date_out => @education.date_out)
