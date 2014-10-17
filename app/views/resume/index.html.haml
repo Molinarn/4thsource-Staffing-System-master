@@ -56,10 +56,10 @@
         - @candidate.candidate_education.each do |education|
           %li
             .experience_left
-              -if education.educ_degree == nil
+              -if education.educ_degrees == nil
                 %h6.educationTitleAndUniversity= "Education Degree not Approved (" + education.title + "),"
               -else
-                %h6.educationTitleAndUniversity= education.educ_degree.name + " in " + education.title + ","
+                %h6.educationTitleAndUniversity= education.educ_degrees.name + " in " + education.title + ","
               %p.educationTitleAndUniversity= education.university
             -if education.date_in != nil && education.date_out != nil
               .experience_right= Date::MONTHNAMES[education.date_in.month] + " " + education.date_in.year.to_s + " - " + Date::MONTHNAMES[education.date_out.month] + " " + education.date_out.year.to_s

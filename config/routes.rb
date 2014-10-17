@@ -210,7 +210,6 @@ StaffingApp::Application.routes.draw do
   match "/staff/:id/certifications/:certification_id/delete" => 'certifications#delete'
   
   # Roles
-  #match "/candidates/:id/project/project_id/projects_role/projects_role_id/roles" => 'roles#index'
   match "/staff/:id/roles" => 'roles#index'
   match "/staff/:id/roles/action" => 'roles#action'
   match "/staff/:id/roles/new" => 'roles#new'

@@ -1,11 +1,20 @@
 class CandidateEducationController < ApplicationController  #
   def index
+
+    puts "\ncandidate_education#index".green
+
     id = params[:id] unless params.blank?
+    #id = params[:candidate_id] unless params.blank?
+
+    puts "\nid: #{id}".red
+
     if id.nil?
       @education = current_candidate.candidate_education
+      puts "\n@education.nil? > true: #{@education.id}".cyan
     else
       wall_candidate=Candidate.find(id)
       @education=wall_candidate.candidate_education
+      puts "\n@education.nil? > false: #{@education.id}".cyan
     end
 
     #if !current_candidate.admin_flag.nil?
@@ -72,13 +81,23 @@ class CandidateEducationController < ApplicationController  #
   end
 
   def edit
-    @candidate_id=params[:candidate_id]
-    @e = CandidateEducation.new(:id => params[:id], 
-                                :title => params[:title], 
+
+    puts "\ncandidate_education#edit".green
+
+    #@candidate_id=params[:candidate_id]
+    #@e = CandidateEducation.new(:id => params[:id],
+                                #:title => params[:title],
+                                #:degree => params[:degree],
+                                #:university => params[:university],
+                                #:date_in => params[:date_in],
+                                #:date_out => params[:date_out])
+
+    @e = CandidateEducation.new(:title => params[:title],
                                 :degree => params[:degree],
                                 :university => params[:university],
                                 :date_in => params[:date_in],
                                 :date_out => params[:date_out])
+
   end
 
   def destroy
@@ -87,12 +106,23 @@ class CandidateEducationController < ApplicationController  #
   end
 
   def update
+
+    puts "\ncandidate_education#update".green
+
     @education = CandidateEducation.new(params[:education])
 
-    if params[:education_educ_degree_id_new] == ""
-      CandidateEducation.update(@education.id, 
+    puts "\n@education.id #{@education.id}".red
+
+    temp = params[:education_educ_degree_id_new].nil?
+
+    #if params[:education_educ_degree_id_new] == ""
+    if temp
+
+      puts ["\n:education_educ_degree_id_new.nil?".yellow, "#{temp}".red]
+
+      CandidateEducation.update(@education.id,
                                 :title => @education.title, 
-                                :degree => @education.educ_degrees,
+                                :degree => @education.educ_degrees.name,
                                 :university => @education.university,
                                 :date_in => @education.date_in,
                                 :date_out => @education.date_out)
@@ -100,16 +130,18 @@ class CandidateEducationController < ApplicationController  #
       degree = params[:education_educ_degree_id_new]
       @cat_degree_rows = EducDegree.where("name = ?", degree)
 
+      puts "\nelse_candidate_education > degree: #{degree.nil?}".blue
+
       if @cat_degree_rows.length > 0
         flash[:notice] = "The Education Degree Already Exists"
 
       else
-        cat_degree = EducDegree.new(:name => degree.name, :description => degree.description, :approved_flag => false)
+        cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
         cat_degree.save!
       
         CandidateEducation.update(@education.id, 
                                   :title => @education.title, 
-                                  :degree_id => cat_degree.id,
+                                  :degree => degree,
                                   :university => @education.university,
                                   :date_in => @education.date_in,
                                   :date_out => @education.date_out)

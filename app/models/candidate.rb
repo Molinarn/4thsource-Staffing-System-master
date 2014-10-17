@@ -282,17 +282,17 @@ class Candidate < ActiveRecord::Base
 
   def self.authenticate_with_salt(id, cookie_salt)
 
-    puts "\ncandidate#authenticate_with_salt > user=nil".red
+    #puts "\ncandidate#authenticate_with_salt > user=nil".red
 
     #add self before find
     user = find_by_id(id)
 
     if user != nil
 
-      puts "\ncandidate#authenticate_with_salt".magenta
+      #puts "\ncandidate#authenticate_with_salt".magenta
 
-      puts ["\nuser.id: ".cyan, "#{user.id}".red]
-      puts ["cookie: ".cyan, "#{cookie_salt}".red]
+      #puts ["\nuser.id: ".cyan, "#{user.id}".red]
+      #puts ["cookie: ".cyan, "#{cookie_salt}".red]
 
       #(user && user.salt == cookie_salt) ? user : nil
 

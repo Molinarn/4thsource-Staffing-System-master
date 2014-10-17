@@ -31,15 +31,15 @@
     = form_for(:e, :url=>{:action=>'index'}) do |f|
       %h3.page_headline
         -if e.date_in != nil && e.date_out != nil
-          -date_in = DateTime.parse(e.date_in.to_s())
+          -date_in = DateTime.parse(e.date_in.to_s)
           -formatted_date_in = date_in.strftime('%b %d, %Y')
-          -date_out = DateTime.parse(e.date_out.to_s())
+          -date_out = DateTime.parse(e.date_out.to_s)
           -formatted_date_out = date_out.strftime('%b %d, %Y')
           = e.university + " (" + formatted_date_in + " - " + formatted_date_out + ")"
         -else
           = e.university
       .btn-group
-        = link_to "Edit", url_options = {:controller => "candidate_education", :action => "edit", :candidate_id=>e.candidate.id, :id => e.id, :title => e.title, :degree => e.educ_degrees.name, :university => e.university, :date_in => e.date_in, :date_out => e.date_out}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
+        = link_to "Edit", url_options = {:controller => "candidate_education", :action => "edit", :id => e.candidate.id, :candidate_education_id => e.id, :title => e.title, :degree => e.educ_degrees.name, :university => e.university, :date_in => e.date_in, :date_out => e.date_out}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
         %button.btn.btn-primary.dropdown-toggle
           %span.caret
         %ul.dropdown-menu

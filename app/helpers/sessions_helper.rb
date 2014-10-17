@@ -111,11 +111,11 @@ module SessionsHelper
 
     def role
 
-      puts "\nsessions_helper#role".green
+      #puts "\nsessions_helper#role".green
 
       if !current_candidate.nil?
 
-        puts ["\ncurrent_candidate == nil".yellow,"#{current_candidate.nil?}".red]
+        #puts ["\ncurrent_candidate == nil".yellow,"#{current_candidate.nil?}".red]
 
         #if current_candidate.admin_users != nil
         #if current_candidate.admin_users != nil
