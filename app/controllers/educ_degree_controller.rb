@@ -1,5 +1,8 @@
 class EducDegreeController < ApplicationController
   def index
+
+    puts "\neduc_degree#index".green
+
     @degrees = EducDegree.all
     set_wall_candidate(nil)
     set_my_wall(nil)
@@ -9,11 +12,14 @@ class EducDegreeController < ApplicationController
   end
 
   def create
+
+    puts "\neduc_degree#create".green
+
     @degree = EducDegree.new(params[:degree])
 
     @cat_degree_rows = EducDegree.where("name = ?", @degree.name)
 
-    if @degree.name.blank? == true
+    if @degree.name.blank?
        flash[:notice] = "Invalid education degree name." 
     end
 
@@ -30,10 +36,13 @@ class EducDegreeController < ApplicationController
       flash[:notice] = "The Education Degree was saved successful!!"
     end
 
-    redirect_to File.join('/candidates/', current_candidate.id.to_s(), '/education_degree')
+    redirect_to File.join('/candidates/', current_candidate.id.to_s, '/education_degree')
   end
 
   def edit
+
+    puts "\neduc_degree#edit".green
+
     @d = EducDegree.new(:id => params[:id], 
                         :name => params[:name], 
                         :description => params[:description],
@@ -50,10 +59,13 @@ class EducDegreeController < ApplicationController
       EducDegree.delete(params[:id])
     end
 
-    redirect_to File.join('/candidates/', current_candidate.id.to_s(), '/education_degree')
+    redirect_to File.join('/candidates/', current_candidate.id.to_s, '/education_degree')
   end
 
   def update
+
+    puts "\neduc_degree#update".green
+
     @degree = EducDegree.new(params[:degree])
 
     @degree.approved_by = current_candidate.first_name + " " + 
@@ -74,7 +86,7 @@ class EducDegreeController < ApplicationController
                         :approved_by => @degree.approved_by)
     end
 
-    redirect_to File.join('/candidates/', current_candidate.id.to_s(), '/education_degree')
+    redirect_to File.join('/candidates/', current_candidate.id.to_s, '/education_degree')
   end
 
   def action
@@ -85,7 +97,7 @@ class EducDegreeController < ApplicationController
  
  binding.pry
  
-    if(params[:update_button] != nil)
+    if params[:update_button] != nil
         @approved_by = current_candidate.first_name + " " + 
                        current_candidate.middle_name + " " + 
                        current_candidate.first_last_name + " " + 
@@ -95,7 +107,7 @@ class EducDegreeController < ApplicationController
 
         degree_value = EducDegree.find(str.split(",")[0])
         
-        if (degree_value.approved_flag.to_s != str.split(",")[1])
+        if degree_value.approved_flag.to_s != str.split(",")[1]
 
           EducDegree.update(str.split(",")[0], 
                             :approved_flag => str.split(",")[1],
@@ -103,12 +115,12 @@ class EducDegreeController < ApplicationController
         end
       end
     else
-      if(params[:delete_button] != nil)
+      if params[:delete_button] != nil
         for param in params
-          if(param[0].include?"approved_flag_")
-            if(param[0].index("approved_flag_") >= 0)
+          if param[0].include?"approved_flag_"
+            if param[0].index("approved_flag_") >= 0
               educDegree = EducDegree.find(param[1])
-              if (educDegree.used)
+              if educDegree.used
                 flash[:notice] = "The Education Degree #{educDegree.name} is assigned can not be deleted."
               else
                 EducDegree.delete(educDegree.id)
@@ -120,7 +132,7 @@ class EducDegreeController < ApplicationController
      
     end
 
-    redirect_to File.join('/candidates/', current_candidate.id.to_s(), '/education_degree')
+    redirect_to File.join('/candidates/', current_candidate.id.to_s, '/education_degree')
   end
 
 end

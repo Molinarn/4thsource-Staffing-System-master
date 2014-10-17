@@ -92,11 +92,16 @@ class CandidateEducationController < ApplicationController  #
                                 #:date_in => params[:date_in],
                                 #:date_out => params[:date_out])
 
-    @e = CandidateEducation.new(:title => params[:title],
+    @e = CandidateEducation.new(:id => params[:candidate_education_id],
+                                :candidate_id => params[:id],
+                                :title => params[:title],
                                 :degree => params[:degree],
                                 :university => params[:university],
                                 :date_in => params[:date_in],
                                 :date_out => params[:date_out])
+
+    puts "\n@e.id #{@e.id}".red
+    puts "@e.candidate_id #{@e.candidate_id}".red
 
   end
 
@@ -109,9 +114,15 @@ class CandidateEducationController < ApplicationController  #
 
     puts "\ncandidate_education#update".green
 
-    @education = CandidateEducation.new(params[:education])
+    @candidate_id = params[:id]
 
-    puts "\n@education.id #{@education.id}".red
+    @candidate_education = CandidateEducation.new(params[:education])
+    #@education = CandidateEducation.new(params[:e])
+
+    @candidate_education.candidate_id = @candidate_id
+
+    puts "\n@education.id #{@candidate_education.id}".red
+    puts "\n@candidate.id #{@candidate_education.candidate_id}".red
 
     temp = params[:education_educ_degree_id_new].nil?
 
@@ -120,34 +131,53 @@ class CandidateEducationController < ApplicationController  #
 
       puts ["\n:education_educ_degree_id_new.nil?".yellow, "#{temp}".red]
 
-      CandidateEducation.update(@education.id,
-                                :title => @education.title, 
-                                :degree => @education.educ_degrees.name,
-                                :university => @education.university,
-                                :date_in => @education.date_in,
-                                :date_out => @education.date_out)
+      #CandidateEducation.update(@education.id,
+                                #:candidate_id => @candidate.id,
+                                #:title => @education.title,
+                                #:degree => @education.educ_degrees.name,
+                                #:university => @education.university,
+                                #:date_in => @education.date_in,
+                                #:date_out => @education.date_out)
+
     else
-      degree = params[:education_educ_degree_id_new]
+
+      #Get all the registers from the name field of the educ_degrees table
+
+      #degree = params[:education_educ_degree_id_new]
+      degree = temp
       @cat_degree_rows = EducDegree.where("name = ?", degree)
 
-      puts "\nelse_candidate_education > degree: #{degree.nil?}".blue
+      puts "\nelse_education_educ_degree_id_new.nil? > degree: #{degree.nil?}".blue
 
       if @cat_degree_rows.length > 0
+
+        puts "\n@cat_degree_rows.length: #{@cat_degree_rows.length}".yellow
+
         flash[:notice] = "The Education Degree Already Exists"
 
       else
-        cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
+        #cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
+        cat_degree = EducDegree.new(temp)
+
+        puts "\ncat_degree.id: #{cat_degree.id}"
+        puts "\ncat_degree.name: #{cat_degree.name}"
+
         cat_degree.save!
       
-        CandidateEducation.update(@education.id, 
-                                  :title => @education.title, 
-                                  :degree => degree,
-                                  :university => @education.university,
-                                  :date_in => @education.date_in,
-                                  :date_out => @education.date_out)
+        #CandidateEducation.update(@education.id,
+                                  #:title => @education.title,
+                                  #:degree => degree,
+                                  #:university => @education.university,
+                                  #:date_in => @education.date_in,
+                                  #:date_out => @education.date_out)
+
+        @candidate_education.degree = cat_degree
+
       end
     end
 
-    redirect_to File.join('/candidates/', params[:candidate_id], '/resume/education')
+    puts "\ncandidate_id: #{@candidate_education.candidate_id}".magenta
+
+    redirect_to File.join('/candidates/', @candidate_education.candidate_id.to_s, '/resume/education')
   end
 end
