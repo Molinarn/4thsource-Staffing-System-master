@@ -8,19 +8,59 @@ class CandidateEducationController < ApplicationController  #
 
     puts "\nid: #{id}".red
 
-    if id.nil?
-      @education = current_candidate.candidate_education
-      puts "\n@education.nil? > true: #{@education.id}".cyan
-    else
-      wall_candidate=Candidate.find(id)
-      @education=wall_candidate.candidate_education
-      puts "\n@education.nil? > false: #{@education.id}".cyan
-    end
+    #if id.nil?
+
+      #puts "\nid.nil? > true".red
+
+      #@candidate = Candidate.find(id)
+      #@education = @candidate.candidate_education
+      #@education = current_candidate.candidate_education
+
+    #else
+
+      #puts "\nid.nil? > false".red
+
+      #wall_candidate=Candidate.find(id)
+      #@education=wall_candidate.candidate_education
+
+    #end
+
+    @candidate = Candidate.find(id)
+    @error = @candidate.errors
+
+
+    @eduCount = CandidateEducation.where(:candidate_id => id).count
+    puts "\neduCount: #{@eduCount}".blue
+
+    #This action gets the right instance of the candidate_education object
+    @education = CandidateEducation.find_by_candidate_id(id)
+    #@education = current_candidate.candidate_education
+
+    #Not the same id
+    puts "\n@education.id: #{@education.id}}".cyan
+
+    @degree = EducDegree.find_by_candidate_education_id(@education.id)
+
+    puts "\n@degree: #{@degree.name}}".cyan
+    #@degree = @education.educ_degrees
+
+    #puts "\n@education: #{@education}".cyan
+
+    #@education = CandidateEducation.new
+    #@education.title = "newEducation"
+    #@education.save
+
+    #puts "\n@education.new: #{@education}}".cyan
+
+    #puts "\n@degree: #{@degree}".cyan
+
+    #puts "\n@education.educ.degrees.name: #{@education.educ_degrees.name}".cyan
 
     #if !current_candidate.admin_flag.nil?
     #  Rails.logger.info("ADMIN FLAG>> IM ADMIN!!")
-      @candidate = Candidate.find(id)
-      @error = @candidate.errors
+      #@candidate = Candidate.find(id)
+      #@error = @candidate.errors
+
     #else
     #  Rails.logger.info("NO FLAG :( IM A MORTAL")
     #  @candidate = Candidate.find(current_candidate.id)
@@ -58,12 +98,15 @@ class CandidateEducationController < ApplicationController  #
 
         puts "\nCreate EducDegree".cyan
 
-        cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
-        cat_degree.save!
+        #cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
+        #cat_degree.save!
       
         @education = current_candidate.candidate_education.build(params[:education])
-        @education.educ_degree_id = cat_degree.id
+        #@education.educ_degree_id = cat_degree.id
+        #cat_degree.candidate_education_id = @education.id
         @education.save
+        cat_degree = @education.educ_degrees.new(:name => degree, :description => degree, :approved_flag => false)
+        cat_degree.save
       end
     end
     if @candidate.nil?
@@ -95,10 +138,12 @@ class CandidateEducationController < ApplicationController  #
     @e = CandidateEducation.new(:id => params[:candidate_education_id],
                                 :candidate_id => params[:id],
                                 :title => params[:title],
-                                :degree => params[:degree],
+                                #:degree => params[:degree],
                                 :university => params[:university],
                                 :date_in => params[:date_in],
                                 :date_out => params[:date_out])
+
+    degree = @e.educ_degrees.new
 
     puts "\n@e.id #{@e.id}".red
     puts "@e.candidate_id #{@e.candidate_id}".red
@@ -157,7 +202,10 @@ class CandidateEducationController < ApplicationController  #
 
       else
         #cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
-        cat_degree = EducDegree.new(temp)
+
+        cat_degree = @candidate_education.educ_degrees.new(temp)
+
+        #cat_degree = EducDegree.new(temp)
 
         puts "\ncat_degree.id: #{cat_degree.id}"
         puts "\ncat_degree.name: #{cat_degree.name}"
@@ -171,7 +219,7 @@ class CandidateEducationController < ApplicationController  #
                                   #:date_in => @education.date_in,
                                   #:date_out => @education.date_out)
 
-        @candidate_education.degree = cat_degree
+        #@candidate_education.degree = cat_degree
 
       end
     end

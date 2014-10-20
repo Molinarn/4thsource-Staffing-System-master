@@ -112,7 +112,7 @@ class Candidate < ActiveRecord::Base
   has_many        :candidate_trainings,      :dependent => :destroy
 
   has_many        :candidate_languages, :dependent => :destroy
-  has_many        :candidate_education,      :dependent => :destroy
+  has_many        :candidate_education, :dependent => :destroy
 
 
 

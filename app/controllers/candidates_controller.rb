@@ -21,6 +21,7 @@ class CandidatesController < ApplicationController
 
     puts "\ncandidate#new".green
 
+    #Useless declaration !!
     current_candidate = @candidate
 
     @candidate  = Candidate.new

@@ -3,14 +3,16 @@ class CandidateEducation < ActiveRecord::Base
                   #:educ_degree_id,
                   :candidate_id,
                   :title,
-                  :degree,
+                  #:degree,
                   :date_in,
                   :date_out,
                   :university
 
+  #belongs_to  :education, :polymorphic => true
+
   belongs_to  :candidate
   #has_many   :educ_degrees, :dependent => :destroy
-  has_many   :educ_degrees
+  has_many   :educ_degrees, :dependent => :destroy
 
   validates :candidate_id, :presence => true
   #validates :title, :presence => true

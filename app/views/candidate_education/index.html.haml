@@ -39,7 +39,7 @@
         -else
           = e.university
       .btn-group
-        = link_to "Edit", url_options = {:controller => "candidate_education", :action => "edit", :id => e.candidate.id, :candidate_education_id => e.id, :title => e.title, :degree => e.educ_degrees.name, :university => e.university, :date_in => e.date_in, :date_out => e.date_out}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
+        = link_to "Edit", url_options = {:controller => "candidate_education", :action => "edit", :id => e.candidate.id, :candidate_education_id => e.id, :title => e.title, :university => e.university, :date_in => e.date_in, :date_out => e.date_out}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
         %button.btn.btn-primary.dropdown-toggle
           %span.caret
         %ul.dropdown-menu
