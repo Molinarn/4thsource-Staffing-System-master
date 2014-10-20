@@ -52,13 +52,10 @@
         = f.label e.title, :class => "educationLabel"
       .field
         = f.label "Education Degree: ", :class => "educationLabelTitle"
-        -if e.educ_degrees.id == nil
+        -if EducDegree.find_by_candidate_education_id(e.id) == nil
           = f.label "Not Approved", :class => "educationLabel"
         -else
-          = f.label e.educ_degrees.name, :class => "educationLabel"
-      .field
-        = f.label "educ_degree: ", :class => "educationLabelTitle"
-        = f.label e.educ_degrees.id, :class => "educationLabel"
+          = f.label EducDegree.find_by_candidate_education_id(e.id).name, :class => "educationLabel"
       .field
         = f.label "University: ", :class => "educationLabelTitle"
         = f.label e.university, :class => "educationLabel"

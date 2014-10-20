@@ -36,9 +36,9 @@
     .field
       = f.label :degree
       %br
-      = f.select :name, options_from_collection_for_select(EducDegree.where({:approved_flag => [true, false]}).all, "id", "name", :selected => @e.educ_degrees.id)
+      = f.select :name, options_from_collection_for_select(EducDegree.where({:approved_flag => [true, false]}).all, "id", "name", :selected => @degrees)
       = text_field_tag "education_educ_degree_id_new"
-      = button_tag "+", :id => "addButton", :class => "addButton", :type => "button" 
+      = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
       = label_tag "requiredEducationD", "", :id =>"requiredEducationD", :class => "educationValidatorText"
     .field
       = f.label :university
