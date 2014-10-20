@@ -57,6 +57,9 @@
         -else
           = f.label e.educ_degrees.name, :class => "educationLabel"
       .field
+        = f.label "educ_degree: ", :class => "educationLabelTitle"
+        = f.label e.educ_degrees.id, :class => "educationLabel"
+      .field
         = f.label "University: ", :class => "educationLabelTitle"
         = f.label e.university, :class => "educationLabel"
       %br

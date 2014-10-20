@@ -8,53 +8,42 @@ class CandidateEducationController < ApplicationController  #
 
     puts "\nid: #{id}".red
 
-    #if id.nil?
+    if id.nil?
 
-      #puts "\nid.nil? > true".red
+      puts "\nid.nil? > true".red
 
       #@candidate = Candidate.find(id)
       #@education = @candidate.candidate_education
-      #@education = current_candidate.candidate_education
+      @education = current_candidate.candidate_education
 
-    #else
+    else
 
-      #puts "\nid.nil? > false".red
+      puts "\nid.nil? > false".red
 
-      #wall_candidate=Candidate.find(id)
-      #@education=wall_candidate.candidate_education
+      wall_candidate=Candidate.find(id)
+      @education=wall_candidate.candidate_education
 
-    #end
+    end
+
+    #Both of the above clauses returns @education as a hash instead of as an element
 
     @candidate = Candidate.find(id)
     @error = @candidate.errors
 
 
-    @eduCount = CandidateEducation.where(:candidate_id => id).count
-    puts "\neduCount: #{@eduCount}".blue
+    #@eduCount = CandidateEducation.where(:candidate_id => id).count
+    #puts "\neduCount: #{@eduCount}".blue
 
     #This action gets the right instance of the candidate_education object
-    @education = CandidateEducation.find_by_candidate_id(id)
+    #@education = CandidateEducation.find_by_candidate_id(id)
     #@education = current_candidate.candidate_education
 
     #Not the same id
     puts "\n@education.id: #{@education.id}}".cyan
 
-    @degree = EducDegree.find_by_candidate_education_id(@education.id)
+    #@degree = EducDegree.find_by_candidate_education_id(@education.id)
 
-    puts "\n@degree: #{@degree.name}}".cyan
-    #@degree = @education.educ_degrees
-
-    #puts "\n@education: #{@education}".cyan
-
-    #@education = CandidateEducation.new
-    #@education.title = "newEducation"
-    #@education.save
-
-    #puts "\n@education.new: #{@education}}".cyan
-
-    #puts "\n@degree: #{@degree}".cyan
-
-    #puts "\n@education.educ.degrees.name: #{@education.educ_degrees.name}".cyan
+    #puts "\n@degree: #{@degree.name}}".cyan
 
     #if !current_candidate.admin_flag.nil?
     #  Rails.logger.info("ADMIN FLAG>> IM ADMIN!!")
@@ -135,18 +124,32 @@ class CandidateEducationController < ApplicationController  #
                                 #:date_in => params[:date_in],
                                 #:date_out => params[:date_out])
 
-    @e = CandidateEducation.new(:id => params[:candidate_education_id],
+    puts "\n:candidate_education_id: #{params[:candidate_education_id]}".magenta
+
+    @e = CandidateEducation.find_by_id(params[:candidate_education_id])
+
+    @e.update_attributes(:id => params[:candidate_education_id],
                                 :candidate_id => params[:id],
                                 :title => params[:title],
-                                #:degree => params[:degree],
+                                :degree => params[:degree],
                                 :university => params[:university],
                                 :date_in => params[:date_in],
                                 :date_out => params[:date_out])
 
-    degree = @e.educ_degrees.new
+    #@e = CandidateEducation.new(:id => params[:candidate_education_id],
+                                #:candidate_id => params[:id],
+                                #:title => params[:title],
+                                #:degree => params[:degree],
+                                #:university => params[:university],
+                                #:date_in => params[:date_in],
+                                #:date_out => params[:date_out])
+
+    #degree = @e.educ_degrees.new
 
     puts "\n@e.id #{@e.id}".red
-    puts "@e.candidate_id #{@e.candidate_id}".red
+    #puts "@e.candidate_id #{@e.candidate_id}".red
+
+    #@e.save
 
   end
 
@@ -161,13 +164,29 @@ class CandidateEducationController < ApplicationController  #
 
     @candidate_id = params[:id]
 
+    params[:education].each do |p|
+      puts "#{p}".cyan
+    end
+
     @candidate_education = CandidateEducation.new(params[:education])
+
+    #@candidate_education.update(params[:education])
+    #@e.update(params[:education])
     #@education = CandidateEducation.new(params[:e])
 
     @candidate_education.candidate_id = @candidate_id
 
-    puts "\n@education.id #{@candidate_education.id}".red
-    puts "\n@candidate.id #{@candidate_education.candidate_id}".red
+    puts "\n@candidate_education.id #{@candidate_education.id}".red
+    #puts "\n@candidate.id #{@candidate_education.candidate_id}".red
+
+    @e = CandidateEducation.find_by_id(@candidate_education.id)
+    @e.update_attributes(:id => @candidate_education.id,
+                         :candidate_id => @candidate_id,
+                         :title => @candidate_education.title,
+                         #:degree => @candidate_education.educ_degrees.name,
+                         :university => @candidate_education.university,
+                         :date_in => @candidate_education.date_in,
+                         :date_out => @candidate_education.date_out)
 
     temp = params[:education_educ_degree_id_new].nil?
 
@@ -203,7 +222,8 @@ class CandidateEducationController < ApplicationController  #
       else
         #cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
 
-        cat_degree = @candidate_education.educ_degrees.new(temp)
+        #cat_degree = @candidate_education.educ_degrees.new(temp)
+        cat_degree = @e.educ_degrees.new(temp)
 
         #cat_degree = EducDegree.new(temp)
 
@@ -224,8 +244,11 @@ class CandidateEducationController < ApplicationController  #
       end
     end
 
-    puts "\ncandidate_id: #{@candidate_education.candidate_id}".magenta
+    #puts "\ncandidate_id: #{@candidate_education.candidate_id}".magenta
+    puts "\ncandidate_id: #{@e.candidate_id}".magenta
 
-    redirect_to File.join('/candidates/', @candidate_education.candidate_id.to_s, '/resume/education')
+    #redirect_to File.join('/candidates/', @candidate_education.candidate_id.to_s, '/resume/education')
+    redirect_to File.join('/candidates/', @e.candidate_id.to_s, '/resume/education')
+
   end
 end
