@@ -35,15 +35,17 @@
     .field
       = f.label "Role type"
       %br
-      = f.select :id, options_from_collection_for_select(Role.where({:approved_flag => [true,false]}).all, "id", "name", :selected => @role)
+      = f.select :id, options_from_collection_for_select(@roles, "id", "name", :selected => @role)
+      = text_field_tag "new_role_id", @roles.name
+      = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
     .field
       = f.label :date_in
       %br
-      = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @e.try(:date_in).try(:strftime,'%Y-%m-%d')
+      = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @projects_role.try(:date_in).try(:strftime,'%Y-%m-%d')
     .field
       = f.label :date_out
       %br
-      = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @e.try(:date_out).try(:strftime,'%Y-%m-%d')
+      = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @projects_role.try(:date_out).try(:strftime,'%Y-%m-%d')
     .actions
       %br
       = f.submit "Update"
