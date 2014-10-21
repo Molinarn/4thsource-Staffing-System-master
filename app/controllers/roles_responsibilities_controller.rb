@@ -1,13 +1,24 @@
 class RolesResponsibilitiesController < ApplicationController
   
   def new
+
+    puts "\nroles_responsibility#new".green
+
     @candidate = current_candidate
     
     if request.post?
       @candidate = Candidate.find(params[:id])
       @project = @candidate.projects.find(params[:project_id])
-      @projectsrole = @project.projects_roles.find(params[:projects_role_id])
-      @rolerespon = @projectsrole.roles_responsibilities.build(params[:rolerespon])
+      @projects_role = @project.projects_roles.find(params[:projects_role_id])
+      @role = Role.find_by_projects_role_id(@projects_role.id)
+      @rolerespon = @role.roles_responsibilities.build(params[:rolerespon])
+
+      puts "\n@candidate_id: #{@candidate.id}".cyan
+      puts "\n@project_id: #{@project.id}".cyan
+      puts "\n@project_role_id: #{@projects_role.id}".cyan
+      puts "\n@role_id: #{@role.id}".cyan
+      puts "\n@rolerespon_id: #{@rolerespon.id}".cyan
+
       if @rolerespon.save
         flash[:success] = "Project was saved successfully."
         render 'roles_responsibilities/new'               
@@ -17,8 +28,8 @@ class RolesResponsibilitiesController < ApplicationController
     else
       @candidate = Candidate.find(params[:id])
       @project = @candidate.projects.find(params[:project_id])
-      @projectsrole  = @project.projects_roles.find(params[:projects_role_id])
-      @title = Role.find(@projectsrole.role_id).name + " in " + @project.name
+      @projects_role  = @project.projects_roles.find(params[:projects_role_id])
+      @title = Role.find_by_projects_role_id(@projects_role.id).name + " in " + @project.name
       @rolerespon = RolesResponsibility.new
       @error = @rolerespon.errors
     end
@@ -27,7 +38,7 @@ class RolesResponsibilitiesController < ApplicationController
   def destroy
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
-    @projectsrole = @project.projects_roles.find(params[:projects_role_id])
+    @projects_role = @project.projects_roles.find(params[:projects_role_id])
     
     RolesResponsibility.find(params[:rolerespon_id]).destroy
     #render 'projects/show'

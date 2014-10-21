@@ -1,9 +1,12 @@
 class ProjectsTagsController < ApplicationController
   
-  def new 
+  def new
+
+    puts "\nprojects_tags#new".green
+
     @candidate = current_candidate
     @type = params[:type_id]
-    
+
     case @type
       when "1"
         @tag_title = "Tool"
@@ -15,12 +18,29 @@ class ProjectsTagsController < ApplicationController
         @tag_title = "Technology"
         @new_page = "projects_tags/new-techology"
     end
-    
+
+    @tag = Tag.new(:name => @tag_title)
+
+    #@tags_type = ["Tool","Knowledge","Technology"]
+
+    @candidate = Candidate.find(params[:id])
+    @project = @candidate.projects.find(params[:project_id])
+    @projects_role = @project.projects_roles.find(params[:projects_role_id])
+
+    #@projtag = @projects_role.projects_tags.new(params[:new_projtag_id])
+
+
+
+    @projtag = @projects_role.projects_tags.new
+    @projtag.date_in = params[:date_in]
+    @projtag.date_out = params[:date_out]
+    #@projtag.name = params[:new_projtag_id]
+
     if request.post?
-      @candidate = Candidate.find(params[:id])
-      @project = @candidate.projects.find(params[:project_id])
-      @projectsrole = @project.projects_roles.find(params[:projects_role_id])
-      @projtag = @projectsrole.projects_tags.build(params[:projtag])
+      #@candidate = Candidate.find(params[:id])
+      #@project = @candidate.projects.find(params[:project_id])
+      #@projects_role = @project.projects_roles.find(params[:projects_role_id])
+      #@projtag = @projects_role.projects_tags.build(params[:projtag])
       if @projtag.save
         flash[:success] = @tag_title + " was saved successfully."
         render @new_page
@@ -36,11 +56,11 @@ class ProjectsTagsController < ApplicationController
     else
       @candidate = Candidate.find(params[:id])
       @project = @candidate.projects.find(params[:project_id])
-      @projectsrole  = @project.projects_roles.find(params[:projects_role_id])
-      @title = @tag_title + " for " + Role.find(@projectsrole.role_id).name + " in " + @project.name
+      @projects_role  = @project.projects_roles.find(params[:projects_role_id])
+      @title = @tag_title + " for " + Role.find_by_projects_role_id(@projects_role.id).name + " in " + @project.name
       @projtag = ProjectsTag.new
-      @projtag.date_in = @projectsrole.date_in
-      @projtag.date_out = @projectsrole.date_out
+      @projtag.date_in = @projects_role.date_in
+      @projtag.date_out = @projects_role.date_out
       @error = @projtag.errors
       render @new_page
     end

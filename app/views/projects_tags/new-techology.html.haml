@@ -13,7 +13,7 @@
       =link_to_project("Projects", @candidate.id, :action => "index")
       = raw '&raquo;'
     %li
-      = link_to "Roles", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+      = link_to "Roles", :controller => "projects", :action => "show", :id => @candidate.id, :project_id=> @project.id
       = raw '&raquo;'
     %li
       = raw('<em>Technologies</em>')
@@ -29,7 +29,7 @@
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-  = link_to "Back", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+  = link_to "Back", :controller => "projects", :action => "show", :id => @candidate.id, :project_id => @project.id
   %br
   %br
   = form_for(:projtag, :html => {:class => "experience", 'data-validate' => 'parsley', :method => "post"}) do |f|
@@ -41,11 +41,13 @@
         = f.label "Tag"
         %br
         = f.select :tags_id, options_from_collection_for_select(Tag.where({:type_tag => ["3"]}).order("name").all, "id", "name")
+        = text_field_tag "new_projtag_id",@tag.name
+        = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
     .row-fluid
       .field.width100percent
         = f.label "Description"
         %br
-        = f.text_area :description, {"class"=>"width100percent", 'data-required' => 'true'}
+        = f.text_area :description, {:class => "width100percent", 'data-required' => 'true'}
     .row-fluid
       .span6
         .field
@@ -59,4 +61,4 @@
           .birthdate= date_select(:projtag, :date_out, :start_year => 1950, :order => [:month, :day, :year])
     .actions
       %br
-      = f.submit "Add Technology",{"class"=>"btn btn-primary", id:"send"}
+      = f.submit "Add Technology",{:class => "btn btn-primary", :id => "send"}

@@ -1,12 +1,12 @@
 class RolesResponsibility < ActiveRecord::Base
   self.per_page = 10
 
-  attr_accessible :description, :projects_role_id
+  attr_accessible :description, :role_id
   
   #belongs_to :projects_roles
-  belongs_to :roles, :dependent => :destroy, :foreign_key => "role_id"
+  belongs_to :role, :dependent => :destroy, :foreign_key => "role_id"
   
-  validates :projects_role_id,   :presence => true
+  validates :role_id,   :presence => true
   
   validates :description,         :presence => true
 

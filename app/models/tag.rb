@@ -7,9 +7,9 @@ class Tag < ActiveRecord::Base
   has_many :projects_tag, :dependent => :destroy
 
   has_many :requirements
-  has_many :jobs, through: :requirements
-  has_many :jobs, through: :job_matchs
-  has_many :candidates_profile, through: :r_candidate_tag
+  has_many :jobs, :through => :requirements
+  has_many :jobs, :through => :job_matchs
+  has_many :candidates_profile, :through => :r_candidate_tag
 
   def used
     (ProjectsTag.where("tags_id = ?", id).length > 0)  
@@ -17,7 +17,7 @@ class Tag < ActiveRecord::Base
 
   def technologies
 	@names = ""  	
-  	if (type_tag == 3)
+  	if type_tag == 3
   		@techs = Technologies.where("lang_id = ?", id)
 		@techs.each do |t|
 			if @names == ""

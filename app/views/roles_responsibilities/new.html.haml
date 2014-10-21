@@ -11,7 +11,7 @@
       =link_to_project("Projects", @candidate.id, :action => "index")
       = raw '&raquo;'
     %li
-      = link_to "Roles", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+      = link_to "Roles", :controller => "projects", :action => "show", :id => @candidate.id, :project_id => @project.id
       = raw '&raquo;'
     %li= raw('<em>new</em>')
     .clear
@@ -25,7 +25,7 @@
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-  = link_to "Back", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+  = link_to "Back", :controller => "projects", :action => "show", :id => @candidate.id, :project_id => @project.id
   %br
   %br
   = form_for(:rolerespon, :html => {:class => "experience", :method => "post"})do |f|
@@ -36,7 +36,7 @@
       .field
         = f.label "Responsibility"
     .row-fluid
-      = f.text_area :description, {"class"=>"width100percent"}
+      = f.text_area :description, {:class => "width100percent"}
     .actions
       %br
-      = f.submit "Add Responsibility",{"class"=>"btn btn-primary", id: "send"}
+      = f.submit "Add Responsibility",{:class => "btn btn-primary", :id => "send"}

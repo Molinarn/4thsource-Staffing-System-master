@@ -13,7 +13,7 @@ class Role < ActiveRecord::Base
 
   belongs_to    :projects_role
   #has_many      :projects_roles, :as => :projectRole, :dependent => :destroy, :foreign_key => "role_id"
-  has_many      :roles_responsibilities
+  has_many      :roles_responsibilities, :dependent => :destroy
 
   #has_one :projects_role, :foreign_key => :role_id
   #accepts_nested_attributes_for :projects_role
