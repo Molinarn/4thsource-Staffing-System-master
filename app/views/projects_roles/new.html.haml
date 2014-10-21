@@ -10,7 +10,7 @@
       =link_to_project("Projects", @candidate.id, :action => "index")
       = raw '&raquo;'
     %li
-      = link_to "Roles", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+      = link_to "Roles", :controller => "projects", :action => "show", :id => @candidate.id, :project_id=> @project.id
       = raw '&raquo;'
     %li= raw('<em>new</em>')
     .clear
@@ -24,10 +24,10 @@
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-  = link_to "Back", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+  = link_to "Back", :controller => "projects", :action => "show", :id => @candidate.id, :project_id => @project.id
   %br
   %br
-  = form_for(:projectsrole, :html => {:class => "experience", :method => "post"}) do |f|
+  = form_for(:projects_role, :html => {:class => "experience", :method => "post"}) do |f|
     %h4
       Please enter the following information
     .divider
@@ -35,15 +35,36 @@
     .field
       = f.label "Role type"
       %br
-      = f.select :role_id, options_from_collection_for_select(Role.where({:approved_flag => [true]}).order("name").all, "id", "name")
+      = f.select :id, options_from_collection_for_select(Role.where({:approved_flag => [true,false]}).all, "id", "name", :selected => @role)
     .field
-      = f.label "Date In"
+      = f.label :date_in
       %br
-      = date_select(:projectsrole, :date_in, :start_year => 1950, :order => [:month, :day, :year])
+      = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @e.try(:date_in).try(:strftime,'%Y-%m-%d')
     .field
-      = f.label "Date Out"
-      %br 
-      = date_select(:projectsrole, :date_out, :start_year => 1950, :order => [:month, :day, :year])
+      = f.label :date_out
+      %br
+      = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @e.try(:date_out).try(:strftime,'%Y-%m-%d')
     .actions
       %br
       = f.submit "Update"
+    :javascript
+          jQuery(document).ready(function(){
+            $( "#date_in" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              dateFormat: 'yy-mm-dd',
+              yearRange: "1950:2013",
+              onClose: function( selectedDate ) {
+              $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
+              }
+              });
+              $( "#date_out" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              dateFormat: 'yy-mm-dd',
+              yearRange: "1950:2013",
+              onClose: function( selectedDate ) {
+              $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
+              }
+              });
+          });

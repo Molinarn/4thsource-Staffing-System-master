@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
   def buildprofile
     @builder = ProfileBuilder2.new
     @builder.filter = ""
-    if (params[:filter] != nil)
+    if params[:filter] != nil
       @builder.filter = params[:filter]
     end
     @builder.summaryprof = params[:summaryprof] if (params[:summaryprof] != nil)
@@ -144,13 +144,13 @@ class ProjectsController < ApplicationController
   end
 
   def techs
-    if (params[:id] != nil)
+    if params[:id] != nil
       @Current = Technologies.find_by_sql(["SELECT a.* FROM technologies a
                                             JOIN projects_tags_technologies b ON a.id = b.tech_id
                                             WHERE b.project_tag_id = ? AND a.lang_id = ?", params[:role_id], params[:platform_id]])
       @Techs = Technologies.where("technologies.lang_id = ?", params[:platform_id])
 
-      render partial: "techs"
+      render partial => "techs"
     end
   end
 

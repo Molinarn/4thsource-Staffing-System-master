@@ -37,7 +37,7 @@
       = f.label :degree
       %br
       = f.select :name, options_from_collection_for_select(EducDegree.where({:approved_flag => [true, false]}).all, "id", "name", :selected => @degrees)
-      = text_field_tag "education_educ_degree_id_new"
+      = text_field_tag "education_educ_degree_id_new",EducDegree.find_by_candidate_education_id(@e.id).name
       = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
       = label_tag "requiredEducationD", "", :id =>"requiredEducationD", :class => "educationValidatorText"
     .field

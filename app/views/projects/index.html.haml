@@ -31,12 +31,12 @@
         %h6= project.name
       .project_right
         .btn-group
-          = link_to "Edit", url_options = {:controller => "projects", :action => "show", id:@candidate.id, :project_id=> project.id}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
+          = link_to "Edit", url_options = {:controller => "projects", :action => "show", :id => @candidate.id, :project_id=> project.id}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
           %button.btn.btn-primary.dropdown-toggle
             %span.caret
           %ul.dropdown-menu
             %li
-              = link_to "Delete", url_options = { :controller => "projects", :action => "destroy", id:@candidate.id, :project_id=> project.id }, html_options = { :confirm => "Are you sure you want to delete this project?" }      
+              = link_to "Delete", url_options = { :controller => "projects", :action => "destroy", :id => @candidate.id, :project_id=> project.id }, html_options = { :confirm => "Are you sure you want to delete this project?" }
       %br
       #project-description
         %pre
@@ -50,7 +50,7 @@
               %i.iconRolesHeadLine
               .project_role_left
                 %h6
-                  = Role.find_by_id(role.role_id).name
+                  = Role.find_by_projects_role_id(role.id).name
                 .divider-headline-middle
               .project_role_right
                 = Date::MONTHNAMES[role.date_in.month]
@@ -63,8 +63,8 @@
               .responsibility_left
                 %h6
                   Responsibilities
-              - if role.roles_responsibilities.count > 0
-                - role.roles_responsibilities.each do |respon|
+              - if Role.find_by_projects_role_id(role.id).roles_responsibilities.count > 0
+                - Role.find_by_projects_role_id(role.id).roles_responsibilities.each do |respon|
                   .responsibility_left
                     %il
                       %pre
@@ -148,9 +148,7 @@
                   &nbsp;----
               %br
               %br
-          
-          
-          
+
         %br
         %br 
         %br

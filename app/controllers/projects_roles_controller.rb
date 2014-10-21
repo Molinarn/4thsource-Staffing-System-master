@@ -8,11 +8,29 @@ class ProjectsRolesController < ApplicationController
 
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
+    @projects_role = ProjectsRole.find_by_project_id(@project.id)
 
     if request.post?
       #@candidate = Candidate.find(params[:id])
       #@project = @candidate.projects.find(params[:project_id])
+
+      puts "\n@role.nil? #{@role.nil?}".red
+
+      #@role.each do |r|
+        #puts "#{r}".cyan
+      #end
+
+      params[:projects_role].each do |p|
+        puts "#{p}".cyan
+      end
+
       @projects_role = @project.projects_roles.build(params[:projects_role])
+      #@projects_role.update_attributes(params[:projects_role])
+
+      #@newRole = @projects_role.roles.new
+      #@newRole.name = Role.find(@role).name
+      #@newRole.save
+
       if @projects_role.save
         flash[:success] = "Role was saved successfully."
         #render 'projects/show'
@@ -34,6 +52,9 @@ class ProjectsRolesController < ApplicationController
   end
 
   def update
+
+    puts "\nprojects_roles#update".green
+
     @candidate = current_candidate
     
     if request.post?
