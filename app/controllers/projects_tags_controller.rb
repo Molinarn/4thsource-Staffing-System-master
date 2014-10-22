@@ -4,7 +4,7 @@ class ProjectsTagsController < ApplicationController
 
     puts "\nprojects_tags#new".green
 
-    @candidate = current_candidate
+    #@candidate = current_candidate
     @type = params[:type_id]
 
     case @type
@@ -32,6 +32,8 @@ class ProjectsTagsController < ApplicationController
 
     if request.post?
 
+      #puts "\n@selected: #{@selected.id}.magenta"
+
       puts "\nrequest.post".yellow
 
       params[:projtag].each do |t|
@@ -40,9 +42,15 @@ class ProjectsTagsController < ApplicationController
 
       #@projtag = @projects_role.projects_tags.new(params[:projtag])
       @projtag = @projects_role.projects_tags.new
+
+      puts "\n@projtag.nil?: #{@projtag.nil?}".red
+
+      puts "\n#{params[:date_in]} - #{params[:date_in]}".blue
+
       @projtag.date_in = params[:date_in]
       @projtag.date_out = params[:date_out]
-      @projtag.save
+
+      puts "\n@projtag.save: #{@projtag.save}".red
 
       @tag = @projtag.tags.new
       @tag.type_tag = @type
@@ -61,7 +69,8 @@ class ProjectsTagsController < ApplicationController
       #@projects_role = @project.projects_roles.find(params[:projects_role_id])
       #@projtag = @projects_role.projects_tags.build(params[:projtag])
       #if @projtag.save
-      if @tag.save
+      if @projtag.save && @tag.save
+
         flash[:success] = @tag_title + " was saved successfully."
         render @new_page
       else
@@ -93,6 +102,6 @@ class ProjectsTagsController < ApplicationController
     
     ProjectsTag.find(params[:projtag_id]).destroy
     #render 'projects/show'
-    redirect_to :back;
+    redirect_to :back
   end
 end

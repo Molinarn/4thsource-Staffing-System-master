@@ -21,6 +21,10 @@ class ProjectsController < ApplicationController
       @projects_items = @candidate.projects
     end
 
+    @projects_items.each do |p|
+      puts "#{p.id}".cyan
+    end
+
   end
 
   def profile

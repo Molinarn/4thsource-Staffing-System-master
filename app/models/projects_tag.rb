@@ -13,7 +13,7 @@ class ProjectsTag < ActiveRecord::Base
 
   #validates :tags_id,       :presence => true
   
-  validates :description,   :presence => true
+  #validates :description,   :presence => true
 
   validates :date_in,       :presence => true
 
