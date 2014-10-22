@@ -20,6 +20,7 @@ class ProjectsTagsController < ApplicationController
     end
 
     @tag = Tag.new(:name => @tag_title)
+    @tag.save
 
     #@tags_type = ["Tool","Knowledge","Technology"]
 
@@ -29,14 +30,20 @@ class ProjectsTagsController < ApplicationController
 
     #@projtag = @projects_role.projects_tags.new(params[:new_projtag_id])
 
-
-
-    @projtag = @projects_role.projects_tags.new
-    @projtag.date_in = params[:date_in]
-    @projtag.date_out = params[:date_out]
-    #@projtag.name = params[:new_projtag_id]
-
     if request.post?
+
+      puts "\nrequest.post".yellow
+
+      params[:projtag].each do |t|
+        puts "#{t}".cyan
+      end
+
+      @projtag = @projects_role.projects_tags.new(params[:projtag])
+      @projtag.tags_id = @tag.id
+      #@projtag.date_in = params[:date_in]
+      #@projtag.date_out = params[:date_out]
+      #@projtag.name = params[:new_projtag_id]
+
       #@candidate = Candidate.find(params[:id])
       #@project = @candidate.projects.find(params[:project_id])
       #@projects_role = @project.projects_roles.find(params[:projects_role_id])
@@ -59,8 +66,8 @@ class ProjectsTagsController < ApplicationController
       @projects_role  = @project.projects_roles.find(params[:projects_role_id])
       @title = @tag_title + " for " + Role.find_by_projects_role_id(@projects_role.id).name + " in " + @project.name
       @projtag = ProjectsTag.new
-      @projtag.date_in = @projects_role.date_in
-      @projtag.date_out = @projects_role.date_out
+      @projtag.date_in = params[:date_in]
+      @projtag.date_out = params[:date_out]
       @error = @projtag.errors
       render @new_page
     end

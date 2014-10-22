@@ -49,16 +49,38 @@
         %br
         = f.text_area :description, {:class => "width100percent", 'data-required' => 'true'}
     .row-fluid
-      .span6
-        .field
-          = f.label "Date In"
-          %br
-          .birthdate= date_select(:projtag, :date_in, :start_year => 1950, :order => [:month, :day, :year])
-      .span6
-        .field
-          = f.label "Date Out"
-          %br 
-          .birthdate= date_select(:projtag, :date_out, :start_year => 1950, :order => [:month, :day, :year])
+      .field
+        = f.label :date_in
+        %br
+        = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @projtag.try(:date_in).try(:strftime,'%Y-%m-%d')
+      .field
+        = f.label :date_out
+        %br
+        = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @projtag.try(:date_out).try(:strftime,'%Y-%m-%d')
     .actions
       %br
-      = f.submit "Add Technology",{:class => "btn btn-primary", :id => "send"}
+        = f.submit "Add Technology",{:class => "btn btn-primary", :id => "send"}
+        :javascript
+            jQuery(document).ready(function(){
+              var date = new Date();
+              $( "#date_in" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy-mm-dd',
+                yearRange: "1950:".concat(String(date.getFullYear())),
+                //yearRange: "1950:2013",
+                onClose: function( selectedDate ) {
+                $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
+                }
+                });
+                $( "#date_out" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy-mm-dd',
+                yearRange: "1950:".concat(String(date.getFullYear())),
+                //yearRange: "1950:2013",
+                onClose: function( selectedDate ) {
+                $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
+                }
+                });
+            });
