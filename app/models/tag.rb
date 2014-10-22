@@ -3,13 +3,17 @@ class Tag < ActiveRecord::Base
                   :description, 
                   :name, 
                   :type_tag
+                  :projects_tag_id
 
-  has_many :projects_tag, :dependent => :destroy
+  #has_many :projects_tag, :dependent => :destroy
+  belongs_to :projects_tag, :foreign_key => "projects_tag_id"
 
   has_many :requirements
   has_many :jobs, :through => :requirements
   has_many :jobs, :through => :job_matchs
   has_many :candidates_profile, :through => :r_candidate_tag
+
+  validate :projects_tag_id, :presence => true
 
   def used
     (ProjectsTag.where("tags_id = ?", id).length > 0)  

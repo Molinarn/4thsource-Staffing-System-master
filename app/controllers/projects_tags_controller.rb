@@ -19,8 +19,8 @@ class ProjectsTagsController < ApplicationController
         @new_page = "projects_tags/new-techology"
     end
 
-    @tag = Tag.new(:name => @tag_title)
-    @tag.save
+    #@tag = Tag.new(:name => @tag_title)
+    #@tag.save
 
     #@tags_type = ["Tool","Knowledge","Technology"]
 
@@ -38,8 +38,20 @@ class ProjectsTagsController < ApplicationController
         puts "#{t}".cyan
       end
 
-      @projtag = @projects_role.projects_tags.new(params[:projtag])
-      @projtag.tags_id = @tag.id
+      #@projtag = @projects_role.projects_tags.new(params[:projtag])
+      @projtag = @projects_role.projects_tags.new
+      @projtag.date_in = params[:date_in]
+      @projtag.date_out = params[:date_out]
+      @projtag.save
+
+      @tag = @projtag.tags.new
+      @tag.type_tag = @type
+      @tag.name = params[:new_projtag_id]
+      @tag.description = params[:description]
+      #@tag.save
+
+      #@projtag.tags_id = @type
+      #@projtag.tags_id = @tag.id
       #@projtag.date_in = params[:date_in]
       #@projtag.date_out = params[:date_out]
       #@projtag.name = params[:new_projtag_id]
@@ -48,7 +60,8 @@ class ProjectsTagsController < ApplicationController
       #@project = @candidate.projects.find(params[:project_id])
       #@projects_role = @project.projects_roles.find(params[:projects_role_id])
       #@projtag = @projects_role.projects_tags.build(params[:projtag])
-      if @projtag.save
+      #if @projtag.save
+      if @tag.save
         flash[:success] = @tag_title + " was saved successfully."
         render @new_page
       else

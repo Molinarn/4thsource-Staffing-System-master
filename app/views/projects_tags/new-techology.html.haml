@@ -40,8 +40,8 @@
       .field
         = f.label "Tag"
         %br
-        = f.select :tags_id, options_from_collection_for_select(Tag.where({:type_tag => ["3"]}).order("name").all, "id", "name")
-        = text_field_tag "new_projtag_id",@tag.name
+        = f.select :name, options_from_collection_for_select(Tag.where({:type_tag => ["3"]}).order("name").all, "id", "name")
+        = text_field_tag "new_projtag_id"
         = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
     .row-fluid
       .field.width100percent

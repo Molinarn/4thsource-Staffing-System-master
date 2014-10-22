@@ -6,7 +6,11 @@ class ProjectsController < ApplicationController
   #before_filter :correct_candidate
 
   def index
+
+    puts "\nprojects#index".green
+
     @candidate  = Candidate.find_by_id(params[:id])
+
     #@microposts = @candidate.microposts.paginate(:page => params[:page])
     @title = @candidate.first_name+' '+@candidate.first_last_name
 
@@ -16,7 +20,7 @@ class ProjectsController < ApplicationController
     else
       @projects_items = @candidate.projects
     end
-    
+
   end
 
   def profile
@@ -41,7 +45,9 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    
+
+    puts "\nprojects#show".green
+
     #@candidate = current_candidate
     @candidate = Candidate.find(params[:id])
 
