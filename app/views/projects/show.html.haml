@@ -57,7 +57,6 @@
           .experience_details_wrapper
           .experience_details_left
             %br
-            %br
             %strong
               = Role.find_by_projects_role_id(role.id).name
           .experience_details_right
@@ -113,9 +112,9 @@
                   .divider-headline-mini
               - if role.projects_tags.count > 0
                 - role.projects_tags.each do |pt|
-                  - if pt.tags.where("type_tag" == 3).count > 0
+                  - if pt.tags.where("type_tag" => 3).count > 0
                     %list
-                      - pt.where("type_tag" == 3).each do |t|
+                      - pt.tags.where("type_tag" => 3).each do |t|
                         %br
                         #row
                           .experience_details_wrapper
@@ -151,9 +150,9 @@
                   .divider-headline-mini
               - if role.projects_tags.count > 0
                 - role.projects_tags.each do |pt|
-                  - if pt.tags.where("type_tag" == 2).count > 0
+                  - if pt.tags.where("type_tag" => 2).count > 0
                     %list
-                      - pt.tags.where("type_tag" == 2).each do |t|
+                      - pt.tags.where("type_tag" => 2).each do |t|
                         %br
                         #row
                           .experience_details_wrapper
@@ -184,15 +183,15 @@
                 %br
                 %h5.page_headline
                   %i.iconToolsHeadLine
-                    .tag_left
-                      Tools&nbsp;&nbsp;&nbsp;
-                      = link_to "Add new", :controller => "projects_tags", :action => "new", :id=> @candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :type_id=>"1"
-                    .divider-headline-mini
+                  .tag_left
+                    Tools&nbsp;&nbsp;&nbsp;
+                    = link_to "Add new", :controller => "projects_tags", :action => "new", :id=> @candidate.id, :project_id=> @project.id, :projects_role_id=> role.id, :type_id=>"1"
+                  .divider-headline-mini
               - if role.projects_tags.count > 0
                 - role.projects_tags.each do |pt|
-                  - if pt.tags.where("type_tag" == 1).count > 0
+                  - if pt.tags.where("type_tag" => 1).count > 0
                     %list
-                      - pt.tags.where("type_tag" == 1).each do |t|
+                      - pt.tags.where("type_tag" => 1).each do |t|
                         %br
                         #row
                           .experience_details_wrapper

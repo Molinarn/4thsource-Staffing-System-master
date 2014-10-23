@@ -106,7 +106,7 @@
                       .tag_left
                         %h6
                           Knowledges
-                      %br
+                        %br
                       - if pt.tags.where("type_tag" == 2).count > 0
                         - pt.tags.where("type_tag" == 2).each do |t|
                           %il
@@ -131,7 +131,7 @@
                       .tag_left
                         %h6
                           Tools
-                      %br
+                        %br
                       - if pt.tags.where("type_tag" == 1).count > 0
                         - pt.tags.where("type_tag" == 1).each do |t|
                           %il
@@ -152,6 +152,12 @@
                           &nbsp;----
                       %br
                       %br
+                  -else
+                    .experience_details_wrapper
+                    .experience_details_left
+                      %br
+                      %br
+                      This role has missing fields, edit the role and complete the register.
         %br
         %br
         %br

@@ -27,12 +27,11 @@ class ProjectsTagsController < ApplicationController
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
     @projects_role = @project.projects_roles.find(params[:projects_role_id])
+    @projtag = @projects_role.projects_tags.find_by_projects_role_id(@projects_role.id)
 
     #@projtag = @projects_role.projects_tags.new(params[:new_projtag_id])
 
     if request.post?
-
-      #puts "\n@selected: #{@selected.id}.magenta"
 
       puts "\nrequest.post".yellow
 
@@ -40,15 +39,14 @@ class ProjectsTagsController < ApplicationController
         puts "#{t}".cyan
       end
 
-      #@projtag = @projects_role.projects_tags.new(params[:projtag])
-      @projtag = @projects_role.projects_tags.new
+      #@projtag = @projects_role.projects_tags.new
 
       puts "\n@projtag.nil?: #{@projtag.nil?}".red
 
-      puts "\n#{params[:date_in]} - #{params[:date_in]}".blue
+      puts "\n#{params[:projtag][:date_in]} - #{params[:projtag][:date_out]}".blue
 
-      @projtag.date_in = params[:date_in]
-      @projtag.date_out = params[:date_out]
+      #@projtag.date_in = params[:projtag][:date_in]
+      #@projtag.date_out = params[:projtag][:date_out]
 
       puts "\n@projtag.save: #{@projtag.save}".red
 
@@ -56,6 +54,8 @@ class ProjectsTagsController < ApplicationController
       @tag.type_tag = @type
       @tag.name = params[:new_projtag_id]
       @tag.description = params[:description]
+      @tag.date_in = params[:projtag][:date_in]
+      @tag.date_out = params[:projtag][:date_out]
       #@tag.save
 
       #@projtag.tags_id = @type
@@ -69,7 +69,9 @@ class ProjectsTagsController < ApplicationController
       #@projects_role = @project.projects_roles.find(params[:projects_role_id])
       #@projtag = @projects_role.projects_tags.build(params[:projtag])
       #if @projtag.save
-      if @projtag.save && @tag.save
+
+      #if @projtag.save && @tag.save
+      if @tag.save
 
         flash[:success] = @tag_title + " was saved successfully."
         render @new_page
@@ -86,10 +88,12 @@ class ProjectsTagsController < ApplicationController
       @candidate = Candidate.find(params[:id])
       @project = @candidate.projects.find(params[:project_id])
       @projects_role  = @project.projects_roles.find(params[:projects_role_id])
+      @projtags = @projects_role.projects_tags.find_by_projets_role_id(@projects_role.id)
       @title = @tag_title + " for " + Role.find_by_projects_role_id(@projects_role.id).name + " in " + @project.name
-      @projtag = ProjectsTag.new
-      @projtag.date_in = params[:date_in]
-      @projtag.date_out = params[:date_out]
+      @tag = @Tags.new
+      #@projtag = ProjectsTag.new
+      #@projtag.date_in = params[:date_in]
+      #@projtag.date_out = params[:date_out]
       @error = @projtag.errors
       render @new_page
     end
