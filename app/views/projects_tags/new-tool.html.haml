@@ -12,7 +12,7 @@
       =link_to_project("Projects", @candidate.id, :action => "index")
       = raw '&raquo;'
     %li
-      = link_to "Roles", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+      = link_to "Roles", :controller => "projects", :action => "show", :id => @candidate.id, :project_id=> @project.id
       = raw '&raquo;'
     %li
       = raw('<em>Tools</em>')
@@ -28,7 +28,7 @@
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-  = link_to "Back", :controller => "projects", :action => "show", id:@candidate.id, :project_id=> @project.id
+  = link_to "Back", :controller => "projects", :action => "show", :id => @candidate.id, :project_id=> @project.id
   %br
   %br
   = form_for(:projtag, :html => {:class => "experience", :method => "post", 'data-validate' => 'parsley'}) do |f|
@@ -39,24 +39,47 @@
       .field
         = f.label "Tag"
         %br
-        = f.select :tags_id, options_from_collection_for_select(Tag.where({:type_tag => ["1"]}).order("name").all, "id", "name")
+        = f.select :id, options_from_collection_for_select(Tag.where({:type_tag => ["1"]}).order("name").all, "id", "name")
+        = text_field_tag "new_projtag_id"
     .row-fluid
       .field.width100percent
         = f.label "Description"
         %br
         = f.text_area :description, {"class"=>"width100percent", 'data-required' => 'true'}
     .row-fluid
-      .span6
-        .field
-          = f.label "Date In"
-          %br
-          .birthdate= date_select(:projtag, :date_in, :start_year => 1950, :order => [:month, :day, :year])
-      .span6
-        .field
-          = f.label "Date Out"
-          %br 
-          .birthdate= date_select(:projtag, :date_out, :start_year => 1950, :order => [:month, :day, :year])
+      .field
+        = f.label :date_in
+        %br
+        = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @tag.try(:date_in).try(:strftime,'%Y-%m-%d')
+      .field
+        = f.label :date_out
+        %br
+        = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @tag.try(:date_out).try(:strftime,'%Y-%m-%d')
     .actions
       %br
-      = f.submit "Add Tool",{"class"=>"btn btn-primary", id: "send"}
+      = f.submit "Add Tool",{"class"=>"btn btn-primary", :id => "send"}
+      :javascript
+                  jQuery(document).ready(function(){
+                    var date = new Date();
+                    $( "#date_in" ).datepicker({
+                      changeMonth: true,
+                      changeYear: true,
+                      dateFormat: 'yy-mm-dd',
+                      yearRange: "1950:".concat(String(date.getFullYear())),
+                      //yearRange: "1950:2013",
+                      onClose: function( selectedDate ) {
+                      $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
+                      }
+                      });
+                      $( "#date_out" ).datepicker({
+                      changeMonth: true,
+                      changeYear: true,
+                      dateFormat: 'yy-mm-dd',
+                      yearRange: "1950:".concat(String(date.getFullYear())),
+                      //yearRange: "1950:2013",
+                      onClose: function( selectedDate ) {
+                      $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
+                      }
+                      });
+                  });
 

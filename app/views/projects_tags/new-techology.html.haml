@@ -52,11 +52,11 @@
       .field
         = f.label :date_in
         %br
-        = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @projtag.try(:date_in).try(:strftime,'%Y-%m-%d')
+        = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @tag.try(:date_in).try(:strftime,'%Y-%m-%d')
       .field
         = f.label :date_out
         %br
-        = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @projtag.try(:date_out).try(:strftime,'%Y-%m-%d')
+        = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @tag.try(:date_out).try(:strftime,'%Y-%m-%d')
     .actions
       %br
         = f.submit "Add Technology",{:class => "btn btn-primary", :id => "send"}

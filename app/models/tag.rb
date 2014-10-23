@@ -2,8 +2,12 @@ class Tag < ActiveRecord::Base
   attr_accessible :id,
                   :description, 
                   :name, 
-                  :type_tag
-                  :projects_tag_id
+                  :type_tag,
+                  :projects_tag_id,
+                  :date_in,
+                  :date_out
+
+  validate :validate_end_date_before_start_date
 
   #has_many :projects_tag, :dependent => :destroy
   belongs_to :projects_tag, :foreign_key => "projects_tag_id"
@@ -17,6 +21,10 @@ class Tag < ActiveRecord::Base
   #validate :name, :presence => true
   validate :type_tag, :presence => true
   #validate :description, :presence => true
+
+  validates :date_in,       :presence => true
+
+  validates :date_out,     :presence => true
 
   def used
     (ProjectsTag.where("tags_id = ?", id).length > 0)  
@@ -38,6 +46,13 @@ class Tag < ActiveRecord::Base
   		@names = " - - - ";  		
   	end
   	return @names
+  end
+
+  def validate_end_date_before_start_date
+    return if date_out.nil?
+    if date_out && date_in
+      errors.add(:date_in, ": could not be after than Date out") if date_out < date_in
+    end
   end
   
 end

@@ -46,6 +46,7 @@
           - project.projects_roles.each do |role|
             %br
             %br
+            %br
             #row
               %i.iconRolesHeadLine
               .project_role_left
@@ -59,12 +60,13 @@
                 = Date::MONTHNAMES[role.date_out.month]
                 = role.date_out.year
               %br
-              - if role.roles.count > 0
+            - if role.roles.count > 0
+              - role.roles.each do |r|
                 %i.iconResponsibilitiesHeadLine
                 .responsibility_left
                   %h6
                     Responsibilities
-                - role.roles.each do |r|
+                  %br
                   - if r.roles_responsibilities.count > 0
                     - r.roles_responsibilities.each do |respon|
                       .responsibility_left
@@ -73,91 +75,83 @@
                             = respon.description
                   - else
                     &nbsp;----
+                %br
+                %br
+                %i.iconTechnologyHeadLine
+                .tag_left
+                  %h6
+                    Platforms
                   %br
+                - if ProjectsTag.find_by_projects_role_id(role.id).tags.where("type_tag" == 3).count > 0
+                  - ProjectsTag.find_by_projects_role_id(role.id).tags.where("type_tag" == 3).each do |t|
+                    - @tmpTag = t
+                    %il
+                      .tag_left
+                        %strong
+                          = @tmpTag.name
+                        %a{:href => '#!', :id=>"techs#{@tmpTag.id}_#{role.id}", :onclick=>"showTechs(#{@tmpTag.id}, #{role.id});"}
+                          = "(" + role.technames(@tmpTag.id) + ")"
+                      .tag_right
+                        = Date::MONTHNAMES[t.date_in.month]
+                        = t.date_in.year
+                        = raw(' - ')
+                        = Date::MONTHNAMES[t.date_out.month]
+                        = t.date_out.year
+                - else
+                  .tag_left
+                    &nbsp;----
+                %br
+                %br
+                %i.iconKnowledgeHeadLine
+                .tag_left
+                  %h6
+                    Knowledges
                   %br
-                  - if role.projects_tags.count > 0
-                    %i.iconTechnologyHeadLine
-                    .tag_left
-                    %h6
-                      Platforms
-                    %br
-                    - role.projects_tags.each do |pt|
-                      - if pt.tags.where("type_tag" == 3).count > 0
-                        - pt.tags.where("type_tag" == 3).each do |t|
-                          - @tmpTag = t
-                          %il
-                            .tag_left
-                              %strong
-                                = @tmpTag.name
-                              %a{:href => '#!', :id=>"techs#{@tmpTag.id}_#{role.id}", :onclick=>"showTechs(#{@tmpTag.id}, #{role.id});"}
-                                = "(" + role.technames(@tmpTag.id) + ")"
-                            .tag_right
-                              = Date::MONTHNAMES[ProjectsTag.find(t.projects_tag_id).date_in.month]
-                              = ProjectsTag.find(t.projects_tag_id).date_in.year
-                              = raw(' - ')
-                              = Date::MONTHNAMES[ProjectsTag.find(t.projects_tag_id).date_out.month]
-                              = ProjectsTag.find(t.projects_tag_id).date_out.year
-                      - else
-                        .tag_left
-                          &nbsp;----
-                      %br
-                      %br
-                      %i.iconKnowledgeHeadLine
+                - if ProjectsTag.find_by_projects_role_id(role.id).tags.where("type_tag" == 2).count > 0
+                  - ProjectsTag.find_by_projects_role_id(role.id).tags.where("type_tag" == 2).each do |t|
+                    %il
+                      .tag_left
+                        %strong
+                          = t.name
+                        %pre
+                          &nbsp;&bull;
+                          = t.description
+                      .tag_right
+                        = Date::MONTHNAMES[t.date_in.month]
+                        = t.date_in.year
+                        = raw(' - ')
+                        = Date::MONTHNAMES[t.date_out.month]
+                        = t.date_out.year
+                - else
+                  .tag_left
+                    &nbsp;----
+                %br
+                %br
+                %i.iconToolsHeadLine
+                .tag_left
+                  %h6
+                    Tools
+                  %br
+                - if ProjectsTag.find_by_projects_role_id(role.id).tags.where("type_tag" == 1).count > 0
+                  - ProjectsTag.find_by_projects_role_id(role.id).tags.where("type_tag" == 1).each do |t|
+                    %il
                       .tag_left
                         %h6
-                          Knowledges
-                        %br
-                      - if pt.tags.where("type_tag" == 2).count > 0
-                        - pt.tags.where("type_tag" == 2).each do |t|
-                          %il
-                            .tag_left
-                              %strong
-                                = t.name
-                              %pre
-                                &nbsp;&bull;
-                                = t.description
-                            .tag_right
-                              = Date::MONTHNAMES[ProjectsTag.find(t.projects_tag_id).date_in.month]
-                              = ProjectsTag.find(t.projects_tag_id).date_in.year
-                              = raw(' - ')
-                              = Date::MONTHNAMES[ProjectsTag.find(t.projects_tag_id).date_out.month]
-                              = ProjectsTag.find(t.projects_tag_id).date_out.year
-                      - else
-                        .tag_left
-                          &nbsp;----
-                      %br
-                      %br
-                      %i.iconToolHeadLine
+                          = t.name
+                      .tag_right
+                        = Date::MONTHNAMES[t.date_in.month]
+                        = t.date_in.year
+                        = raw(' - ')
+                        = Date::MONTHNAMES[t.date_out.month]
+                        = t.date_out.year
                       .tag_left
-                        %h6
-                          Tools
-                        %br
-                      - if pt.tags.where("type_tag" == 1).count > 0
-                        - pt.tags.where("type_tag" == 1).each do |t|
-                          %il
-                            .tag_left
-                              %h6
-                                = t.name
-                            .tag_right
-                              = Date::MONTHNAMES[ProjectsTag.find(t.projects_tag_id).date_in.month]
-                              = ProjectsTag.find(t.projects_tag_id).date_in.year
-                              = raw(' - ')
-                              = Date::MONTHNAMES[ProjectsTag.find(t.projects_tag_id).date_out.month]
-                              = ProjectsTag.find(t.projects_tag_id).date_out.year
-                            .tag_left
-                              %pre
-                                = t.description
-                      - else
-                        .tag_left
-                          &nbsp;----
-                      %br
-                      %br
-                  -else
-                    .experience_details_wrapper
-                    .experience_details_left
-                      %br
-                      %br
-                      This role has missing fields, edit the role and complete the register.
+                        %pre
+                          = t.description
+                - else
+                  .tag_left
+                    &nbsp;----
+                %br
+                %br
         %br
         %br
         %br

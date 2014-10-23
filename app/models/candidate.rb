@@ -392,6 +392,7 @@ class Candidate < ActiveRecord::Base
     #puts "\nproject > #{project.reflections.keys}".blue
 
     build_default_role(projects_role)
+    build_default_projects_tag(projects_role)
 
   end
 
@@ -421,6 +422,14 @@ class Candidate < ActiveRecord::Base
     #pr = role.projects_roles.new
 
     #puts ["\nbuild_default_role: ".yellow, "#{pr.save}".red]
+
+  end
+
+  def build_default_projects_tag(projects_role)
+
+    projtag = projects_role.projects_tags.new
+
+    puts ["\nbuild_default_projects_tag: ".yellow, "#{projtag.save}".red]
 
   end
 
