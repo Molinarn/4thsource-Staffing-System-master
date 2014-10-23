@@ -74,7 +74,6 @@ class ProjectsController < ApplicationController
       @roles_items = Role.all
     end
     
-    
   end
   
   def prepare_project_form

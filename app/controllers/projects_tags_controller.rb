@@ -58,7 +58,7 @@ class ProjectsTagsController < ApplicationController
       @tag = @projtag.tags.new
       @tag.type_tag = @type
       @tag.name = params[:new_projtag_id]
-      @tag.description = params[:description]
+      @tag.description = params[:projtag][:description]
       @tag.date_in = params[:projtag][:date_in]
       @tag.date_out = params[:projtag][:date_out]
       #@tag.save
@@ -110,7 +110,8 @@ class ProjectsTagsController < ApplicationController
     @project = @candidate.projects.find(params[:project_id])
     @projectsrole = @project.projects_roles.find(params[:projects_role_id])
     
-    ProjectsTag.find(params[:projtag_id]).destroy
+    @projtag = ProjectsTag.find(params[:projtag_id])
+    Tag.find(params[:tag_id]).destroy
     #render 'projects/show'
     redirect_to :back
   end
