@@ -31,7 +31,7 @@ class ProjectsRole < ActiveRecord::Base
 
   #has_one     :project
 
-  has_many     :projects_tags
+  has_many     :projects_tags, :dependent => :destroy
 
   has_many     :projects_tags_technologies, :foreign_key => :project_tag_id
 

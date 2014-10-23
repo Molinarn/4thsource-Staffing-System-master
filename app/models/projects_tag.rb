@@ -10,7 +10,7 @@ class ProjectsTag < ActiveRecord::Base
   #belongs_to :projectsRole
 
   #belongs_to :tags, :class_name => 'Tag', :foreign_key => :tags_id
-  has_many :tags, :dependent => :destroy
+  has_many :tags,  :dependent => :destroy
 
   validate :projects_role_id, :presence => true
 

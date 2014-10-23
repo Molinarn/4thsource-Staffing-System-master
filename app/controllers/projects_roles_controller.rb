@@ -11,14 +11,18 @@ class ProjectsRolesController < ApplicationController
 
     #@projects_role = @project.projects_roles.find_or_create_by(:project_id => @project.id)
 
-    @projects_role = ProjectsRole.find_by_project_id(@project.id)
+    #@projects_role = ProjectsRole.find_by_project_id(@project.id)
 
-    if @projects_role.nil?
+    if ProjectsRole.find_by_project_id(@project.id).nil?
 
       puts "\nprojects_role == nil".red
 
       @projects_role = @project.projects_roles.new
       @projects_role.save
+
+    else
+
+      @projects_role = ProjectsRole.find_by_project_id(@project.id)
 
     end
 
@@ -73,6 +77,8 @@ class ProjectsRolesController < ApplicationController
 
       end
 
+      projtag = @projects_role.projects_tags.new
+      projtag.save
       #@projects_role.update_attributes(params[:projects_role])
 
       #@newRole = @projects_role.roles.new
@@ -80,7 +86,7 @@ class ProjectsRolesController < ApplicationController
       #@newRole.save
 
       #if @projects_role.save
-      if updated.nil?
+      if updated
         flash[:success] = "Role was saved successfully."
         #render 'projects/show'
         render 'projects_roles/new'        
