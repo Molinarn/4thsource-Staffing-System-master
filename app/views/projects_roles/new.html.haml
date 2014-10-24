@@ -35,8 +35,8 @@
     .field
       = f.label "Role type"
       %br
-      = f.select :id, options_from_collection_for_select(@roles, "id", "name", :selected => @role)
-      = text_field_tag "new_role_id", @roles.name
+      = f.select :id, options_from_collection_for_select(Role.all, "id", "name")
+      = text_field_tag "new_role_id"
       = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
     .field
       = f.label :date_in

@@ -8,35 +8,37 @@ class ProjectsRolesController < ApplicationController
 
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
+    #@projects_role = @project.projects_roles.find_by_project_id(@project_id)
+    @projects_role = ProjectsRole.find_by_project_id(@project.id)
 
     #@projects_role = @project.projects_roles.find_or_create_by(:project_id => @project.id)
 
     #@projects_role = ProjectsRole.find_by_project_id(@project.id)
 
-    if ProjectsRole.find_by_project_id(@project.id).nil?
+    #if ProjectsRole.find_by_project_id(@project.id).nil?
 
-      puts "\nprojects_role == nil".red
+      #puts "\nprojects_role == nil".red
 
-      @projects_role = @project.projects_roles.new
-      @projects_role.save
+      #@projects_role = @project.projects_roles.new
+      #@projects_role.save
 
-    else
+    #else
 
-      @projects_role = ProjectsRole.find_by_project_id(@project.id)
+      #@projects_role = ProjectsRole.find_by_project_id(@project.id)
 
-    end
+    #end
 
-    @roles = @projects_role.roles
+    #@roles = @projects_role.roles
 
     puts "\ncandidate_id: #{@candidate.id}".cyan
     puts "project_id: #{@project.id}".cyan
     puts "project_role_id: #{@projects_role.id}".cyan
-    puts "roles_id: #{@roles.id}".cyan
+    #puts "roles_id: #{@roles.id}".cyan
 
     #This is not working
-    @roles.each do |r|
-      puts "#{r.id}".cyan
-    end
+    #@roles.each do |r|
+      #puts "#{r.id}".cyan
+    #end
 
     if request.post?
 
@@ -51,11 +53,14 @@ class ProjectsRolesController < ApplicationController
 
       #@projects_role = @project.projects_roles.build(params[:projects_role])
 
-      updated = @projects_role.update_attributes(params[:projects_role])
+      #updated = @projects_role.update_attributes(params[:projects_role])
 
-      puts "\nupdated: #{updated}".blue
+      @projects_role.date_in = params[:projects_role][:date_in]
+      @projects_role.date_out = params[:projects_role][:date_out]
 
-      puts "\n@role.nil? #{@roles.nil?}\n".red
+      #puts "\nupdated: #{updated}".blue
+
+      #puts "\n@role.nil? #{@roles.nil?}\n".red
 
       #@role.each do |r|
       #puts "#{r}".cyan
@@ -72,14 +77,16 @@ class ProjectsRolesController < ApplicationController
 
       actual_roles = @projects_role.roles
 
-      actual_roles.each do |r|
-        puts"#{r}".cyan
-      end
-
       if actual_roles.nil? || actual_roles.where("name = ?", new_role).count == 0
 
           @role = @projects_role.roles.new(:name => new_role)
-          @role.save
+          #@role.save
+
+      else
+
+        actual_roles.each do |r|
+          puts"#{r}".cyan
+        end
 
       end
 
@@ -92,7 +99,8 @@ class ProjectsRolesController < ApplicationController
       #@newRole.save
 
       #if @projects_role.save
-      if updated
+      if @role.save
+      #if updated
         flash[:success] = "Role was saved successfully."
         #render 'projects/show'
         render 'projects_roles/new'        
@@ -150,8 +158,9 @@ class ProjectsRolesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
     @projects_role = @project.projects_roles.find(params[:projects_role_id])
-    ProjectsRole.find(params[:projects_role_id]).destroy
+    #ProjectsRole.find(params[:projects_role_id]).destroy
     #render 'projects/show'
+    Role.find(params[:role_id]).destroy
     redirect_to :back
   end
   

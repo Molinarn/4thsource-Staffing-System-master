@@ -88,6 +88,8 @@ class ProjectsController < ApplicationController
 
       @project = @candidate.projects.build(params[:project])
       if @project.save
+        @projects_role = @project.projects_role.new
+        @projects_role.save
         flash.now[:success] = "Project was saved successfully."
         @projects_items = @candidate.projects
         #render :index

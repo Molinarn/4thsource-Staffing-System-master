@@ -10,7 +10,8 @@ class RolesResponsibilitiesController < ApplicationController
       @candidate = Candidate.find(params[:id])
       @project = @candidate.projects.find(params[:project_id])
       @projects_role = @project.projects_roles.find(params[:projects_role_id])
-      @role = Role.find_by_projects_role_id(@projects_role.id)
+      @role = Role.find_by_projects_role_id(:role_id)
+      #@role = Role.find_by_projects_role_id(@projects_role.id)
       @rolerespon = @role.roles_responsibilities.build(params[:rolerespon])
 
       puts "\n@candidate_id: #{@candidate.id}".cyan
