@@ -47,6 +47,9 @@ class ProfileBuilder2
   end
 
   def build
+
+    puts "\nProfileBuilder2#build".green
+
     @hasfilter = false
     @hasfilter = true unless @filter == "";
     @tmpleducation = '<w:p><w:pPr><w:pStyle w:val="No Spacing"/><w:ind w:hanging="360"/><w:ind w:left="720"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="130"/></w:numPr></w:pPr><w:r><w:rPr></w:rPr><w:t xml:space="preserve">  </w:t></w:r><w:r><w:rPr><w:rFonts w:ascii="Arial" w:cs="Arial" w:hAnsi="Arial"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">#TITLE# - </w:t></w:r><w:r><w:rPr><w:rFonts w:ascii="Arial" w:cs="Arial" w:hAnsi="Arial"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve"> #DESC#</w:t></w:r></w:p>'
@@ -71,7 +74,13 @@ class ProfileBuilder2
       @title = ""
       @desc = ""
       @education = ""
+
+      puts "\n@candidate.candidate_education.nil?: #{@candidate.candidate_education.nil?}".red
+
       @candidate.candidate_education.each do |education|
+
+          puts "#{education.id}".magenta
+
           @title = education.educ_degree.name + " in " + education.title + ","
           @desc = education.university
           if education.date_in != nil && education.date_out != nil

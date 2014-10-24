@@ -5,19 +5,19 @@ class CandidatesProfilesController < ApplicationController
   # GET /candidates_profiles.json  
   def index
 
-    puts "\ncandidates_profile#index".green
+    puts "\ncandidates_profiles#index".green
 
     id = current_candidate.id
 
     puts "\ncurrent_candidate.id:  #{id}".cyan
 
-    id = params[:id] unless (params[:id] == nil)
+    #id = params[:id] unless (params[:id] == nil)
 
-    puts "\nparams[:id]:  #{id}".cyan
+    #puts "\nparams[:id]:  #{id}".cyan
 
     @candidate = Candidate.find_by_id(id)
 
-    puts "\n@candidate.id: #{@candidate.id}".magenta
+    #puts "\n@candidate.id: #{@candidate.id}".magenta
 
     @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
     #@candidates_profile = @candidate.candidates_profiles.find(params[:candidates_profile_id])
@@ -56,9 +56,10 @@ class CandidatesProfilesController < ApplicationController
   # GET /candidates_profiles/1.json
   def show
 
-    puts "\ncandidates_profile#show".green
+    puts "\ncandidates_profiles#show".green
 
-    @candidates_profile = CandidatesProfile.find_by_id(params[:candidates_profile_id])
+    #@candidates_profile = CandidatesProfile.find_by_id(params[:candidates_profile_id])
+    @candidates_profile = CandidatesProfile.find_by_candidate_id(params[:id])
     #@candidate = Candidate.find_by_id(@candidates_profile.candidate_id)   
     @builder = ProfileBuilder2.new
     @builder.filter = @candidates_profile.profiledata
@@ -75,17 +76,19 @@ class CandidatesProfilesController < ApplicationController
   # GET /candidates_profiles/new.json
   def new
 
-    puts "\ncandidates_profile#new".green
+    puts "\ncandidates_profiles#new".green
 
     @candidate = Candidate.find_by_id(params[:candidate_id])
-    @candidates_profile = CandidatesProfile.new
+    #@candidates_profile = CandidatesProfile.new
+    @candidates_profile = @candidate.candidates_profiles.new
+
   end
 
   # GET /candidates_profiles/1
   # GET /candidates_profiles/1.json
   def editprofile
 
-    puts "\ncandidates_profile#editprofile".green
+    puts "\ncandidates_profiles#editprofile".green
 
     @candidates_profile = CandidatesProfile.find_by_id(params[:candidates_profile_id])
     @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)
@@ -93,14 +96,17 @@ class CandidatesProfilesController < ApplicationController
     puts "\n@candidate: #{@candidate.id}".cyan
     puts "@candidates_profile: #{@candidates_profile.id}".cyan
 
-    render :edit 
+    #redirect_to File.join('/candidates/',@candidate.id.to_s,'/candidates_profiles')
+
+    render :edit
+
   end
 
   # POST /candidates_profiles
   # POST /candidates_profiles.json
   def create
 
-    puts "\ncandidates_profile#create".green
+    puts "\ncandidates_profiles#create".green
 
     @candidates_profile = CandidatesProfile.new(params[:candidates_profile])
 
@@ -116,15 +122,21 @@ class CandidatesProfilesController < ApplicationController
   end
 
   def save
+
+    puts "\ncandidates_profiles#save".green
+
     @candidates_profile = CandidatesProfile.new
     @candidates_profile.candidate_id = params[:candidate_id]
+    #@candidates_profile.candidate_id = params[:id]
     @candidates_profile.name = params[:name]
     @candidates_profile.summary = params[:summary]
     @candidates_profile.profiledata = params[:profiledata]
     if @candidates_profile.save
       @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)   
       @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
-      redirect_to action:"index", id = @candidates_profile.candidate_id
+      redirect_to File.join('/candidates/',@candidate.id.to_s,'/candidates_profiles')
+      #redirect_to "/candidates/#{@candidates_profile.candidate_id}/candidates_profiles"
+      #redirect_to action => "show", id => @candidates_profile.candidate_id
     else
       render text = "Error while saving profile " + @candidates_profile.errors.to_xml
     end
@@ -134,7 +146,7 @@ class CandidatesProfilesController < ApplicationController
   # PUT /candidates_profiles/1.json
   def update
 
-    puts "\ncandidates_profile#update".green
+    puts "\ncandidates_profiles#update".green
 
     params.each do |p|
       puts "#{p}".cyan
@@ -151,7 +163,7 @@ class CandidatesProfilesController < ApplicationController
     if @candidates_profile.save
       @candidate = Candidate.find(@candidates_profile.candidate_id)
       @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
-      redirect_to action:"index", id = @candidate.id
+      redirect_to File.join('/candidates/',@candidate.id.to_s,'/candidates_profiles')
     else
       render text = "Error while saving profile " + @candidates_profile.errors.to_xml
     end
@@ -160,10 +172,19 @@ class CandidatesProfilesController < ApplicationController
   # DELETE /candidates_profiles/1
   # DELETE /candidates_profiles/1.json
   def delete
+
+    puts "\ncandidates_profiles#delete".green
+
     @candidates_profile = CandidatesProfile.find(params[:candidates_profile_id])
-    id = @candidates_profile.candidate_id
+    candidate_id = @candidates_profile.candidate_id
     @candidates_profile.destroy
-    redirect_to action:"index", id = id
+
+    puts "\n@candidates_profile: #{@candidates_profile.nil?}".red
+
+    puts "#{candidate_id}".blue
+    #redirect_to "/candidates/#{candidate_id}/candidates_profiles"
+    redirect_to File.join('/candidates/',candidate_id.to_s,'/candidates_profiles')
+
   end
 
   def admin
@@ -235,7 +256,7 @@ class CandidatesProfilesController < ApplicationController
 
     tag = Tag.find_by_id(tagId)
     if tag!=nil
-      if tag.type_tag = 3 #Its a Platform, so, could have a technologie
+      if tag.type_tag == 3 #Its a Platform, so, could have a technologie
         framework = Array.new
         framework << Technology.find_by_lang_id(tagId)
         if framework[0]!=nil
@@ -250,8 +271,8 @@ class CandidatesProfilesController < ApplicationController
   #Input example "{#tag:66/13/15#}{#undefined:undefined#}{#role:66/13#}{#project:66#}{#tag:66/13/24#}{#undefined:undefined#}{#tech:66/13/4/6#}{#tag:66/13/224#}"
   def splitString(strTags)
     trace = false
-    strAuxTags = "";
-    strTagPartial = "";
+    strAuxTags = ""
+    strTagPartial = ""
     arrayTagsLocal = Array.new
 
     
@@ -265,7 +286,7 @@ class CandidatesProfilesController < ApplicationController
         strTagPartial = strTags[initPos,endPos]
         strTags[0..endPos] = ""
         arrayTagsLocal.push(splitTag(strTagPartial))
-        if(trace)
+        if trace
           logger.debug "====strTags:" + strTags.to_s
           logger.debug "====strTagPartial:" + strTagPartial.to_s
           logger.debug "====strTags:" + strTags.to_s
