@@ -55,7 +55,7 @@ class ProjectsRolesController < ApplicationController
 
       puts "\nupdated: #{updated}".blue
 
-      puts "\n@role.nil? #{@roles.nil?}".red
+      puts "\n@role.nil? #{@roles.nil?}\n".red
 
       #@role.each do |r|
       #puts "#{r}".cyan
@@ -68,7 +68,13 @@ class ProjectsRolesController < ApplicationController
       end
 
       #Return a collection of roles
-      actual_roles = Role.find_by_projects_role_id(@projects_role.id)
+      #actual_roles = Role.find_by_projects_role_id(@projects_role.id)
+
+      actual_roles = @projects_role.roles
+
+      actual_roles.each do |r|
+        puts"#{r}".cyan
+      end
 
       if actual_roles.nil? || actual_roles.where("name = ?", new_role).count == 0
 
