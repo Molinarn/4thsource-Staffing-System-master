@@ -133,15 +133,25 @@ class CandidatesProfilesController < ApplicationController
   # PUT /candidates_profiles/1
   # PUT /candidates_profiles/1.json
   def update
-    @candidates_profile = CandidatesProfile.find(params[:id])
+
+    puts "\ncandidates_profile#update".green
+
+    params.each do |p|
+      puts "#{p}".cyan
+    end
+
+    @candidates_profile = CandidatesProfile.find(params[:candidates_profile_id])
+
+    #@candidates_profile = CandidatesProfile.find(params[:id])
 
     @candidates_profile.name = params[:name]
     @candidates_profile.summary = params[:summary]
     @candidates_profile.profiledata = params[:profiledata]
+
     if @candidates_profile.save
-      @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)   
+      @candidate = Candidate.find(@candidates_profile.candidate_id)
       @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
-      redirect_to action:"index", id = @candidates_profile.candidate_id
+      redirect_to action:"index", id = @candidate.id
     else
       render text = "Error while saving profile " + @candidates_profile.errors.to_xml
     end

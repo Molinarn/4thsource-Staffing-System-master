@@ -291,6 +291,7 @@ StaffingApp::Application.routes.draw do
   ## Candidates Profiles
 
   ##Added
+  #match "/candidates/:id/candidate_profiles" => 'candidate_profiles#index'
   match "/candidates/:id/candidate_profiles" => 'candidates_profiles#index'
 
   match "/candidates_profiles" => 'candidates_profiles#index'
