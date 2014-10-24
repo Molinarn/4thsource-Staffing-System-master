@@ -7,7 +7,7 @@ class EducDegree < ActiveRecord::Base
                   :candidate_education_id
 
   #belongs_to :candidate_education
-  belongs_to :candidate_education, :dependent => :destroy
+  belongs_to :candidate_education
   #accepts_nested_attributes_for  :candidate_education
 
   validates :name, :presence => true

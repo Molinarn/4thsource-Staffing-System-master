@@ -163,7 +163,13 @@ class CandidateEducationController < ApplicationController  #
   end
 
   def destroy
-    CandidateEducation.delete(params[:id])
+
+    puts "\ncandidate_education#destroy".green
+    @candidate_education = CandidateEducation.find(params[:id])
+    #CandidateEducation.delete(params[:id])
+
+    @candidate_education.destroy
+
     redirect_to File.join('/candidates/', current_candidate.id.to_s, '/resume/education')
   end
 

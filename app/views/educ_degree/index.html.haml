@@ -9,7 +9,7 @@
       = raw '&raquo;'
     %li
       = raw '<em>'
-      = link_to "Education Degrees", :controller => "educ_degree", :action => "index"
+      = link_to "Education Degrees", :controller => "educ_degrees", :action => "index"
       = raw '</em>'
     .clear
   %h3.page_headline
@@ -24,7 +24,7 @@
   -if has_admin_role?
     %br
       %strong
-        = link_to "New", :controller => "educ_degree", :action => "new"
+        = link_to "New", :controller => "educ_degrees", :action => "new"
     %br
     %br
     %br
