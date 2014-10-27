@@ -156,6 +156,7 @@ StaffingApp::Application.routes.draw do
  
   ## Project Responsibilities
   match "/candidates/:id/projects/:project_id/projects_roles/:projects_role_id/roles_responsibilities/new" => 'roles_responsibilities#new'
+  #match "/candidates/:id/projects/:project_id/projects_roles/:projects_role_id/role/:role_id/roles_responsibilities/new" => 'roles_responsibilities#new'
   match "/candidates/:id/project/:project_id/projects_role/:projects_role_id/roles_responsibilities/:rolerespon_id/destroy" => 'roles_responsibilities#destroy'
 
   ## Project Tags

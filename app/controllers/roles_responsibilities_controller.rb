@@ -4,15 +4,28 @@ class RolesResponsibilitiesController < ApplicationController
 
     puts "\nroles_responsibility#new".green
 
-    @candidate = current_candidate
-    
+    #@candidate = current_candidate
+    @candidate = Candidate.find(params[:id])
+    @project = @candidate.projects.find(params[:project_id])
+    @projects_role = @project.projects_roles.find(params[:projects_role_id])
+    @role = @projects_role.roles.find(params[:role_id])
+    #@role = Role.find(params[:role_id])
+    #@role_id = params[:role_id]
+
+    #puts "\nrole_id: #{params[:role_id]}".magenta
+    puts "\nrole_id: #{@role.id}".magenta
+
     if request.post?
-      @candidate = Candidate.find(params[:id])
-      @project = @candidate.projects.find(params[:project_id])
-      @projects_role = @project.projects_roles.find(params[:projects_role_id])
-      @role = Role.find_by_projects_role_id(:role_id)
+
+      #puts "\n@role: #{@role.id}".cyan
+
+      params[:rolerespon].each do |p|
+        puts "#{p}"
+      end
+
+      @role = Role.find(params[:rolerespon][:role_id])
       #@role = Role.find_by_projects_role_id(@projects_role.id)
-      @rolerespon = @role.roles_responsibilities.build(params[:rolerespon])
+      @rolerespon = @role.roles_responsibilities.build(params[:rolerespon][:description])
 
       puts "\n@candidate_id: #{@candidate.id}".cyan
       puts "\n@project_id: #{@project.id}".cyan

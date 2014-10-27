@@ -88,8 +88,10 @@ class ProjectsController < ApplicationController
 
       @project = @candidate.projects.build(params[:project])
       if @project.save
-        @projects_role = @project.projects_role.new
+        @projects_role = @project.projects_roles.new
         @projects_role.save
+        @projtag = @projects_role.projects_tags.new
+        @projtag.save
         flash.now[:success] = "Project was saved successfully."
         @projects_items = @candidate.projects
         #render :index
@@ -183,8 +185,8 @@ class ProjectsController < ApplicationController
   
   def destroy
     Project.find(params[:project_id]).destroy
-    #@candidate = Candidate.find(params[:id])
-    #@projects_items = @candidate.projects
+    @candidate = Candidate.find(params[:id])
+    @projects_items = @candidate.projects
     render :index
   end
   
