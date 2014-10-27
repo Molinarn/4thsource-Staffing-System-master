@@ -27,7 +27,7 @@
   = link_to "Back", :controller => "projects", :action => "show", :id => @candidate.id, :project_id => @project.id
   %br
   %br
-  = form_for(:projects_role, :html => {:class => "experience", :method => "post"}) do |f|
+  = form_for(:role, :html => {:class => "experience", :method => "post"}) do |f|
     %h4
       Please enter the following information
     .divider
@@ -41,11 +41,11 @@
     .field
       = f.label :date_in
       %br
-      = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @projects_role.try(:date_in).try(:strftime,'%Y-%m-%d')
+      = f.text_field :date_in, :id => 'date_in', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @role.try(:date_in).try(:strftime,'%Y-%m-%d')
     .field
       = f.label :date_out
       %br
-      = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @projects_role.try(:date_out).try(:strftime,'%Y-%m-%d')
+      = f.text_field :date_out, :id => 'date_out', :readonly => 'true', :style => 'cursor: pointer; background-color: white', :value => @role.try(:date_out).try(:strftime,'%Y-%m-%d')
     .actions
       %br
       = f.submit "Update"

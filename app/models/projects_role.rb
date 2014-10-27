@@ -2,9 +2,10 @@
 class ProjectsRole < ActiveRecord::Base
 
   self.per_page = 10
-  validate :validate_end_date_before_start_date
+  #validate :validate_end_date_before_start_date
 
-  attr_accessible :id, :date_in, :date_out, :project_id, :role_id
+  #attr_accessible :id, :date_in, :date_out, :project_id, :role_id
+  attr_accessible :id, :project_id, :role_id
 
   #added
 

@@ -150,14 +150,18 @@ StaffingApp::Application.routes.draw do
 
   ## Project Roles
   match "/candidates/:id/project/:project_id/projects_roles/new" => 'projects_roles#new'
+
   match "/candidates/:id/project/:project_id/projects_role/:projects_role_id/update" => 'projects_roles#update'
   match "/candidates/:id/project/:project_id/projects_role/:projects_role_id/show" => 'projects_roles#show'
   match "/candidates/:id/project/:project_id/projects_role/:projects_role_id/destroy" => 'projects_roles#destroy'
  
   ## Project Responsibilities
-  match "/candidates/:id/projects/:project_id/projects_roles/:projects_role_id/roles_responsibilities/new" => 'roles_responsibilities#new'
+  #match "/candidates/:id/projects/:project_id/projects_roles/:projects_role_id/roles_responsibilities/new" => 'roles_responsibilities#new'
   #match "/candidates/:id/projects/:project_id/projects_roles/:projects_role_id/role/:role_id/roles_responsibilities/new" => 'roles_responsibilities#new'
   match "/candidates/:id/project/:project_id/projects_role/:projects_role_id/roles_responsibilities/:rolerespon_id/destroy" => 'roles_responsibilities#destroy'
+
+  #Added
+  match "/candidates/:id/projects/:project_id/projects_roles/:projects_role_id/roles/:role_id/roles_responsibilities/new" => 'roles_responsibilities#new'
 
   ## Project Tags
   match "/candidates/:id/projects/:project_id/projects_roles/:projects_role_id/projects_tags/:type_id/new" => 'projects_tags#new'

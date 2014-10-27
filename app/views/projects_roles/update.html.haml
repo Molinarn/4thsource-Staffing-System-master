@@ -28,7 +28,7 @@
   = link_to "Back", :controller => "projects", :action => "show", :id => @candidate.id, :project_id => @project.id
   %br
   %br
-  = form_for(:projectsrole, :html => {:class => "experience", :method => "post"}) do |f|
+  = form_for(:role, :html => {:class => "experience", :method => "post"}) do |f|
     %h4
       Please enter the following information
     .divider
@@ -36,15 +36,15 @@
     .field
       = f.label "Role type"
       %br
-      = f.select :id, options_from_collection_for_select(Role.where({:approved_flag => [true]}).order("name").all, "id", "name", @role)
+      = f.select :id, options_from_collection_for_select(Role.where({:approved_flag => [true,false]}).order("name").all, "id", "name")
     .field
       = f.label "Date In"
       %br
-      = date_select(:projectsrole, :date_in, :start_year => 1950, :order => [:month, :day, :year])
+      = date_select(:role, :date_in, :start_year => 1950, :order => [:month, :day, :year])
     .field
       = f.label "Date Out"
       %br 
-      = date_select(:projectsrole, :date_out, :start_year => 1950, :order => [:month, :day, :year])
+      = date_select(:role, :date_out, :start_year => 1950, :order => [:month, :day, :year])
     .actions
       %br
       = f.submit "Update"

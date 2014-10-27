@@ -53,11 +53,11 @@
                       = r.name
                     .divider-headline-middle
                   .project_role_right
-                    = Date::MONTHNAMES[role.date_in.month]
-                    = role.date_in.year
+                    = Date::MONTHNAMES[r.date_in.month]
+                    = r.date_in.year
                     = raw(' - ')
-                    = Date::MONTHNAMES[role.date_out.month]
-                    = role.date_out.year
+                    = Date::MONTHNAMES[r.date_out.month]
+                    = r.date_out.year
                   %br
                 %i.iconResponsibilitiesHeadLine
                 .responsibility_left

@@ -10,6 +10,9 @@ class ProjectsRolesController < ApplicationController
     @project = @candidate.projects.find(params[:project_id])
     #@projects_role = @project.projects_roles.find_by_project_id(@project_id)
     @projects_role = ProjectsRole.find_by_project_id(@project.id)
+    @role = @projects_role.roles.last
+
+    puts "\n@role.nil?: #{@role.nil?}".red
 
     #@projects_role = @project.projects_roles.find_or_create_by(:project_id => @project.id)
 
@@ -47,7 +50,7 @@ class ProjectsRolesController < ApplicationController
       #@candidate = Candidate.find(params[:id])
       #@project = @candidate.projects.find(params[:project_id])
 
-      params[:projects_role].each do |p|
+      params[:role].each do |p|
         puts "#{p}".cyan
       end
 
@@ -55,8 +58,8 @@ class ProjectsRolesController < ApplicationController
 
       #updated = @projects_role.update_attributes(params[:projects_role])
 
-      @projects_role.date_in = params[:projects_role][:date_in]
-      @projects_role.date_out = params[:projects_role][:date_out]
+      #@projects_role.date_in = params[:projects_role][:date_in]
+      #@projects_role.date_out = params[:projects_role][:date_out]
 
       #puts "\nupdated: #{updated}".blue
 
@@ -79,7 +82,13 @@ class ProjectsRolesController < ApplicationController
 
       if actual_roles.nil? || actual_roles.where("name = ?", new_role).count == 0
 
-          @role = @projects_role.roles.new(:name => new_role)
+          #@role = @projects_role.roles.new(params[:role])
+          @role = @projects_role.roles.new
+          @role.name = new_role
+          @role.date_in = params[:role][:date_in]
+          @role.date_out = params[:role][:date_out]
+          #@role = @projects_role.roles.new(params[:role])
+          #@role = @projects_role.roles.new(:name => new_role)
           #@role.save
 
       else
@@ -90,8 +99,8 @@ class ProjectsRolesController < ApplicationController
 
       end
 
-      projtag = @projects_role.projects_tags.new
-      projtag.save
+      #projtag = @projects_role.projects_tags.new
+      #projtag.save
       #@projects_role.update_attributes(params[:projects_role])
 
       #@newRole = @projects_role.roles.new
@@ -122,6 +131,8 @@ class ProjectsRolesController < ApplicationController
 
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
+    @projects_role = @project.projects_roles.find(params[:projects_role_id])
+    #@role = @project_role.roles.find(params[:role_id])
 
   end
 
@@ -129,14 +140,27 @@ class ProjectsRolesController < ApplicationController
 
     puts "\nprojects_roles#update".green
 
-    @candidate = current_candidate
-    
+    puts "\nparams[:role_id]: #{params[:role_id]}".magenta
+
+    params.each do |p|
+      puts "#{p}".cyan
+    end
+
+    #@candidate = current_candidate
+
+    @candidate = Candidate.find(params[:id])
+    @project = @candidate.projects.find(params[:project_id])
+    @projects_role = @project.projects_roles.find(params[:projects_role_id])
+    @role = @projects_role.roles.find(params[:role_id])
+
     if request.post?
-      @candidate = Candidate.find(params[:id])
-      @project = @candidate.projects.find(params[:project_id])
-      @projects_role = @project.projects_roles.find(params[:projects_role_id])
-      @projects_role.update_attributes(params[:projects_role])
-      if @projects_role.save
+
+      #@projects_role.update_attributes(params[:projects_role])
+      @role.update_attributes(:date_in => params[:role][:date_in],
+                              :date_out => params[:role][:date_out])
+
+      #if @projects_role.save
+      if @role.save
         flash[:success] = "Role was saved successfully."
         #render 'projects/show'
         render 'projects_roles/update'

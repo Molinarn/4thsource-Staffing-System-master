@@ -1,6 +1,9 @@
 class Role < ActiveRecord::Base
 
-  attr_accessible :id, :approved_by, :approved_flag, :description, :name, :projects_role_id
+  validate :validate_end_date_before_start_date
+
+  #attr_accessible :id, :approved_by, :approved_flag, :description, :name, :projects_role_id
+  attr_accessible :id, :approved_by, :approved_flag, :description, :name, :projects_role_id, :date_in, :date_out
 
   #belongs_to :projects_role, :class_name => "ProjectsRole", :foreign_key => :role_id
   #belongs_to :projects_role, :foreign_key => :role_id
@@ -27,5 +30,12 @@ class Role < ActiveRecord::Base
 
     (ProjectsRole.where("role_id = ?", id).length > 0)  
   end
-  
+
+  def validate_end_date_before_start_date
+    return if date_out.nil?
+    if date_out && date_in
+      errors.add(:date_in, ": could not be after than Date out") if date_out < date_in
+    end
+  end
+
 end
