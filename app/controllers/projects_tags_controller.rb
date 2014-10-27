@@ -95,7 +95,8 @@ class ProjectsTagsController < ApplicationController
       @projects_role  = @project.projects_roles.find(params[:projects_role_id])
       #@projtags = ProjectsTag.find_by_projects_role_id(@projects_role.id)
       @projtag = @projects_role.projects_tags.find_by_projects_role_id(@projects_role.id)
-      @title = @tag_title + " for " + Role.find_by_projects_role_id(@projects_role.id).name + " in " + @project.name
+      #@title = @tag_title + " for " + Role.find_by_projects_role_id(@projects_role.id).name + " in " + @project.name
+      @title = @tag_title + " for "+  @project.name
       #@tag = @projtag.tags.new
       #@projtag = ProjectsTag.new
       #@projtag.date_in = params[:date_in]
