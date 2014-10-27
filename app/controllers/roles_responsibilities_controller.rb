@@ -2,12 +2,6 @@ class RolesResponsibilitiesController < ApplicationController
   
   def new
 
-    #if params[:role_id].nil?
-      #@role_id = params[:rolerespon][:role_id]
-    #else
-      #@role_id = params[:role_id]
-    #end
-
     puts "\nroles_responsibility#new".green
 
     puts "\n:role_id: #{params[:role_id]}".magenta
@@ -20,14 +14,8 @@ class RolesResponsibilitiesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
     @projects_role = @project.projects_roles.find(params[:projects_role_id])
-    #@role = @projects_role.roles.find(@role.id)
-    #@role = Role.find(params[:role_id])
-    #@role_id = params[:role_id]
-
-    #puts "\nrole_id: #{params[:role_id]}".magenta
 
     @role = @projects_role.roles.find(params[:role_id])
-    #@role = @projects_role.roles.find(@role_id)
     @title = @role.name + " in " + @project.name
 
     if request.post?
@@ -35,12 +23,6 @@ class RolesResponsibilitiesController < ApplicationController
       puts "\nrequest.post".red
 
       puts "\nrole_id: #{params[:rolerespon][:role_id]}".blue
-
-      #params[:role_id] = params[:rolerespon][:role_id]
-
-      #@role = @projects_role.roles.find(params[:rolerespon][:role_id])
-
-      #puts "\n@role: #{@role.id}".cyan
 
       puts "\nparams[:rolerespon]".yellow
 
@@ -64,9 +46,7 @@ class RolesResponsibilitiesController < ApplicationController
 
         flash[:success] = "Project was saved successfully."
         render 'roles_responsibilities/new'
-        #render :back
-        #redirect_to File.join('/candidates/', @candidate.id.to_s, '/projects', @project.id.to_s,
-                              #'/projects_roles', @projects_role.id.to_s,'/roles/',@role.id.to_s,'/roles_responsibilities/new')
+
       else
         flash[:notice] = "An error occurred while the system save the project."
       end

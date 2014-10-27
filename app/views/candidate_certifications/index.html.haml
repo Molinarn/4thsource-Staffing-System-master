@@ -13,12 +13,12 @@
     .h3-page-headline
       Certifications
   .divider-headline
-  %br
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-    %br
     = link_to 'New', :controller => "candidate_certifications", :action => "new"
+    %br
+    %br
     %br
     %br
     %br

@@ -155,8 +155,11 @@ class ProjectsRolesController < ApplicationController
 
     if request.post?
 
+      puts "\nrequest.post".red
+
       #@projects_role.update_attributes(params[:projects_role])
-      @role.update_attributes(:date_in => params[:role][:date_in],
+      @role.update_attributes(:name => params[:new_role_id],
+                              :date_in => params[:role][:date_in],
                               :date_out => params[:role][:date_out])
 
       #if @projects_role.save
@@ -182,9 +185,11 @@ class ProjectsRolesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     @project = @candidate.projects.find(params[:project_id])
     @projects_role = @project.projects_roles.find(params[:projects_role_id])
+    @projects_role.roles.find(params[:role_id]).destroy
+
     #ProjectsRole.find(params[:projects_role_id]).destroy
     #render 'projects/show'
-    Role.find(params[:role_id]).destroy
+    #Role.find(params[:role_id]).destroy
     redirect_to :back
   end
   

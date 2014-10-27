@@ -17,12 +17,12 @@
     .h3-page-headline
       Certifications
   .divider-headline
-  %br
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-    %br
     = link_to 'Back', :controller => "candidate_certifications", :action => "index"
+    %br
+    %br
     %br
     %br
     %br
@@ -39,7 +39,7 @@
           .field
             = f.label "Certification"
             %br
-            =  f.select :selectName, options_from_collection_for_select(Certification.where({:approved_flag => [true]}).order("name").all, "id", "name")
+            =  f.select :id, options_from_collection_for_select(Certification.where({:approved_flag => [true,false]}).order("name").all, "id", "name")
             %br
             = f.label :chBNotInList, "The Certification is not in the List, add Manually. "
             &nbsp;
