@@ -65,19 +65,20 @@
               .experience_right
                 = Date::MONTHNAMES[education.date_in.month] + " " + education.date_in.year.to_s + " - " + Date::MONTHNAMES[education.date_out.month] + " " + education.date_out.year.to_s
     %h4 Projects
-    .divider-headline     
+    .divider-headline
+    %br
     - if @candidate.projects.count > 0
-      %ul
-        - @candidate.projects.each do |projects|
-          - role = projects.projects_roles.first
-          %li
-            .project_role_left
+      - @candidate.projects.each do |projects|
+        - role = projects.projects_roles.first
+        %table{:align => "center",:width => "100%"}
+          %tr
+            %td{:valign => "middle",:align => "left",:width => "50%"}
               %h6= projects.company_name
               %h6= projects.name
               #experience-description
                 %pre
                   = projects.summary
-            .project_role_right
+            %td{:valign => "middle",:align => "right",:width => "50%"}
               - if role.roles.count > 0
                 %ul
                   - role.roles.each do |r|
@@ -96,7 +97,7 @@
               -else
                 %h4 Please create at least one role.
               %br
-          %br
+        %br
     - else
       %br
       - if current_candidate.admin_flag
