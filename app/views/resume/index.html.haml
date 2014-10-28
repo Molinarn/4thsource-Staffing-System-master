@@ -62,33 +62,41 @@
                 %h6.educationTitleAndUniversity= education.educ_degrees.name + " in " + education.title + ","
               %p.educationTitleAndUniversity= education.university
             -if education.date_in != nil && education.date_out != nil
-              .experience_right= Date::MONTHNAMES[education.date_in.month] + " " + education.date_in.year.to_s + " - " + Date::MONTHNAMES[education.date_out.month] + " " + education.date_out.year.to_s
+              .experience_right
+                = Date::MONTHNAMES[education.date_in.month] + " " + education.date_in.year.to_s + " - " + Date::MONTHNAMES[education.date_out.month] + " " + education.date_out.year.to_s
     %h4 Projects
     .divider-headline     
     - if @candidate.projects.count > 0
-      - @candidate.projects.each do |projects|
-        .experience_left
-          %h6= projects.company_name
-          %h6= projects.name
-        .experience_right
-          - projects.projects_roles.each do |role|
-            = Date::MONTHNAMES[role.date_in.month]
-            = role.date_in.year
-            = raw(' - ')
-            = Date::MONTHNAMES[role.date_out.month]
-            = role.date_out.year
-          %br
-        #experience-description
-          %pre
-            = projects.summary
-        %ul
-          - projects.projects_roles.each do |pr|
-            - pr.roles.each do |roles|
-              - roles.roles_responsibilities.each do |role_responsibility|
-                %li
+      %ul
+        - @candidate.projects.each do |projects|
+          - role = projects.projects_roles.first
+          %li
+            .project_role_left
+              %h6= projects.company_name
+              %h6= projects.name
+              #experience-description
                 %pre
-                  = role_responsibility.description
-
+                  = projects.summary
+            .project_role_right
+              - if role.roles.count > 0
+                %ul
+                  - role.roles.each do |r|
+                    %li
+                      %pre
+                        = r.name
+                      = Date::MONTHNAMES[r.date_in.month]
+                      = r.date_in.year
+                      = raw(' - ')
+                      = Date::MONTHNAMES[r.date_out.month]
+                      = r.date_out.year
+                      - r.roles_responsibilities.each do |role_responsibility|
+                        %pre
+                          = role_responsibility.description
+                    %br
+              -else
+                %h4 Please create at least one role.
+              %br
+          %br
     - else
       %br
       - if current_candidate.admin_flag
@@ -112,7 +120,7 @@
         %h4 This candidate has not created a language in the resume.
       - else
         %h4 Please create at least one language in your resume.
-      .divider 
+      .divider
     %br
     - if @candidate.candidate_certifications.count > 0
       %h4
@@ -131,7 +139,7 @@
       - else
         %h4 Please create at least one certification in your resume.
       %br
-    - if(current_candidate.admin_flag)
+    - if current_candidate.admin_flag
       #form_container
         = form_for(:search, :url=>{:action=>'staff_update'}, :html => {:id => "updateCandidateStaffForm"}) do |f|
           = check_box_tag "isRecruitedResume", true, @candidate.currently_in_4Source
