@@ -1,51 +1,74 @@
 #flash
   - flash.each do |key, value|
-    .flash{:class => key}= value
-%button.btn.btn-primary.btn-sm{:type=>'button',:id=>'btnSave'} Save
-=raw("&nbsp;&nbsp;")
-%button.btn.btn-primary.btn-sm{:type=>'button',:id=>'btnPreview'} Preview
-%br
-%br
-%fieldset
-  %form{:id=>'frmSave', :action=>'save', :method=>'post', :role=>'form'}
-    %input{:name=>'candidate_id', :id=>'candidate_id', :type=>'hidden', :value=>@candidate.id}
-    %input{:name=>'profiledata', :id=>'ProfileData', :type=>'hidden'}
-    %div.form-group
-      %label
-        Name
-      %input.form-control{:name=>'name', :id=>'name', :type=>'text'}
-    %div.form-group
-      %label
-        Summary
-      %textarea.form-control{:name=>'summary', :id=>'summary', :rows=>"4", :style=>'width:80%'}
     %br
-#jqxTree{:style => 'width:80%'}
-  =raw('<ul>')
-  - @candidate.projects.includes(:projects_roles).each do |p|      
-    = raw("<li level='project' custom-value='#{p.id}'>" + p.name + '<ul>')
-    - p.projects_roles.includes(:roles).each do |r|
-      = raw("<li level='role' custom-value='#{p.id}/#{r.roles.name}'>"+ r.roles.name + '<ul>')
-      = raw('<li>Tools<ul>') if r.tags1.size > 0
-      - r.tags1.includes(:tags).each do |t1|
-        = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.name}/#{t1.tags.id}'>"+ t1.tags.name + '</li>')
-      = raw('</ul></li>') if r.tags1.size > 0
-      = raw('<li>Knowledges<ul>') if r.tags2.size > 0
-      - r.tags2.includes(:tags).each do |t2|
-        = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.name}/#{t2.tags.id}'>"+ t2.tags.name + '</li>')
-      = raw('</ul></li>') if r.tags2.size > 0
-      = raw('<li>Technologies<ul>') if r.tags3.size > 0
-      - r.tags3.includes(:tags).each do |t3|
-        = raw("<li level='tag' custom-value='#{p.id}/#{r.roles.name}/#{t3.tags.id}'>"+ t3.tags.name + '<ul>')
-        - CustomQueries.getTechnologies(t3.tags.id).each do |techs|
-          = raw("<li level='tech' custom-value='#{p.id}/#{r.roles.name}/#{t3.tags.id}/#{techs[0]}'>#{techs[2]}</li>")
-        = raw('</ul></li>')
-      = raw('</ul></li>') if r.tags3.size > 0
-      = raw('</ul></li>')
-    =raw('</ul></li>')
-  =raw('</ul>')
+    .flash{:class => key}= value
+= form_for(:candidate_profile, :html => {:class => "experience", :method => "post"})do |f|
+  .actions
+    = f.submit "Save",{:class => "btn btn-primary", :id => "btnSave"}
+    &nbsp;&nbsp;
+    = f.button "Preview",{:class => "btn btn-primary", :id => "btnPreview"}
   %br
-%form{:id=>'frmPreview', :action=>"/candidates/#{@candidate.id}/projects/projects/buildprofile", :method=>'post'}
-  %input{:name=>'filter', :id=>'filter', :type=>'hidden'}
-  %input{:name=>'summaryprof', :id=>'summaryprof', :type=>'hidden'}
-  %input{:name=>'nameprof', :id=>'nameprof', :type=>'hidden'}
-.clear
+  %h4
+    Please enter the following
+  .divider
+  .row-fluid
+    .field
+      = f.label "Name"
+  %br
+  .row-fluid
+    = f.text_field :name
+  .row-fluid
+    .field
+      = f.label "Summary"
+  %br
+  .row-fluid
+    = f.text_area :summary, {:class => "width100percent"}
+
+%fieldset
+  %form{:id =>'frmPreview', :action =>"/candidates/#{@candidate.id}/projects/projects/buildprofile", :method =>'post'}
+    %input{:name=>'filter', :id=>'filter', :type=>'hidden'}
+    %input{:name=>'summaryprof', :id=>'summaryprof', :type=>'hidden'}
+    %input{:name=>'nameprof', :id=>'nameprof', :type=>'hidden'}
+  .clear
+
+.tree
+:javascript
+  jQuery(document).ready(function(){
+
+    var source = [
+                 {
+                     label: "Projects", expanded: true, items: [
+                       {  label: "Calendar" },
+                       {  label: "Contacts", selected: true }
+                     ]
+                 },
+                 {
+                      label: "Technologies", expanded: true, items: [
+                      {  label: "Admin" },
+                      {  label: "Corporate" },
+                      {  label: "Finance" },
+                      {  label: "Other" },
+                     ]
+                 },
+                 {     label: "Knowledges", expanded: true, items: [
+                       {  label: "Admin" },
+                       {  label: "Corporate" },
+                       {  label: "Finance" },
+                       {  label: "Other" },
+                      ]
+                 },
+                 {     label: "Tools", expanded: true, items: [
+                       {  label: "Admin" },
+                       {  label: "Corporate" },
+                       {  label: "Finance" },
+                       {  label: "Other" },
+                      ]
+                 }
+
+            ];
+
+            // create jqxTree
+            $('#tree').jqxTree({ source: source, width: '250px', theme: 'arctic' });
+            //$('#checkboxTree').jqxTree({ height: '400px', hasThreeStates: true, checkboxes: true, width: '330px', theme: 'arctic' });
+        });
+

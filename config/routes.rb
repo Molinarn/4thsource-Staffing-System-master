@@ -307,9 +307,12 @@ StaffingApp::Application.routes.draw do
   match "/candidates_profiles/:candidates_profile_id/edit" => 'candidates_profiles#edit'
   #match "/candidates/:id/candidates_profiles/candidates_profile_id/show" => 'candidates_profiles#show'
 
+  #Added
+  match "/candidates/:candidate_id/candidates_profiles/new" => 'candidates_profiles#new'
+
   match "/candidates_profiles" => 'candidates_profiles#index'
   match "/candidates_profiles/:candidates_profile_id/editprofile" => 'candidates_profiles#editprofile'
-  match "/candidates_profiles/new" => 'candidates_profiles#new'
+  #match "/candidates_profiles/new" => 'candidates_profiles#new'
   match "/candidates_profiles/save" => 'candidates_profiles#save'
   match "/candidates_profiles/:candidates_profile_id/update" => 'candidates_profiles#update'
   match "/candidates_profiles/:candidates_profile_id/show" => 'candidates_profiles#show'

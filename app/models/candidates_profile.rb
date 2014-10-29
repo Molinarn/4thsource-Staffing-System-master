@@ -11,7 +11,7 @@ class CandidatesProfile < ActiveRecord::Base
   validates  :candidate_id, :presence => true
   validates  :name,   		  :presence => true
   validates  :summary,      :presence => true
-  validates  :profiledata,  :presence => true
+  #validates  :profiledata,  :presence => true
 
 #  after_initialize          :associate_project
   

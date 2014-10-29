@@ -7,18 +7,26 @@ class CandidatesProfilesController < ApplicationController
 
     puts "\ncandidates_profiles#index".green
 
+    params.each do |p|
+      puts "#{p}".cyan
+    end
+
     id = current_candidate.id
 
-    puts "\ncurrent_candidate.id:  #{id}".cyan
+    #puts "\ncurrent_candidate.id:  #{id}".cyan
 
     #id = params[:id] unless (params[:id] == nil)
 
     #puts "\nparams[:id]:  #{id}".cyan
 
-    @candidate = Candidate.find_by_id(id)
+    #@candidate = Candidate.find(params[:id])
+    @candidate = Candidate.find(params[:candidate_id])
 
-    #puts "\n@candidate.id: #{@candidate.id}".magenta
+    puts "\n@candidate.id: #{@candidate.id}".magenta
 
+
+
+    #@candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
     @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
     #@candidates_profile = @candidate.candidates_profiles.find(params[:candidates_profile_id])
 
@@ -76,11 +84,40 @@ class CandidatesProfilesController < ApplicationController
   # GET /candidates_profiles/new.json
   def new
 
+    params.each do |p|
+      puts "#{p}".cyan
+    end
+
     puts "\ncandidates_profiles#new".green
 
-    @candidate = Candidate.find_by_id(params[:candidate_id])
+    @candidate = Candidate.find(params[:candidate_id])
     #@candidates_profile = CandidatesProfile.new
-    @candidates_profile = @candidate.candidates_profiles.new
+    #@candidates_profile = @candidate.candidates_profiles.new
+
+    #@project = @candidate.projects
+    #@projects_role = @project.projects_roles
+    if request.post?
+
+      puts "\nrequest.post".magenta
+
+      params.each do |p|
+        puts "#{p}".cyan
+      end
+
+      @candidates_profile = @candidate.candidates_profiles.new(params[:candidate_profile])
+
+      if @candidates_profile.save
+
+        @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
+
+        #flash[:success] = "Profile was saved successfully."
+        #render 'candidates_profiles/_new_candidates_profile_form'
+        render 'candidates_profiles/index'
+      else
+        flash[:notice] = "An error occurred while the system save the profile."
+      end
+
+    end
 
   end
 
@@ -132,7 +169,7 @@ class CandidatesProfilesController < ApplicationController
     @candidates_profile.summary = params[:summary]
     @candidates_profile.profiledata = params[:profiledata]
     if @candidates_profile.save
-      @candidate = Candidate.find_by_id(@candidates_profile.candidate_id)   
+      @candidate = Candidate.find(@candidates_profile.candidate_id)
       @candidates_profile = @candidate.candidates_profiles.paginate(:page => params[:page], :per_page => 20)
       redirect_to File.join('/candidates/',@candidate.id.to_s,'/candidates_profiles')
       #redirect_to "/candidates/#{@candidates_profile.candidate_id}/candidates_profiles"
