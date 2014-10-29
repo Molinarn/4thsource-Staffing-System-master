@@ -71,7 +71,7 @@
         .field
           = f.label "Language"
           %br
-          = select_tag 'language_id', options_from_collection_for_select(Language.where({:approved_flag => [true]}).order("name").all, "id", "name")
+          = f.select 'id', options_from_collection_for_select(Language.all, "id", "name"),:include_blank => "- Select one -"
           %br
           = label_tag "language_notinlist", "My language is not in the list, add manually", :style=>'cursor:pointer;'
           = check_box_tag 'language_notinlist'
@@ -87,8 +87,17 @@
         .clear	
     .experience_details_right
     :javascript
-        jQuery('#new_candidate_language').submit(function(e){           
-          if(!jQuery('#language_id').val()){
+        jQuery('#new_candidate_language').submit(function(e){
+
+          alert(jQuery("select[id='candidate_language_id'] option:selected").val())
+          alert(jQuery("select[id='candidate_language_level_id'] option:selected").val())
+
+          if(!jQuery("select[id='candidate_language_id'] option:selected").val() && !jQuery('#lang_name').val()){
+            alert("prevent language")
+            e.preventDefault();
+          }
+
+          /*if(!jQuery('#language_id').val()){
             if(!jQuery('#language_notinlist').prop('checked')){
               e.preventDefault();
             }else{
@@ -96,9 +105,10 @@
                 e.preventDefault();
               }
             }
-          }
+          }*/
 
           if(!jQuery('#candidate_language_level_id').val()){
+            alert("prevent level")
             e.preventDefault();
           }
         })
