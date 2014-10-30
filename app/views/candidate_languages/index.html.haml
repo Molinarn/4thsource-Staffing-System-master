@@ -51,8 +51,8 @@
                   = link_to "Delete", url_options = { :controller => "candidate_languages", :action => "destroy", :id => @candidate.id,  :candidate_language => candidate_language.id }, html_options = { :confirm => "Are you sure you want to delete this language?" }
 
     - else
-      %h4 Please create at least one language in your resume.
-      .divider
+      .experience_details_left
+        Please create at least one language in your resume.
     %br 
   %br 
 
