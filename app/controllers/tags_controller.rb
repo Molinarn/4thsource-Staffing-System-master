@@ -206,7 +206,7 @@ class TagsController < ApplicationController
   def action
     @tag = Tag.new(params[:tag])
 
-    ifparams[:update_button] != nil
+    if params[:update_button] != nil
       Tag.update(:id => @tag.id,
                  :name => @tag.name,
                  :description => @tag.description,

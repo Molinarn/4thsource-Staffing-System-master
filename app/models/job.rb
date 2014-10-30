@@ -11,14 +11,14 @@ class Job < ActiveRecord::Base
   				  :tag_id
 
   has_many :job_matchs
-  has_many :tags, through: :job_matchs
+  has_many :tags, :through => :job_matchs
   #belongs_to :admin_users
 
   #has_many :requirements
   #has_many :tags, through: :requirements
 
-  validate :title, presence:true
-  validate :description, presence:true
+  validate :title, :presence => true
+  validate :description, :presence => true
 
 
 end

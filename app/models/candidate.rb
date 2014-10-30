@@ -483,6 +483,7 @@ class Candidate < ActiveRecord::Base
       #puts "\nadmin_user ~= nil".cyan
 
       admin_user = self.admin_users.new
+      admin_user.lvl = 1
 
       #admin = self.admin_users.create
       #admin = self.AdminUser.new

@@ -3,7 +3,7 @@ class InterviewsType < ActiveRecord::Base
 
   has_many :interviews_questions, :dependent => :delete_all
 
-  has_many :interviewer_users , through: :interviewer
+  has_many :interviewer_users , :through => :interviewer
 
   accepts_nested_attributes_for :interviews_questions
 

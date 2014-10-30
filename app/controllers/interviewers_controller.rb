@@ -37,11 +37,7 @@ class InterviewersController < ApplicationController
       @interviewer  = Interviewer.find(params[:interviewer_id])
       @error = @interviewer.errors
     end
-    @candidates = Candidate.joins(:interviewer_user)
-                           .where(interviewer_users: {interviewer_id: @interviewer.id})
-                           .paginate(:page => params[:page],
-                                     :per_page => 20,
-                                     :order => 'first_last_name')
+    @candidates = Candidate.joins(:interviewer_user).where(:interviewer_users => {:interviewer_id => @interviewer.id}).paginate(:page => params[:page],:per_page => 20,:order => 'first_last_name')
   end
   
   def delete

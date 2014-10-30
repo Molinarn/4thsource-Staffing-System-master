@@ -61,7 +61,7 @@
                   %td
                     = "Assignment's place: "
                   %td
-                    = f.select :office_id, options_from_collection_for_select(Office.order("id").all, "id", "name"), {:include_blank=>true }, {disabled:'disabled'}
+                    = f.select :office_id, options_from_collection_for_select(Office.order("id").all, "id", "name"), {:include_blank=>true }, {:disabled => 'disabled'}
         %tr
           %td{:width => "30%"}
             .field

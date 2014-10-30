@@ -2,6 +2,9 @@ class AdminUsersController < ApplicationController
 before_filter :isSuperAdmin
 
   def index
+
+    puts "\nadmin_user#index".green
+
     set_my_wall(nil)
     set_wall_candidate(nil)
     @candidates = Candidate.joins(:admin_users)
@@ -9,12 +12,13 @@ before_filter :isSuperAdmin
 
   def new
 
+    puts "\nadmin_user#new".green
+
     #@admin_user = AdminUser.new
     @candidate = Candidate.find_by_id(params[:candidate_id])
     @admin_user = @canidate.AdminUser.new
+    @admin_user =
     @error = admin_user.errors
-
-    puts "\nadmin_user#new".blue
 
     unless params[:letra].nil?
       @candidates = Candidate.joins("LEFT OUTER JOIN admin_users ON admin_users.candidate_id=candidates.id").where('first_last_name LIKE ?', params[:letra] + '%').order('first_last_name')
@@ -50,9 +54,9 @@ before_filter :isSuperAdmin
   def edit
     begin
 
-      puts "\nadmin_user#edit".blue
+      puts "\nadmin_user#edit".green
 
-      @user = admin_users.where('candidate_id = ?', params[:id].to_i).first()
+      @user = admin_users.where('candidate_id = ?', params[:id].to_i).first
 
       #@user = AdminUsers.where('candidates_id = ?', params[:id].to_i).first()
       if @user == nil

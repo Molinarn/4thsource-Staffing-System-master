@@ -11,7 +11,7 @@ class ReportController < ApplicationController
     @candidates = Candidate.all
     respond_to do |format|
       format.html
-      format.xls { send_data @candidates.to_xls, content_type: 'application/vnd.ms-excel', filename: 'candidate.xls' }
+      format.xls { send_data @candidates.to_xls, :content_type => 'application/vnd.ms-excel', :filename => 'candidate.xls' }
     end
   end
 
@@ -72,9 +72,9 @@ class ReportController < ApplicationController
     
     if params[:technologies] != "[]"
       @data = params[:technologies]
-      @data = @data.gsub('[', '(');
-      @data = @data.gsub(']', ')');
-      @res = CustomQueries.getCandidatesWithTheseTechs(@data);
+      @data = @data.gsub('[', '(')
+      @data = @data.gsub(']', ')')
+      @res = CustomQueries.getCandidatesWithTheseTechs(@data)
       @res.each do |n|
         @candidates[n] = Candidate.find_by_id(n)
       end
@@ -82,9 +82,9 @@ class ReportController < ApplicationController
 
     if params[:languages] != "[]"
       @data = params[:languages]
-      @data = @data.gsub('[', '(');
-      @data = @data.gsub(']', ')');
-      @res = CustomQueries.getCandidatesWithTheseLanguages(@data);
+      @data = @data.gsub('[', '(')
+      @data = @data.gsub(']', ')')
+      @res = CustomQueries.getCandidatesWithTheseLanguages(@data)
       @res.each do |n|
         @candidates[n] = Candidate.find_by_id(n)
       end
@@ -92,15 +92,15 @@ class ReportController < ApplicationController
 
     if params[:tools] != "[]"
       @data = params[:tools]
-      @data = @data.gsub('[', '(');
-      @data = @data.gsub(']', ')');
-      @res = CustomQueries.getCandidatesWithTheseTools(@data);
+      @data = @data.gsub('[', '(')
+      @data = @data.gsub(']', ')')
+      @res = CustomQueries.getCandidatesWithTheseTools(@data)
       @res.each do |n|
         @candidates[n] = Candidate.find_by_id(n)
       end
     end
 
-    render partial: "buildresult"
+    render partial => "buildresult"
   end
   
   def reportform
@@ -123,6 +123,6 @@ class ReportController < ApplicationController
     
     @tools = Tag.find_by_sql(tool_sql)
     @languages = Tag.find_by_sql(lang_sql)    
-    render partial: "shared/report_form"
+    render partial => "shared/report_form"
   end
 end

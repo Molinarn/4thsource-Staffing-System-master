@@ -24,7 +24,7 @@
           = link_to_candidates('Candidates', current_candidate.id, :action => 'candidates', :class => 'profile-sub_navigation')
         %li
           %i.iconReport
-          = link_to 'Advanced search', '/staff/' + current_candidate.id.to_s() + '/report', :class => 'profile-sub_navigation'
+          = link_to 'Advanced search', '/staff/' + current_candidate.id.to_s + '/report', :class => 'profile-sub_navigation'
         %li
           %i.iconSummary
             = label_tag 'Catalogs', nil, :class => 'profile-sub_navigation'
@@ -45,7 +45,7 @@
               = link_to_resume('Education Degrees', current_candidate.id, :action => 'educ_degree', :class => 'profile-sub_navigation')
             %li
               %i.iconInterests
-              = link_to 'Languages', '/staff/' + current_candidate.id.to_s() + '/languages', :class => 'profile-sub_navigation'
+              = link_to 'Languages', '/staff/' + current_candidate.id.to_s + '/languages', :class => 'profile-sub_navigation'
             %li
               %i.iconCertification
               = link_to "Certifications", url_options = { :controller => "certifications", :action => "index", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }

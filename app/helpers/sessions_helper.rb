@@ -68,6 +68,7 @@ module SessionsHelper
 
     #['Admin', 'Super Admin'].include? ( get_user_type )
     role > SessionsHelper::USER
+
   end
 
   def set_my_wall (candidate)
@@ -120,23 +121,21 @@ module SessionsHelper
 
         puts "\n!current_candidate.nil?: #{!current_candidate.nil?}".red
 
-        1
+        #1
 
-        #puts ["\ncurrent_candidate == nil".yellow,"#{current_candidate.nil?}".red]
-
-        #if current_candidate.admin_users != nil
-         # if !current_candidate.admin_users.is_active?
-           # 0
-          #elsif current_candidate.admin_users.is_active? and !current_candidate.admin_users.lvl?
-           # 1
-          #elsif current_candidate.admin_users.is_active? and current_candidate.admin_users.lvl?
-           # 2
-          #end
-        #else
-         # 0
-        #end
-      #else
-        #-1
+        if current_candidate.admin_users != nil
+          if !current_candidate.admin_users.first.is_active
+            0
+          elsif current_candidate.admin_users.first.is_active && !current_candidate.admin_users.first.lvl
+            1
+          elsif current_candidate.admin_users.first.is_active && current_candidate.admin_users.first.lvl
+            2
+          end
+        else
+          0
+        end
+      else
+        -1
       end
     end
 

@@ -74,11 +74,11 @@ class CandidatesInterviewsController < ApplicationController
         @interviews = @interviews.joins(:candidate)
 
         if filter.by_WillingRelocate?
-          @interviews = @interviews.where(candidates: {:is_willing_to_relocate => filter.is_willing_to_relocate})
+          @interviews = @interviews.where(:candidates => {:is_willing_to_relocate => filter.is_willing_to_relocate})
         end
    
         if filter.by_ReferralType?
-          @interviews = @interviews.where(candidates: {:referral_type => filter.referral_type})
+          @interviews = @interviews.where(:candidates => {:referral_type => filter.referral_type})
         end
 
       end
@@ -136,7 +136,7 @@ class CandidatesInterviewsController < ApplicationController
     @rowId = params[:rowId]
     #@cand_inter=CandidatesInterview.new
     #@candidate = current_candidate
-    if (@rowId.to_i != -1)
+    if @rowId.to_i != -1
       @temp = CandidatesInterview.new(params[:save_status_interview])
 
       #@cand_inter.id = params[:cand_inter][:interviewe_candidates_id]
@@ -145,7 +145,7 @@ class CandidatesInterviewsController < ApplicationController
 
       @temp.update_attributes(params[:save_status_interview])
       if @t.update_attributes(params[:save_status_interview])
-        render text: "OK*M*#{@t.id.to_s}*M*" +
+        render text => "OK*M*#{@t.id.to_s}*M*" +
                       "<a href='#!' onclick=\"changeStatuse(#{@rowid},\'#{@t.statuses_id}\',\'#{@t.id}\');\">#{@t.statuses_id}</a>*M*" +
                       @t.statuses_id + "*M*"        
       end
@@ -153,11 +153,11 @@ class CandidatesInterviewsController < ApplicationController
       @t = CandidatesInterview.new(params[:save_status_interview])
       @t.type_tag = 2
       if @t.save      
-        render text: "OK*M*#{@t.id.to_s}*M*" +
+        render text => "OK*M*#{@t.id.to_s}*M*" +
                     "<a href='#!' onclick=\"changeStatuse(#ROWID#,\'#{@t.statuse_id}\');\">#{@t.statuse_id}</a>*M*" +
                     @t.statuses_id + "*M*"         
       else
-        render text: 'ERROR*Error while saving'
+        render text => 'ERROR*Error while saving'
       end
     end
   end

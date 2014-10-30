@@ -61,11 +61,11 @@
               %td
                 = link_to row.second_last_name, "/candidates/#{row.id}/resume"
               %td
-                = radio_button_tag 'Role'+row.id.to_s, 'User', ( !row.admin_users.lvl? and !row.admin_users.is_active? )  ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/0',2)"
+                = radio_button_tag 'Role'+row.id.to_s, 'User', ( !row.admin_users.first.lvl? and !row.admin_users.first.is_active? )  ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/0',2)"
               %td
-                = radio_button_tag 'Role'+row.id.to_s, 'Admin', ( !row.admin_users.lvl? and row.admin_users.is_active? )  ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/1',2)"
+                = radio_button_tag 'Role'+row.id.to_s, 'Admin', ( !row.admin_users.first.lvl? and row.admin_users.first.is_active? )  ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/1',2)"
               %td
-                = radio_button_tag 'Role'+row.id.to_s, 'SuperAdmin', ( row.admin_users.lvl? and row.admin_users.is_active? ) ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/2',2)"                  
+                = radio_button_tag 'Role'+row.id.to_s, 'SuperAdmin', ( row.admin_users.first.lvl? and row.admin_users.first.is_active? ) ? true: false, :onclick => "updateValue('/admin_users/#{row.id}/edit/2',2)"
   %br
   %br
   .clear

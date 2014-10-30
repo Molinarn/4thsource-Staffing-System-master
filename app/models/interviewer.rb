@@ -1,7 +1,7 @@
 class Interviewer < ActiveRecord::Base
   has_many :interviewer_users
 
-  has_many :candidates, through: :interviewer_users 
+  has_many :candidates, :through => :interviewer_users
 
   belongs_to :interviews_type
 
@@ -14,14 +14,12 @@ class Interviewer < ActiveRecord::Base
                   
                   
   validates :name,               :presence => true
-  validates :interviews_type_id, presence: true
+  validates :interviews_type_id, :presence => true
 
 #  validates :interviews_type_id, :presence => true
 
   def used?
-    !InterviewerUser.joins(:candidates_interviews)
-                    .where(interviewer_users: {:interviewer_id => id})
-                    .empty?
+    !InterviewerUser.joins(:candidates_interviews).where(:interviewer_users => {:interviewer_id => id}).empty?
   end
   
 end

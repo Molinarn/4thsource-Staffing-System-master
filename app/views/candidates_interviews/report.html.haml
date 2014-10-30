@@ -89,7 +89,7 @@
               %td= interview.result
               %td= interview.updated_at.strftime("%Y-%m-%d")
               %td
-                = link_to "View", :controller => "candidates_interviews", :action => "view", id:interview.candidate.id, :cand_inter_id => interview.id
+                = link_to "View", :controller => "candidates_interviews", :action => "view", :id => interview.candidate.id, :cand_inter_id => interview.id
           %tfoot
             %tr
               %th

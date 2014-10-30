@@ -10,7 +10,7 @@ class StaffCandidatesController < ApplicationController
 
     if current_candidate.admin_users
       user_level = get_user_level
-      admin_users = AdminUsers.all
+      admin_users = AdminUser.all
       higher_level_users = []
    
       @candidates = Candidate.paginate(:page => params[:page], :per_page => 20).each do |candidate|
@@ -49,7 +49,7 @@ class StaffCandidatesController < ApplicationController
    def is_lower_level(candidate, admins, user_level)
      is_lower_lvl = true
 	 admins.each do |admin|
-	    is_lower_lvl = false if admin.candidates_id == candidate.id && admin.lvl > user_level
+	    is_lower_lvl = false if admin.candidate_id == candidate.id && admin.lvl > user_level
 	 end
 	 
 	 is_lower_lvl
@@ -57,7 +57,7 @@ class StaffCandidatesController < ApplicationController
    
    def get_user_level
    	user_level_maps = {'Admin' => 0, 'Super Admin' => 1}
-	user_level_maps[get_user_type]
+	  user_level_maps[get_user_type]
    end
   
 end
