@@ -63,6 +63,9 @@ module SessionsHelper
   end
 
   def has_admin_role?
+
+    puts "\nsessions_helper#has_admin_role?".green
+
     #['Admin', 'Super Admin'].include? ( get_user_type )
     role > SessionsHelper::USER
   end
@@ -111,16 +114,19 @@ module SessionsHelper
 
     def role
 
-      #puts "\nsessions_helper#role".green
+      puts "\nsessions_helper#role".green
 
       if !current_candidate.nil?
+
+        puts "\n!current_candidate.nil?: #{!current_candidate.nil?}".red
+
+        1
 
         #puts ["\ncurrent_candidate == nil".yellow,"#{current_candidate.nil?}".red]
 
         #if current_candidate.admin_users != nil
-        #if current_candidate.admin_users != nil
          # if !current_candidate.admin_users.is_active?
-            0
+           # 0
           #elsif current_candidate.admin_users.is_active? and !current_candidate.admin_users.lvl?
            # 1
           #elsif current_candidate.admin_users.is_active? and current_candidate.admin_users.lvl?
@@ -138,10 +144,20 @@ module SessionsHelper
 
       puts "\nvalidateEmail_regex".red
 
+     #email_regex = %r{
+	       #^
+         #[0-9a-z]+
+         #[\.]
+         #[0-9a-z]+
+         #@
+         #4thsource
+         #[\.]
+         #com
+		     #$
+      #}xi*/
+
       email_regex = %r{
 	       ^
-         [0-9a-z]+
-         [\.]
          [0-9a-z]+
          @
          4thsource

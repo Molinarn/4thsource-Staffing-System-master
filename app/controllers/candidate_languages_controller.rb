@@ -41,6 +41,26 @@ class CandidateLanguagesController < ApplicationController
     language = Language.new
     #@candidate_language = @candidate.candidate_languages.new
 
+    #if !params[:language_notinlist]
+      #@language = Language.find(params[:candidate_language][:id]).name
+    #else
+     # @language = params[:lang_name]
+    #end
+
+    @candidate_language = @candidate.candidate_languages
+
+    @candidate_language.each do |cl|
+      puts "#{cl}".cyan
+    end
+
+    @filter_language = @candidte_language.filter_languages
+
+    @filter_language.each do |f|
+      puts "#{f}".cyan
+    end
+
+    puts "\n@candidate_language: #{@candidate_language.count}".red
+
     #If add manually is selected and the language is not in the list
     if params[:language_notinlist] && Language.where("name = ?",params[:lang_name]).count == 0
 
@@ -63,6 +83,12 @@ class CandidateLanguagesController < ApplicationController
     #elsif params[:id].nil?
       #flash[:notice] = "If language is not in the list, add it manually."
       #@language = CandidateLanguage.new
+      #language = nil
+
+    # If the selected language from comboBox already exist for this candidate_languages
+    #elsif !@candidate_language.nil? && FilterLanguage.where("language_id = ?",params[:candidate_language][:id]).where("candidate_language_id = ?",@candidate_language.id).count > 0
+    #elsif @filter_language
+      #flash[:notice] = "Language already assigned, please select a different language"
       #language = nil
     else
       language = Language.find(params[:candidate_language][:id])

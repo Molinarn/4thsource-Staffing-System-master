@@ -122,8 +122,8 @@ class Candidate < ActiveRecord::Base
 
   has_many        :candidates_profiles,      :dependent => :destroy                                            
 
-  #has_one         :admin_user, :class_name => 'AdminUser', :foreign_key => "candidate_id"
-                  #:dependent => :destroy
+  has_one         :admin_user, :dependent => :destroy
+  #:dependent => :destroy
 
   #accepts_nested_attributes_for :admin_users
 
@@ -377,8 +377,6 @@ class Candidate < ActiveRecord::Base
     #}
     #projects_role = project.projects_roles.build(role_attrs)
     projects_role = project.projects_roles.new
-    projects_role.date_in = DateTime.now
-    projects_role.date_out = DateTime.now
 
     #role = Roles.new
     #role.name = "Default Role"
@@ -409,6 +407,8 @@ class Candidate < ActiveRecord::Base
 
     #role = ProjectsRole.roles.new
     role.name = "Default role"
+    role.date_in = DateTime.now
+    role.date_out = DateTime.now
 
     #role = Role.new
 
@@ -470,15 +470,15 @@ class Candidate < ActiveRecord::Base
 
     #puts ["\nself: ".magenta, "#{self.id}".green]
 
-    #if self.admin_user != nil
+    if self.admin_user != nil
     #if false
 
-      #puts "\nadmin_user = nil > destroy".red
+      puts "\nadmin_user = nil > destroy".red
 
       #self.destroy
       #@flag = false
 
-    #else
+    else
 
       #puts "\nadmin_user ~= nil".cyan
 
@@ -490,14 +490,14 @@ class Candidate < ActiveRecord::Base
 
       puts ["\nbuild_default_admin_user".yellow , "#{admin_user.save}".red]
 
-    #end
+    end
 
   end
 
   def build_prerequisites
     build_default_project
     build_default_education
-    #build_default_admin_users
+    build_default_admin_users
   end
 
   def build_default_candidate_profile      

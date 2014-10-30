@@ -38,6 +38,8 @@ class CandidatesController < ApplicationController
 
     puts ["\nid: ".yellow,"#{id}".red]
 
+    puts "\n#{@@admin_roles}".magenta
+
     if @@admin_roles.include?( get_user_type )
 
       puts "\nif_admin_roles".green

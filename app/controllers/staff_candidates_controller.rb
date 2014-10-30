@@ -1,6 +1,9 @@
 class StaffCandidatesController < ApplicationController
   
   def index
+
+    puts "\nstaff_candidates#index".green
+
     set_user_type(current_candidate)
     set_wall_candidate(nil)
     set_my_wall(nil)
@@ -22,15 +25,15 @@ class StaffCandidatesController < ApplicationController
         @candidates.delete(candidate) if candidate.id == current_candidate.id
       end
     else
-      @candidates = Candidate.joins(candidates_interviews: :interviewer_user)
-                             .where(interviewer_users: {:candidate_id => current_candidate.id}, 
-                                    candidates_interviews: {:result => nil})
-                             .paginate(:page => params[:page], :per_page => 20)
+      @candidates = Candidate.joins(:candidates_interviews => :interviewer_user).where(:interviewer_users => {:candidate_id => current_candidate.id},:candidates_interviews => {:result => nil}).paginate(:page => params[:page], :per_page => 20)
     end
 	 								   
   end
 
   def search
+
+    puts "\nstaff_candidates#search".green
+
     if params[:q]
       query = params[:q]
       @users = User.find_with_ferret(query + "*", :limit => :all)
