@@ -11,7 +11,7 @@ class AdminUser < ActiveRecord::Base
   #belongs_to          :candidate, :as => :applicant
 
   belongs_to          :candidate
-
+  #has_one             :candidate, :as => :applicant
   #:polymorphic => true
   								   #:foreign_key => 'candidates_id',
 

@@ -122,7 +122,7 @@ class Candidate < ActiveRecord::Base
 
   has_many        :candidates_profiles,      :dependent => :destroy                                            
 
-  has_one         :admin_user, :dependent => :destroy
+  has_many        :admin_users, :dependent => :destroy
   #:dependent => :destroy
 
   #accepts_nested_attributes_for :admin_users
@@ -470,8 +470,8 @@ class Candidate < ActiveRecord::Base
 
     #puts ["\nself: ".magenta, "#{self.id}".green]
 
-    if self.admin_user != nil
-    #if false
+    #if self.admin_users != nil
+    if false
 
       puts "\nadmin_user = nil > destroy".red
 
@@ -495,9 +495,9 @@ class Candidate < ActiveRecord::Base
   end
 
   def build_prerequisites
+    build_default_admin_users
     build_default_project
     build_default_education
-    build_default_admin_users
   end
 
   def build_default_candidate_profile      
