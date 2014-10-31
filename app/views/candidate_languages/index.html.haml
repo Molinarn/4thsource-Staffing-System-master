@@ -13,11 +13,10 @@
     .h3-page-headline
       languages
   .divider-headline
-  %br
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-    %br
+      %br
     = link_to_resume('Back to Resume', @candidate.id, :action => 'resume')
     %br
     %br

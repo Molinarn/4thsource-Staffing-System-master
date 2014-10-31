@@ -6,8 +6,8 @@ class Job < ActiveRecord::Base
   				  :title,
   				  :description,
   				  :other_requirements,
-  				  :admin_users_id,
-  				  :users_id,
+  				  :admin_user_id,
+  				  #:user_id,
   				  :tag_id
 
   has_many :job_matchs

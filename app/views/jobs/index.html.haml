@@ -5,12 +5,19 @@
       = raw '&raquo;'
     %li= raw('<em>Jobs</em>')
     .clear
-  .divider
-  %br
+  %h3.page_headline
+    %i.iconExperienceHeadLine
+    .h3-page-headline
+      Jobs
+  .divider-headline
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
+      %br
   = link_to "New Job", url_options = { :controller => "jobs", :action => "new"}, html_options = { }
+  %br
+  %br
+  %br
   = form_for(:table, :url=>{:action=>'edit'}, :html => { :style => '' }) do |f|
     %br
     %table#jobs_table.display

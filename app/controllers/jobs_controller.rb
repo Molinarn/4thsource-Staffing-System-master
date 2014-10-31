@@ -3,6 +3,9 @@ class JobsController < ApplicationController
 	@trace = true
 
 	def index
+
+    puts "\njobs#index".green
+
 		#logger.debug("FLASSSSSSH >>>#{flash.inspect}")
     set_my_wall(nil)
     set_wall_candidate(nil)
@@ -11,10 +14,38 @@ class JobsController < ApplicationController
 	end
 
 	def new
+
+    puts "\njobs#new".green
+
 		@platforms=Tag.where('type_tag=?',3)
 		@knowledge=Tag.where('type_tag=?',2)
 		@tools= Tag.where('type_tag=?',1)
 		@technologies=Technology.all
+    @candidate = Candidate.find(params[:id])
+
+    if request.post?
+      params.each do |p|
+        puts "#{p}".cyan
+      end
+
+      params[:new_job].each do |p|
+        puts "#{p}".magenta
+      end
+
+      puts "\n#{@candidate.admin_users}".blue
+
+      @job = @candidate.admin_users.first.jobs.new(params[:new_job])
+
+      if @job.save
+
+        flash[:success] = "job was saved successfully."
+        render 'jobs/new'
+
+      else
+        flash[:notice] = "An error occurred while the system save the job."
+      end
+
+    end
 #		binding.pry
 
 	end
@@ -32,33 +63,36 @@ class JobsController < ApplicationController
     end
 
 	def create
+
+    puts "\njobs#create".green
+
 		logger.debug("PARAMS>>>>>#{params.inspect}")
-		if(request.post?)
+		if request.post?
 			admin_id=current_candidate.id
-			if(admin_id.nil?)
+			if admin_id.nil?
 				logger.debug("<<<NIL USER>>>")
 				flash[:notice]="Invalid user."
-				redirect_to File.join('/staff/',admin_id.to_s(), '/jobs')
+				redirect_to File.join('/staff/',admin_id.to_s, '/jobs')
 			else
 				logger.debug("OK>>>>>>>>>>>>>>>>>>")
 				@admin_user=AdminUsers.where('candidates_id=?',admin_id)
 				logger.debug("USEEEEER>>>>>>>#{@user.inspect}")
-				if(not @admin_user.nil?)
+				if not @admin_user.nil?
 					logger.debug("USER OK>>>>>>>>>")
 					@new_job = Job.new
 					@new_job.title=params[:new_job][:title]
 					@new_job.description=params[:new_job][:description]
 					@new_job.tag_id=params[:platforms_req]
 					@new_job.save  
-					redirect_to File.join('/staff/',admin_id.to_s(),'/jobs')
+					redirect_to File.join('/staff/',admin_id.to_s,'/jobs')
 				else
 					flash[:notice]="<<<INVALID USER>>>"
-					redirect_to File.join('/staff/',admin_id.to_s(),'/jobs')
+					redirect_to File.join('/staff/',admin_id.to_s,'/jobs')
 				end
 			end
 		else
 			flash[:notice]="INVALID REQUEST."
-			redirect_to File.join('/staff/',current_candidate.id.to_s(), '/jobs')
+			redirect_to File.join('/staff/',current_candidate.id.to_s, '/jobs')
 		end	
     end
 
@@ -98,11 +132,11 @@ class JobsController < ApplicationController
   	newJob.title = job.title
   	newJob.description = job.description
   	newJob.other_requirements = job.other_requirements
-	newJob.admin_users_id = job.admin_users_id
-	newJob.id_requester = job.id_requester
-	newJob.id_status = job.id_status
-	newJob.id_parent = job.id
-	newJob.save
+	  newJob.admin_users_id = job.admin_users_id
+	  newJob.id_requester = job.id_requester
+	  newJob.id_status = job.id_status
+	  newJob.id_parent = job.id
+	  newJob.save
   	
   	redirect_to request.referer
   end  
@@ -117,18 +151,18 @@ class JobsController < ApplicationController
 
   	@platforms=Tag.where('type_tag=?',3) 
   	@knowledge=Tag.where('type_tag=?',2)
-	@tools= Tag.where('type_tag=?',1)
+  	@tools= Tag.where('type_tag=?',1)
 
-	#TO-DO Buscar como eliminar esta linea, lo que quiero es traerme la tabla completa
-	@allTags = Tag.where('type_tag!=?',0) 
-	#binding.pry
-	@jobsTags = getTags()
-	if(@trace)
-  		logger.debug "====Jobs " + @jobsTags.to_s
-  	end
-                 
+    #TO-DO Buscar como eliminar esta linea, lo que quiero es traerme la tabla completa
+    @allTags = Tag.where('type_tag!=?',0)
     #binding.pry
-    
+    @jobsTags = getTags()
+    if(@trace)
+        logger.debug "====Jobs " + @jobsTags.to_s
+    end
+
+      #binding.pry
+
     if request.post?
       @job = Job.find(params[:job_id])
       @job.update_attributes(params[:jobs])

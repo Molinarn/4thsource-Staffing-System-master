@@ -14,15 +14,14 @@
     .h3-page-headline
       Interviewers
   .divider-headline
-  %br
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-  %br
+      %br
   = link_to "New group", :controller => "interviewers", :action => "new"
   %br
   %br
-
+  %br
   - if Interviewer.all.count > 0 
     %table{:width => "650px"}
       %tr{:height => "20px"}

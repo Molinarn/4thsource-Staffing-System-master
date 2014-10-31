@@ -8,14 +8,15 @@
   %h3.page_headline
     All Candidates
   .divider
-  %br
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
+      %br
   #back_new{:style => "display: inline-block; width: 100%"}
     = link_to "Back", root_path, :style => "float: left"
     -if current_candidate.admin_users
       = link_to "New candidate", "/staff/newcandidate", :style => "float: right"
+  %br
   %br
   %br
   = form_for(:table, :url=>{:action=>'index'}, :html => { :style => '' }) do |f|

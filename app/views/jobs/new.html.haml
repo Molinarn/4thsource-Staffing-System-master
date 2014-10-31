@@ -9,55 +9,73 @@
 
 <!-- Content -->    
 
+<!--form_for :new_job, :url => :jobs_path, :html=>{'data-validate' => "parsley"} do |f| -->
+%br
+%h3.page_headline
+  %i.iconExperienceHeadLine
+  .h3-page-headline
+    Job
+.divider-headline
+#flash
+  - flash.each do |key, value|
+    .flash{:class => key}= value
+    %br
+=link_to "Back",:url => "staff/#{@candidate.id}/jobs", :action => "index"
+%br
+%br
+%br
 %section
-=form_for(:new_job, url:jobs_path, :html=>{'data-validate' => "parsley"}) do |f|
-	%h4
-		Please enter the following information
-	.divider
-	%br
-	.field
-		= f.label "Job Title"
-		%br
-		=f.text_field :title,:onkeyup=>"checkMaxlength(this);",:maxlength=>100,:data=>{:required=>"true"}
-	%br
-	.field
-		=f.label "Description"
-		%br
-		=f.text_area :description,:data=>{:required=>"true"}
-	%br
-	%br
-	%h4
-		Technical requirements
-	.divider
-	Select the technical requirements for this job.
-	%br
-	#jqxTree{:style => 'width:50%'}
-		=raw('<ul>')     
-		=raw("<li level='project' custom-value='#{'1'}'>" +  'Platform<ul>')
-		-@platforms.each do |p|
-			=raw("<li level='platform' custom-value='#{p.id}'>" + p.name + '<ul>')
-			=raw('</ul></li>')
-		=raw('</ul>')
-		=raw("<li level='project' custom-value='#{'1'}'>" +  'Knowledge<ul>')
-		-@knowledge.each do |k|
-			=raw("<li level='platform' custom-value='#{k.id}'>" + k.name + '<ul>')
-			=raw('</ul></li>')
-		=raw('</ul></li>')
-		=raw("<li level='project' custom-value='#{'1'}'>" +  'Tool<ul>')
-		-@tools.each do |t|
-			=raw("<li level='platform' custom-value='#{t.id}'>" + t.name + '<ul>')
-			=raw('</ul></li>')
-		=raw('</ul></li>')
-		=raw('</ul>')
-	%h4
-		Other requiremnets
-	.divider
-	Non-technical and other kind of requirements for this job.
-	%br
-	.field
-		=f.text_area :other_req, :maxlength => 30
-	%br
-	.actions
-		=f.submit "Create Job", :class=> "btn btn-primary"
-	%br
-	.clear
+=form_for :new_job, :html=>{'data-validate' => "parsley"} do |f|
+  %h4
+    Please enter the following information
+  .divider
+  %br
+  .field
+    = f.label "Job Title"
+    %br
+    =f.text_field :title,:onkeyup=>"checkMaxlength(this);",:maxlength=>100,:data=>{:required=>"true"}
+  %br
+  .field
+    =f.label "Description"
+    %br
+    =f.text_area :description,:data=>{:required=>"true"}
+  %br
+  %br
+  %h4
+    Technical requirements
+  .divider
+  Select the technical requirements for this job.
+  %br
+  %br
+  #jqxTree{:style => 'width:50%'}
+    =raw('<ul>')
+    =raw("<li level='project' custom-value='#{'1'}'>" +  'Platform<ul>')
+    -@platforms.each do |p|
+      =raw("<li level='platform' custom-value='#{p.id}'>" + p.name + '<ul>')
+      =raw('</ul></li>')
+    =raw('</ul>')
+    =raw("<li level='project' custom-value='#{'1'}'>" +  'Knowledge<ul>')
+    -@knowledge.each do |k|
+      =raw("<li level='platform' custom-value='#{k.id}'>" + k.name + '<ul>')
+      =raw('</ul></li>')
+    =raw('</ul></li>')
+    =raw("<li level='project' custom-value='#{'1'}'>" +  'Tool<ul>')
+    -@tools.each do |t|
+      =raw("<li level='platform' custom-value='#{t.id}'>" + t.name + '<ul>')
+      =raw('</ul></li>')
+    =raw('</ul></li>')
+    =raw('</ul>')
+  %br
+  %br
+  %h4
+    Other requiremnets
+  .divider
+  Non-technical and other kind of requirements for this job.
+  %br
+  .field
+    =f.text_area :other_req, :maxlength => 30
+  %br
+  .actions
+    =f.submit "Create Job", :class=> "btn btn-primary"
+  %br
+  .clear
