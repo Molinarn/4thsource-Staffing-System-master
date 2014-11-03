@@ -22,11 +22,11 @@
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-  %br
+      %br
   -if has_admin_role?
-    %br
-      %strong
-        = link_to "New", :controller => "roles", :action => "new"
+    %strong
+      = link_to "New", :controller => "roles", :action => "new"
+      %br
     %br
     %br
     -if @roles.length == 0

@@ -15,16 +15,23 @@ class RolesController < ApplicationController
 
     @candidate = Candidate.find(params[:id])
 
-    @project = @candidate.projects.find(params[:project_id])
-    @projects_role = @project.projects_roles.find(params[:projects_role_id])
-
     puts "\n@candidate: #{@candidate.id}".magenta
-    puts "@project: #{@project.id}".magenta
-    puts "@project_role: #{@projects_role.id}".magenta
 
     if request.post?
-      #@role = Role.new(params[:role])
-      @role = @projects_role.roles.build(params[:role])
+      
+      if params.include?(:project_id)
+
+        @project = @candidate.projects.find(params[:project_id])
+        @projects_role = @project.projects_roles.find(params[:projects_role_id])
+    
+        puts "@project: #{@project.id}".magenta
+        puts "@project_role: #{@projects_role.id}".magenta
+      
+        #@role = Role.new(params[:role])
+        @role = @projects_role.roles.build(params[:role])
+      else
+        @role = Role.new(params[:role])
+      end
       @cat_role_rows = Role.where("name = ?", @role.name)
       if @cat_role_rows.length > 0
         flash[:notice] = "The Role already exists"
@@ -71,7 +78,7 @@ class RolesController < ApplicationController
       @roles.each do |row|
         @role = params["approved_flag_" + row.id.to_s]
 
-        if @role != nil && !row.used
+        if @role != nil && !row.used(row.id)
           Role.delete(row.id)
         else
           flash[:notice] = "The Role #{row.name} is assigned can not be deleted."

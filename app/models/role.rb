@@ -24,11 +24,12 @@ class Role < ActiveRecord::Base
   #has_many :projects_roles
   #has_many :projects, :through => :projects_roles
   
-  def used
+  def used(id)
 
     puts "\n role#used".red
 
-    (ProjectsRole.where("role_id = ?", id).length > 0)  
+    #(ProjectsRole.where("role_id = ?", id).length > 0)  
+    !Role.find(id).projects_role_id.nil?
   end
 
   def validate_end_date_before_start_date
