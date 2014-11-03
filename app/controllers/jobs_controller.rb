@@ -132,7 +132,7 @@ class JobsController < ApplicationController
   	newJob.title = job.title
   	newJob.description = job.description
   	newJob.other_requirements = job.other_requirements
-	  newJob.admin_users_id = job.admin_users_id
+	  newJob.admin_user_id = job.admin_user_id
 	  newJob.id_requester = job.id_requester
 	  newJob.id_status = job.id_status
 	  newJob.id_parent = job.id
@@ -165,7 +165,12 @@ class JobsController < ApplicationController
 
     if request.post?
       @job = Job.find(params[:job_id])
-      @job.update_attributes(params[:jobs])
+      
+      params[:job].each do |p|
+        puts "#{p}".cyan
+      end
+      
+      @job.update_attributes(params[:job])
       if @job.save
         flash[:notice] = "Job saved successfully."
         #redirect_to File.join('/staff/',admin_id.to_s(),'/jobs')

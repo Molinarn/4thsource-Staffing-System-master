@@ -38,7 +38,7 @@
   .fluid-row
   .span6
 
-    = form_for(@job, :url =>"edit/", :html => {:class => "job", 'data-validate' => "parsley", :method => "post"}) do |f|
+    = form_for(:job, :url =>"edit/", :html => {:class => "job", 'data-validate' => "parsley", :method => "post"}) do |f|
       .field
         = f.label "Job title"
         %br
