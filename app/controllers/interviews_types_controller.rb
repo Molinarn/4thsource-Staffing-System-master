@@ -41,8 +41,17 @@ class InterviewsTypesController < ApplicationController
   end
   
   def delete
-    @candidateInterview = CandidatesInterview.where("interview_type_id = ?", params[:interview_type_id])
-    if @candidateInterview.length > 0
+    
+    puts "\ninterviews_types#delete".green
+    
+    puts "\n:interview_type_id: #{params[:interview_type_id]}".cyan
+    
+    @candidateInterview = CandidatesInterview.where("interviews_type_id = ?", params[:interview_type_id])
+    
+    puts "\n@candidateInterview: #{@candidateInterview}".magenta
+    
+    #if @candidateInterview.length > 0
+    if @candidateInterview.count > 0 
       flash[:notice] = "This Interview type is associated to an Interview, cannot be Deleted"
     else
       InterviewsType.find(params[:interview_type_id]).destroy
