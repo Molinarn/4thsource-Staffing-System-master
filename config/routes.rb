@@ -130,7 +130,7 @@ StaffingApp::Application.routes.draw do
   #match "/resume_details/:id/destro" => 'resume_details#destro'
   match "/candidate_prof_summaries/destro" => 'candidate_prof_summaries#destro'
   #match "/resume_details/:id/destroy" => resume_details_destroy_path
-#  match "/candidates/:id/resume/education" => 'resume#education'
+  #match "/candidates/:id/resume/education" => 'resume#education'
 #  match "/education/destroy" => 'educations#destroy'
 
   # Projects

@@ -42,7 +42,7 @@
               = link_to "Interviewers", url_options = { :controller => "interviewers", :action => "index", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }
             %li
               %i.iconEducation
-              = link_to_resume('Education Degrees', current_candidate.id, :action => 'educ_degree', :class => 'profile-sub_navigation')
+              = link_to 'Education Degrees', url_options = {:controller => "educ_degrees",:action => 'index', :id => current_candidate.id},  :class => 'profile-sub_navigation'
             %li
               %i.iconInterests
               = link_to 'Languages', '/staff/' + current_candidate.id.to_s + '/languages', :class => 'profile-sub_navigation'

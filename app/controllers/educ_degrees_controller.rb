@@ -109,7 +109,44 @@ class EducDegreesController < ApplicationController
                          current_candidate.middle_name + " " +
                          current_candidate.first_last_name + " " +
                          current_candidate.second_last_name
+    
+         if params[:approved_flag_all]
+              
+            puts "\n#:approved_flag_all".magenta
+            
+            params[:table].each do |p|              
+           
+              educDegree = EducDegree.find(p.first)
 
+              educDegree.approved_flag = true
+              educDegree.approved_by = @approved_by
+              educDegree.save
+              
+            end
+         else
+                      
+           params[:table].each do |p|
+            
+             puts "\n#{p.second}".magenta
+            
+             educDegree = EducDegree.find(p.first)
+            
+             if p.second == 'valtrue'
+               
+               educDegree.approved_flag = true
+               educDegree.approved_by = @approved_by
+               educDegree.save
+               
+             else
+               
+               educDegree.approved_flag = false
+               educDegree.save
+               
+             end
+           end
+            
+         end
+       
         #for str in @degree.split(":")
 
           #degree_value = EducDegree.find(str.split(",")[0])
@@ -123,24 +160,70 @@ class EducDegreesController < ApplicationController
         #end
       else
         if params[:delete_button] != nil
-          for param in params
-            if param[0].include?"approved_flag_"
-              if param[0].index("approved_flag_") >= 0
-                educDegree = EducDegree.find(param[1])
+                    
+          if params[:approved_flag_all]
+            
+            puts "\n#:approved_flag_all".magenta
+            
+            params[:table].each do |p|              
+           
+              educDegree = EducDegree.find(p.first)
+              
+              if educDegree.used
+                #flash.now[:notice] = "The Education Degree #{educDegree.name} is assigned can not be deleted."
+              else
+                #EducDegree.delete(educDegree.id)
+                educDegree.destroy
+              end
+            end
+          else
+                    
+            params[:table].each do |p|
+              
+              puts "\n#{p.second}".magenta
+              
+              if p.second == 'valtrue'
+              
+                educDegree = EducDegree.find(p.first)
+                
                 if educDegree.used
-                  flash[:notice] = "The Education Degree #{educDegree.name} is assigned can not be deleted."
+                  #flash.now[:notice] = "The Education Degree #{educDegree.name} is assigned can not be deleted."
                 else
-                  EducDegree.delete(educDegree.id)
+                  #EducDegree.delete(educDegree.id)
+                  educDegree.destroy
                 end
               end
             end
           end
+        
+          #for param in params
+
+            #if param[0].include?"approved_flag_"
+              
+              #puts "\n#{param[0].index("approved_flag_")}".yellow
+              
+              #if param[0].index("approved_flag_") >= 0
+                           
+                #param.each do |p|
+                  #puts "\nparam_#{p}".magenta
+                #end
+                
+                #educDegree = EducDegree.find(param[1])
+                #if educDegree.used
+                  #flash[:notice] = "The Education Degree #{educDegree.name} is assigned can not be deleted."
+                #else
+                  #EducDegree.delete(educDegree.id)
+                #end
+              #end
+            #end
+          #end
         end
       end
      
     end
 
     redirect_to File.join('/candidates/', current_candidate.id.to_s, '/education_degrees')
+    
   end
 
 end
