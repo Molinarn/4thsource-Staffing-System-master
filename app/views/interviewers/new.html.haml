@@ -16,11 +16,12 @@
     .h3-page-headline
       New Interviewer
   .divider-headline
-  %br
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
+      %br
   = link_to "Back", :controller => "interviewers", :action => "index", :id => current_candidate.id
+  %br
   %br
   %br
   = form_for(:interviewer, :html => {:class => "experience", 'data-validate' => "parsley",  :method => "post"}) do |f|
@@ -45,4 +46,4 @@
           -if InterviewsType.all.empty?
             = link_to "Add at least one interview type", :controller => "interviews_types", :action => "new"
           -else
-            = f.select :interviews_type_id, options_from_collection_for_select(InterviewsType.order("name").all, "id", "name"), {include_blank: '- Select one -'}, :data => { :required => "true" }
+            = f.select :interviews_type_id, options_from_collection_for_select(InterviewsType.order("name").all, "id", "name"), {:include_blank => '- Select one -'}, :data => { :required => "true" }

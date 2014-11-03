@@ -127,7 +127,7 @@ class Candidate < ActiveRecord::Base
 
   #accepts_nested_attributes_for :admin_users
 
-  has_one         :interviewer_user, :dependent => :destroy
+  has_many         :interviewer_users, :dependent => :destroy
   
   has_attached_file :avatar, :styles => { :medium => "300x300#", :thumb => "40x40#" },
                              :default_url => "/images/4thsource_avatar.jpg",

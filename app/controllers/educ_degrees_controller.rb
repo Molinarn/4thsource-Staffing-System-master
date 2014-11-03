@@ -90,40 +90,48 @@ class EducDegreesController < ApplicationController
   end
 
   def action
-  
-  
+
+    puts "\neduc_degrees#action".green
+
+    params[:table].each do |p|
+      puts "#{p}".cyan
+    end
+
     @degree = params["Selected_ID"]
     degree = current_candidate
  
- binding.pry
- 
-    if params[:update_button] != nil
-        @approved_by = current_candidate.first_name + " " + 
-                       current_candidate.middle_name + " " + 
-                       current_candidate.first_last_name + " " + 
-                       current_candidate.second_last_name
-      
-      for str in @degree.split(":")
+    #binding.pry
 
-        degree_value = EducDegree.find(str.split(",")[0])
-        
-        if degree_value.approved_flag.to_s != str.split(",")[1]
+    if request.post?
 
-          EducDegree.update(str.split(",")[0], 
-                            :approved_flag => str.split(",")[1],
-                            :approved_by => @approved_by)
-        end
-      end
-    else
-      if params[:delete_button] != nil
-        for param in params
-          if param[0].include?"approved_flag_"
-            if param[0].index("approved_flag_") >= 0
-              educDegree = EducDegree.find(param[1])
-              if educDegree.used
-                flash[:notice] = "The Education Degree #{educDegree.name} is assigned can not be deleted."
-              else
-                EducDegree.delete(educDegree.id)
+      if params[:update_button] != nil
+          @approved_by = current_candidate.first_name + " " +
+                         current_candidate.middle_name + " " +
+                         current_candidate.first_last_name + " " +
+                         current_candidate.second_last_name
+
+        #for str in @degree.split(":")
+
+          #degree_value = EducDegree.find(str.split(",")[0])
+
+          #if degree_value.approved_flag.to_s != str.split(",")[1]
+
+            #EducDegree.update(str.split(",")[0],
+                              #:approved_flag => str.split(",")[1],
+                              #:approved_by => @approved_by)
+          #end
+        #end
+      else
+        if params[:delete_button] != nil
+          for param in params
+            if param[0].include?"approved_flag_"
+              if param[0].index("approved_flag_") >= 0
+                educDegree = EducDegree.find(param[1])
+                if educDegree.used
+                  flash[:notice] = "The Education Degree #{educDegree.name} is assigned can not be deleted."
+                else
+                  EducDegree.delete(educDegree.id)
+                end
               end
             end
           end

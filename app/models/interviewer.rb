@@ -1,5 +1,5 @@
 class Interviewer < ActiveRecord::Base
-  has_many :interviewer_users
+  has_many :interviewer_users, :dependent => :destroy
 
   has_many :candidates, :through => :interviewer_users
 

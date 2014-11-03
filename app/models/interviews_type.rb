@@ -1,5 +1,6 @@
 class InterviewsType < ActiveRecord::Base
-  has_one :interviewer
+
+  has_one :interviewer, :dependent => :destroy
 
   has_many :interviews_questions, :dependent => :delete_all
 
