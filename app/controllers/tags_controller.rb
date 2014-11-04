@@ -35,6 +35,9 @@ class TagsController < ApplicationController
   end
 
   def technologies_process
+    
+    puts "\ntags#technologies_process".green
+    
     @rowId = params[:rowId]
     if  @rowId.to_i != -1
       @temp = Technology.new(params[:technology])      
@@ -48,7 +51,8 @@ class TagsController < ApplicationController
         render :text => 'ERROR*Error while saving'
       end
     else    
-      @t = Technology.new(params[:technology])      
+      #@t = Technology.new(params[:technology])      
+      @t = Tag.new(:name => params[:technology][:name], :description => params[:technology][:description], :type_tag => 3, :date_in => DateTime.now, :date_out =>DateTime.now)
       if @t.save      
         render :text => "OK*M*#{@t.id.to_s}*M*" +
                     "<a href='#!' onclick=\"Edit(#ROWID#,\'#{@t.technology}\');\">#{@t.technology}</a>*M*" +
@@ -112,6 +116,9 @@ class TagsController < ApplicationController
   end
 
   def tools_process
+    
+    puts "\ntags#tools_process".green
+    
     @rowId = params[:rowId]
     if @rowId.to_i != -1
       @temp = Tag.new(params[:tool])
@@ -123,7 +130,8 @@ class TagsController < ApplicationController
                       "<div style='text-align: center'><a href='#!' onclick=\"Delete(#{@rowId});\">x</a></div>"        
       end
     else    
-      @t = Tag.new(params[:tool])
+      #@t = Tag.new(params[:tool])
+      @t = Tag.new(:name => params[:tool][:name], :description => params[:tool][:description], :type_tag => 1, :date_in => DateTime.now, :date_out =>DateTime.now)
       @t.type_tag = 1
       if @t.save      
         render :text => "OK*M*#{@t.id.to_s}*M*" +
