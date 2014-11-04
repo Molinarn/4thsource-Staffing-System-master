@@ -116,6 +116,10 @@ class EducDegreesController < ApplicationController
             
             params[:table].each do |p|              
            
+              p.each do |pt|
+                puts "#{pt}".blue
+              end
+           
               educDegree = EducDegree.find(p.first)
 
               educDegree.approved_flag = true
@@ -127,6 +131,10 @@ class EducDegreesController < ApplicationController
                       
            params[:table].each do |p|
             
+             p.each do |pt|
+                puts "#{pt}".blue
+             end
+             
              puts "\n#{p.second}".magenta
             
              educDegree = EducDegree.find(p.first)

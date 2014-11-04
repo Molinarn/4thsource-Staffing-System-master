@@ -1,3 +1,4 @@
+
 class TagsController < ApplicationController
   def index
 
@@ -136,7 +137,11 @@ class TagsController < ApplicationController
   end
 
   def knowledges
+    
+    puts "\ntags#knowledges".green
+    
     @tags = Tag.where('type_tag = ?', 2)
+    
   end
 
   def knowledges_delete
@@ -148,7 +153,14 @@ class TagsController < ApplicationController
     end
   end
 
-  def knowledges_process    
+  def knowledges_process   
+    
+    puts "\ntags#knowledge_process".green
+     
+    params.each do |p|
+      puts "#{p}".cyan
+    end 
+     
     @rowId = params[:rowId]
     if @rowId.to_i != -1
       @temp = Tag.new(params[:knowledge])
@@ -160,8 +172,13 @@ class TagsController < ApplicationController
                       "<div style='text-align: center'><a href='#!' onclick=\"Delete(#{@rowId});\">x</a></div>"        
       end
     else    
-      @t = Tag.new(params[:knowledge])
-      @t.type_tag = 2
+      
+      params[:knowledge].each do |pk|
+        puts "#{pk}".magenta
+      end
+      
+      @t = Tag.new(:name => params[:knowledge][:name], :description => params[:knowledge][:description], :type_tag => 2, :date_in => DateTime.now, :date_out =>DateTime.now)
+      #@t.type_tag = 2
       if @t.save      
         render :text => "OK*M*#{@t.id.to_s}*M*" +
                     "<a href='#!' onclick=\"Edit(#ROWID#,\'#{@t.name}\');\">#{@t.name}</a>*M*" +
@@ -199,11 +216,17 @@ class TagsController < ApplicationController
   end
 
   def destroy
+    
+    puts "\ntags#destroy".green
+    
     Tag.delete(params[:id])
     redirect_to File.join('/staff/', current_candidate.id.to_s, '/tags')
   end
 
   def action
+    
+    puts "\ntags#destroy".green
+    
     @tag = Tag.new(params[:tag])
 
     if params[:update_button] != nil

@@ -17,7 +17,7 @@ class Tag < ActiveRecord::Base
   has_many :jobs, :through => :job_matchs
   has_many :candidates_profile, :through => :r_candidate_tag
 
-  validate :projects_tag_id, :presence => true
+  #validate :projects_tag_id, :presence => true
   #validate :name, :presence => true
   validate :type_tag, :presence => true
   #validate :description, :presence => true
