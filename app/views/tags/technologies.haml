@@ -38,6 +38,8 @@
               = 'Id'
             %th
               = 'Name'
+            %th
+              = 'Description'
             %th{:align=>'center'}
               = 'Delete'
         %tbody
@@ -49,6 +51,8 @@
               %td
                 %a{:href=>'#!', :onclick=>"Edit(#{@i},\'#{t.name}\')"}                  
                   = t.name
+              %td
+                = t.description
               %td{:style=>'text-align: center'}
                 %a{:href=>'#!', :onclick=>"Delete(#{@i});"}
                   = 'x'

@@ -26,8 +26,9 @@ class TagsController < ApplicationController
     
   end
 
-  def technologies_delete    
-    @t = Technology.find(params[:technologyId])
+  def technologies_delete 
+    #@t = Technology.find(params[:technologyId])   
+    @t = Tag.find(params[:technologyId])
     if @t.delete
       render :text => 'OK'
     else
