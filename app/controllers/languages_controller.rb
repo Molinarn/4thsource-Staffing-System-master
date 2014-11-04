@@ -48,7 +48,8 @@ class LanguagesController < ApplicationController
         if(@language == nil)
           Language.update(row.id, 
                           :approved_flag => false,
-                          :approved_by => row.approved_by)
+                          :approved_by => '')
+                          #:approved_by => row.approved_by)
         else
           Language.update(row.id, 
                           :approved_flag => true,

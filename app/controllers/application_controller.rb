@@ -18,6 +18,8 @@ class ApplicationController < ActionController::Base
 
   def set_user_type(user)
   
+  puts "\napplication#set_user_type".green
+  
     #admin_user = AdminUsers.find_by_candidates_id(user.id)
     admin_user = AdminUser.find_by_candidate_id(user.id)
     roles = {'0' => 'Admin', '1' => 'Super Admin'}
@@ -34,12 +36,21 @@ class ApplicationController < ActionController::Base
       #session[:expires_at] = 2.minutes.from_now
     end
 
+    puts "\nuser_type#{session[:user_type]}".magenta
+
     session[:user_type]
+    
   end
   
 
   def get_user_type
+    
+    puts "\napplication#get_user_type".green
+    
+    puts "\nuser_type#{session[:user_type]}".magenta
+    
     session[:user_type]
+    
   end
 
   def set_wall_candidate (candidate)

@@ -85,7 +85,7 @@
         -if role == SessionsHelper::SUPERADMIN
           %li
             %i.iconAdminUser
-            = link_to 'Admin users', '/admin_users', html_options = { :class => 'profile-sub_navigation' }
+            = link_to 'Admin users',url_options = { :controller => "admin_users", :action => "index", :id => current_candidate.id.to_s}, html_options = { :class => 'profile-sub_navigation' }
         %li
           %i.iconReport
             = label_tag 'Reports', nil, :class => 'profile-sub_navigation'
@@ -94,10 +94,10 @@
           %ul#nav_sub.sub_navigation
             %li
               %i.iconInterviewer
-              = link_to 'Advanced search', '/staff/' + current_candidate.id.to_s() + '/report', :class => 'profile-sub_navigation'
+              = link_to 'Advanced search', '/staff/' + current_candidate.id.to_s + '/report', :class => 'profile-sub_navigation'
             %li
               %i.iconIntervieweType
-              = link_to 'Interviews Report', '/staff/' + current_candidate.id.to_s() + '/interviews/report', :class => 'profile-sub_navigation'
+              = link_to 'Interviews Report', '/staff/' + current_candidate.id.to_s + '/interviews/report', :class => 'profile-sub_navigation'
             %li
               %i.iconExperience
               = link_to "Jobs", url_options = { :controller => "jobs", :action => "index", :id => current_candidate.id}, html_options = { :class => 'profile-sub_navigation' }

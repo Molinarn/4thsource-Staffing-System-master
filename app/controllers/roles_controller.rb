@@ -67,7 +67,8 @@ class RolesController < ApplicationController
         if @role == nil
           Role.update(row.id, 
                       :approved_flag => false,
-                      :approved_by => row.approved_by)
+                      :approved_by => '')
+                      #:approved_by => row.approved_by)
         else
           Role.update(row.id, 
                       :approved_flag => true,

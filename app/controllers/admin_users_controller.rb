@@ -14,10 +14,14 @@ before_filter :isSuperAdmin
 
     puts "\nadmin_user#new".green
 
+    params.each do |p|
+      puts "#{p}".magenta
+    end
+
     #@admin_user = AdminUser.new
     @candidate = Candidate.find_by_id(params[:candidate_id])
-    @admin_user = @canidate.AdminUser.new
-    @admin_user =
+    #@admin_user = @canidate.AdminUser.new
+    @admin_user = @candidate.admin_users.new
     @error = admin_user.errors
 
     unless params[:letra].nil?

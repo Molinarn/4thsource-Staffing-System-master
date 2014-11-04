@@ -31,4 +31,5 @@ $(document).ready(function(){
         }
     });//cierra flash .dialog
 });//cierra documentready
->>>>>>> a01198ba0ba91827105c9d3db48ac39430ba2780
+
+//>>>>>>> a01198ba0ba91827105c9d3db48ac39430ba2780

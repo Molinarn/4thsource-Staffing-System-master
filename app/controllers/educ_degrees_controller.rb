@@ -140,6 +140,7 @@ class EducDegreesController < ApplicationController
              else
                
                educDegree.approved_flag = false
+               educDegree.approved_by = ''
                educDegree.save
                
              end

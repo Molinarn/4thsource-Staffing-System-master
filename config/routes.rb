@@ -73,7 +73,9 @@ StaffingApp::Application.routes.draw do
   #match "/job_match/match/:jobSearch/:matchPercentage"=>'job_match#match'
   #match "/job_match/match/:matchPercentage" =>'job_match#match'
 
+  #Added
   match "/staff/:id/certifications/action" => 'certifications#action'
+  match "/staff/:id/admin_users" => 'admin_users#index'
 
   match "staff/:id/jobs"=>'jobs#index'  
   match "staff/:id/jobs/index"=>'jobs#index'
@@ -85,7 +87,6 @@ StaffingApp::Application.routes.draw do
   match "staff/:id/jobs/:job_id/delete"=>'jobs#destroy'
   match "staff/:id/jobs/:job_id/assign/:candidate_id"=>'jobs#assign'
   match "staff/:id/jobs/:job_id/duplicate"=>'jobs#duplicate'
-
 
 
   match "admin_users/:id/edit/:role" => 'admin_users#edit'

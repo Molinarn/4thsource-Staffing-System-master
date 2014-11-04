@@ -9,11 +9,12 @@
   %h3.page_headline
     All Admin Users
   .divider
-  %br
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
-  = link_to "New", '/admin_users/new'
+      %br
+  = link_to "New", "/'#{:id}'/admin_users/new"
+  %br
   %br
   %br
   %br

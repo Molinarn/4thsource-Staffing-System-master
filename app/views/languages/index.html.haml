@@ -46,20 +46,20 @@
             -@languages.each do |row|
               %tr
                 %td
-                  = check_box_tag "id" + i.to_s(), row.id.to_s(), row.approved_flag, :name => "approved_flag_" + row.id.to_s(), :class => "checked_tags"
+                  = check_box_tag "id" + i.to_s, row.id.to_s, row.approved_flag, :name => "approved_flag_" + row.id.to_s, :class => "checked_tags"
                 %td              
                   = row.name                                   
                 %td 
                   = row.approved_by
               -i = i + 1
         &nbsp;&nbsp;
-        = check_box_tag "approved_flag_all", @languages.count.to_s()
+        = check_box_tag "approved_flag_all", @languages.count.to_s
         Select all
         %br
         %br
         = submit_tag "Update", :name => 'update_button', :class => 'btn btn-primary'
         &nbsp;&nbsp;&nbsp;&nbsp;
-        = submit_tag "Delete", :name => 'delete_button', :class => 'btn', :confirm => "Do you want to delete the selected elements?"        
+        = button_tag "Delete", :name => 'delete_button', :class => 'btn'    
   -else
     .educationEmptyTitle
       This User Have not Permission in this Catalog
@@ -72,18 +72,65 @@
       $('.checked_tags').prop('checked', this.checked);
     });
 
-    $('#languageFormSubmit').submit(function(event){
-      checked_count = 0;
+    //checked_count = 0;
+            
+    //$('.checked_tags').each(function(){
+      //if(this.checked){
+        //checked_count = checked_count + 1;
+      //}     
+    //});
 
+    function checked(){
       $('.checked_tags').each(function(){
         if(this.checked){
-          checked_count = checked_count + 1;
+            checked_count = checked_count + 1;
         }
       });
+    }
 
+    //$('.checked_tags').click(function(event){
+      //if(event.target.checked)
+        //checked_count = checked_count + 1;
+      //else{
+        //checked_count = checked_count - 1;
+      //}
+    //});
+
+    $("button").click(function(event){
+      
+      checked_count = 0;
+      checked();     
+      
+      //alert(checked_count);
+      
+      //alert(this.name);
+      
       if(checked_count <= 0){
         alert('Please select a language');
         event.preventDefault();
       }
+      else {
+        var r = confirm("Do you want to delete the selected elements?");
+        if(r == false){
+          event.preventDefault();
+        }
+      }
     });
+    
+    //$('#languageFormSubmit').submit(function(event){
+      //checked_count = 0;
+
+      //alert(event.target.id)
+
+      //$('.checked_tags').each(function(){
+      //if(this.checked){
+          //checked_count = checked_count + 1;
+        //}
+      //});
+
+      //if(checked_count <= 0){
+        //alert('Please select a language');
+        //event.preventDefault();
+      //}
+    //});
   });

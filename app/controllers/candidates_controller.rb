@@ -103,13 +103,15 @@ class CandidatesController < ApplicationController
 
   def create
   
-	  puts ["\ncandidate#create".green,"candidate.nil? #{current_candidate.nil?}".red]
+    puts "\ncandidates#create".green
+  
+	  puts "\ncandidate.nil? #{current_candidate.nil?}".red
 
     #If no current_candidate, there's no login so act as new candidate.
     #if current_candidate.nil?
     if !current_candidate.nil?
 
-      puts ["\nget_user_type: ".cyan, "#{get_user_type}".red]
+      puts "\nget_user_type: #{get_user_type}".red
 
       if @@admin_roles.include?( get_user_type ) #!current_candidate.admin_flag.nil?
         #algo
@@ -240,8 +242,13 @@ class CandidatesController < ApplicationController
   end
 
   def newcandidate
+    
+    puts "\ncandidates#newcandidate".green
+    
      @candidate = Candidate.new
-     render '/candidates/newcandidate_admin'
+     #No such route
+     #render '/candidates/newcandidate_admin'
+     render '/candidates/new'
   end  
 
   def profiles
