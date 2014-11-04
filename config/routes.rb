@@ -258,10 +258,15 @@ StaffingApp::Application.routes.draw do
   match "/staff/:id/tags/languages" => 'tags#languages'
   match "/staff/:id/tags/languages/process" => 'tags#languages_process'
   match "/staff/:id/tags/languages/delete" => 'tags#languages_delete'  
-  match "/staff/:id/tags/languages/:tech/tech" => 'tags#technologies'
-  match "/staff/:id/tags/languages/:tech/tech/process" => 'tags#technologies_process'
-  match "/staff/:id/tags/languages/:tech/tech/delete" => 'tags#technologies_delete'
-#  match "/staff/:id/tags/platform" => 'tags#platform'
+  #match "/staff/:id/tags/languages/:tech/tech" => 'tags#technologies'
+  #match "/staff/:id/tags/languages/:tech/tech/process" => 'tags#technologies_process'
+  #match "/staff/:id/tags/languages/:tech/tech/delete" => 'tags#technologies_delete'
+  
+  match "/staff/:id/tags/tech" => 'tags#technologies'
+  match "/staff/:id/tags/tech/process" => 'tags#technologies_process'
+  match "/staff/:id/tags/tech/delete" => 'tags#technologies_delete'
+  
+  #match "/staff/:id/tags/platform" => 'tags#platform'
 
   # Report
   match "/staff/:id/report" => 'report#index'

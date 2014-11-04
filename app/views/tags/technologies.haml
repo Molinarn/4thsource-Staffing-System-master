@@ -18,23 +18,25 @@
     .h3-page-headline
       Platforms/Technologies catalog
   .divider-headline
-  %br
-    %strong
-      = link_to "Back", :controller => "tags", :action => "languages"
+  %strong
+    = link_to "Back", :controller => "tags", :action => "languages"
   %br
   %br    
+  %br
   #datatbl
     %button{:class=>'btn-primary', :id=>'new'}
       New
     %br
-    %br    
+    %br  
+    %br
+    %br  
     = form_for(:table, :url=>{:action=>'index'}) do |f|    
       %table{:id=>'tblTechnologies', :cellpadding=>"0", :cellspacing=>"0", :border=>"0", :class=>"display", :width=>"100%"}
         %thead
           %tr
             %th
               = 'Id'
-            %th 
+            %th
               = 'Name'
             %th{:align=>'center'}
               = 'Delete'
@@ -45,8 +47,8 @@
               %td
                 = t.id
               %td
-                %a{:href=>'#!', :onclick=>"Edit(#{@i},\'#{t.technology}\')"}                  
-                  = t.technology
+                %a{:href=>'#!', :onclick=>"Edit(#{@i},\'#{t.name}\')"}                  
+                  = t.name
               %td{:style=>'text-align: center'}
                 %a{:href=>'#!', :onclick=>"Delete(#{@i});"}
                   = 'x'
@@ -60,5 +62,10 @@
             %td{:valign=>'top'}
               = 'Name:'
             %td
-              %input{:id=>'fid', :name=>'technology[lang_id]', :type=>'hidden', :value=>"#{@languageId}"}
-              %input{:id=>'fname', :type=>"text", :name=>'technology[technology]', 'data-required'=>'true'}
+              %input{:id=>'fid', :name=>'id', :type=>'hidden'}
+              %input{:id=>'fname', :type=>"text", :name=>'technology[name]', 'data-required'=>'true'}         
+          %tr
+            %td{:valign=>'top'}
+              = 'Description:'
+            %td
+              %textarea{:id=>'fdescription', :name=>'technology[description]', 'data-required'=>'true'}

@@ -7,8 +7,6 @@ class TagsController < ApplicationController
     @tags = Tag.paginate(:page => params[:page], 
                          :per_page => 20)
 
-  
-    
     set_wall_candidate(nil)
     set_my_wall(nil)
   end
@@ -21,8 +19,11 @@ class TagsController < ApplicationController
 
     puts "\ntags#index".green
 
-    @languageId = params[:tech]
-    @tags = Technology.where('lang_id = ?', params[:tech])
+    #@languageId = params[:tech]
+    #@tags = Technology.where('lang_id = ?', params[:tech])
+    
+    @tags = Tag.where('type_tag = ?', 3)
+    
   end
 
   def technologies_delete    
@@ -44,18 +45,23 @@ class TagsController < ApplicationController
       @t = Technology.find(params[:tech])
       if @t.update_attributes(params[:technology])
         render :text => "OK*M*#{@t.id.to_s}*M*" +
-                      "<a href='#!' onclick=\"Edit(#{@rowId},\'#{@t.technology}\');\">#{@t.technology}</a>*M*" +
+                      "<a href='#!' onclick=\"Edit(#{@rowId},\'#{@t.name}\');\">#{@t.name}</a>*M*" +
                       "X*M*" +
                       "<div style='text-align: center'><a href='#!' onclick=\"Delete(#{@rowId});\">x</a></div>"        
       else
         render :text => 'ERROR*Error while saving'
       end
     else    
-      #@t = Technology.new(params[:technology])      
+      #@t = Technology.new(params[:technology])  
+      
+      params[:technology].each do |p|
+        puts "#{p}".cyan
+      end
+          
       @t = Tag.new(:name => params[:technology][:name], :description => params[:technology][:description], :type_tag => 3, :date_in => DateTime.now, :date_out =>DateTime.now)
       if @t.save      
         render :text => "OK*M*#{@t.id.to_s}*M*" +
-                    "<a href='#!' onclick=\"Edit(#ROWID#,\'#{@t.technology}\');\">#{@t.technology}</a>*M*" +
+                    "<a href='#!' onclick=\"Edit(#ROWID#,\'#{@t.name}\');\">#{@t.name}</a>*M*" +
                     "X*M*" +
                     "<div style='text-align: center'><a href='#!' onclick=\"Delete(#ROWID#);\">x</a></div>"        
       else
