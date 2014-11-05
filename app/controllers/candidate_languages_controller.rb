@@ -14,8 +14,19 @@ class CandidateLanguagesController < ApplicationController
       @error  = current_candidate.errors
     end
 
-    @total_languages = @candidate.candidate_languages
-    @language = CandidateLanguage.new
+    if @candidate.candidate_languages.nil? || @candidate.candidate_languages.count <= 0 
+       @candidate_language = @candidate.candidate_languages.new
+    else   
+       @candidate_language = @candidate.candidate_languages
+    end
+    
+    @total_languages = @candidate_language.filter_languages
+    
+    #@total_languages = @candidate.candidate_languages
+    #@language = CandidateLanguage.new
+    
+    @language = @candidate_language.filter_languages.new
+    
    end
 
   def new
@@ -53,27 +64,14 @@ class CandidateLanguagesController < ApplicationController
 
     if @candidate.candidate_languages.nil? || @candidate.candidate_languages.count <= 0 
       
-       @candidate_language = @candidate.candidate_languages.new(params[:candidate_language][:level_id])
+       @candidate_language = @candidate.candidate_languages.new
        @candidate_language.save
 
     else
       
-      @candidate_language = @candidate.candidate_languages
-      @candidate.update_attributes(params[:candidate_language][:level_id])
-      
-      @candidate_language.each do |cl|
-        puts "#{cl}".cyan
-      end
+       @candidate_language = @candidate.candidate_languages
       
     end
-
-    @filter_language = @candidte_language.filter_languages
-
-    @filter_language.each do |f|
-      puts "#{f}".cyan
-    end
-
-    puts "\n@candidate_language: #{@candidate_language.count}".red
 
     #If add manually is selected and the language is not in the list
     if params[:language_notinlist] && Language.where("name = ?",params[:lang_name]).count == 0
@@ -110,10 +108,18 @@ class CandidateLanguagesController < ApplicationController
 
     if language != nil
 
-      @candidate_language = @candidate.candidate_languages.build(params[:candidate_language])
-      @candidate_language.language = language
+      #@candidate_language = @candidate.candidate_languages.build(params[:candidate_language])
+      #@candidate_language.language = language
 
-      if @candidate_language.save
+      @filter_language = @candidte_language.filter_languages.new(params[:candidate_language][:level_id])
+      @filter_language.languages = language
+      
+      @filter_language.each do |f|
+        puts "#{f}".cyan
+      end
+
+      #if @candidate_language.save
+      if @filter_language.save
         flash[:success] = "languages was saved successfully."
       else
         language.destroy
@@ -126,7 +132,8 @@ class CandidateLanguagesController < ApplicationController
   end
 
   def destroy
-    CandidateLanguage.find(params[:candidate_language]).destroy
+    @candidate_language = CandidateLanguage.find(params[:candidate_language])
+    @candidate_language.filter_languages.find_by_language_id(params[:language_id]).destroy
     redirect_to request.referer
   end
 
