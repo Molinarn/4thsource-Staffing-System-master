@@ -331,7 +331,7 @@ StaffingApp::Application.routes.draw do
   match "/candidates/:candidate_id/admin" => 'candidates_profiles#admin'
 
   ## New Candidate by admin
-  match "/staff/newcandidate" => 'candidates#newcandidate'
+  match "/staff/newcandidate" => 'staff_candidates#newcandidate'
 
   ## Docx Generator
   match "/candidates/:candidate_id/docx" =>'candidates_profiles#docx'

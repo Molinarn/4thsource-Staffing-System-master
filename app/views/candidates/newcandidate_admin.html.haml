@@ -11,6 +11,10 @@
   %h3.page_headline
     Candidate registration
   .divider
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value  
+  %br
   = form_for(@candidate, :html => { :multipart => true }) do |f|
     = render 'shared/error_messages', :object => f.object
     .field
@@ -58,5 +62,5 @@
     %br
     %br
       .actions
-      = f.submit "Sign up", :class => 'btn btn-primary'
+      = f.submit "Save", :class => 'btn btn-primary'
   .clear

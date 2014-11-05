@@ -30,6 +30,28 @@ class StaffCandidatesController < ApplicationController
 	 								   
   end
 
+  def newcandidate
+    
+    puts "\ncandidates#newcandidate".green
+    
+     @candidate = Candidate.new
+     
+     if request.post?
+       if @candidate.save
+         render '/staff/index'
+       else
+         flash[:notice] = "Error while creating the candidate"
+         #render '/staff/newcandidate_admin'
+       end
+     end
+     
+     #No such route
+     render '/candidates/newcandidate_admin'
+     #render :newcandidate_admin
+  end
+
+
+
   def search
 
     puts "\nstaff_candidates#search".green

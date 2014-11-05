@@ -241,11 +241,21 @@ class CandidatesController < ApplicationController
     end
   end
 
-  def newcandidate
+  def newcandidate_admin
     
     puts "\ncandidates#newcandidate".green
     
      @candidate = Candidate.new
+     
+     if request.post?
+       if @candidate.save
+         render '/candidates/index'
+       else
+         flash[:notice] = "Error while creating the candidate"
+         render '/candidates/newcandidate'
+       end
+     end
+     
      #No such route
      #render '/candidates/newcandidate_admin'
      render '/candidates/new'
