@@ -15,7 +15,7 @@
   #back_new{:style => "display: inline-block; width: 100%"}
     = link_to "Back", root_path, :style => "float: left"
     -if current_candidate.admin_users
-      = link_to "New candidate", "/staff/newcandidate", :style => "float: right"
+      = link_to "New candidate", "/staff/#{current_candidate.id}/newcandidate", :style => "float: right"
   %br
   %br
   %br

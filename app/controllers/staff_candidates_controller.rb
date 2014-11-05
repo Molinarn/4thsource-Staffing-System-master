@@ -32,25 +32,42 @@ class StaffCandidatesController < ApplicationController
 
   def newcandidate
     
-    puts "\ncandidates#newcandidate".green
+     puts "\ncandidates#newcandidate".green
     
-     @candidate = Candidate.new
-     
+     @candidate_admin = Candidate.find(params[:id])
+    
      if request.post?
+       
+       puts "\nrequest.post? true".red
+       
+       params.each do |p|
+         puts "#{p}".cyan
+       end
+       
+       @candidate = Candidate.new(params[:candidate])
+       
        if @candidate.save
-         render '/staff/index'
+         
+         puts "\n@candidate.save".red
+         
+         redirect_to :controller => 'staff_candidates', :action => 'index', :method => 'post', :id => @candidate_admin.id
+         
        else
          flash[:notice] = "Error while creating the candidate"
-         #render '/staff/newcandidate_admin'
        end
+      
+     else
+       
+      render '/staff_candidates/newcandidate_admin'
+       
      end
      
-     #No such route
-     render '/candidates/newcandidate_admin'
-     #render :newcandidate_admin
+       #No such route
+       #render '/staff_candidates/newcandidate_admin'
+       #render :newcandidate_admin
+       #render '/staff/newcandidate_admin'
+     
   end
-
-
 
   def search
 

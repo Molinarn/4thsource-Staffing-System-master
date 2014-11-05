@@ -15,7 +15,7 @@
     - flash.each do |key, value|
       .flash{:class => key}= value  
   %br
-  = form_for(@candidate, :html => { :multipart => true }) do |f|
+  = form_for(:candidate, :html => { :multipart => true }) do |f|
     = render 'shared/error_messages', :object => f.object
     .field
       = f.label :first_name
