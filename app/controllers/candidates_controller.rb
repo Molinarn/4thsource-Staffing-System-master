@@ -36,7 +36,7 @@ class CandidatesController < ApplicationController
 
     puts "\ncandidates#edit".green
 
-    puts ["\nid: ".yellow,"#{id}".red]
+    puts "\nid: #{id}".cyan
 
     puts "\n#{@@admin_roles}".magenta
 
@@ -52,11 +52,13 @@ class CandidatesController < ApplicationController
       puts "\nelse_admin_roles".green
 
 #      binding.pry
-      @candidate = Candidate.find(current_candidate.id)
+      #@candidate = Candidate.find(current_candidate.id)
+      @candidate = Candidate.find(id)
 
-      puts ["\ncandidate_id: ".yellow,"#{@candidate.id}".red]
+      puts "\ncandidate_id: #{@candidate.id}".red
 
-      @error  = current_candidate.errors
+      @error = current_candidate.errors
+      
     end
     
     if current_candidate.id === @candidate.id

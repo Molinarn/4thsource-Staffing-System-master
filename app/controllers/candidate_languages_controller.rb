@@ -20,11 +20,13 @@ class CandidateLanguagesController < ApplicationController
 
   def new
 
+    puts "\ncandidate_languages#new".green
+
     params.each do |p|
       puts "#{p}".cyan
     end
 
-    puts "\ncandidate_languages#new".green
+    #id = params[:candidate_id]
 
     id = params[:candidate_language][:idurl]
     #unless params.blank?
@@ -38,6 +40,8 @@ class CandidateLanguagesController < ApplicationController
     end
     #@candidate_language = @candidate.candidate_languages.build(params[:candidate_language])
 
+    puts "\n@candidate.id: #{@candidate.id}".magenta
+
     language = Language.new
     #@candidate_language = @candidate.candidate_languages.new
 
@@ -47,10 +51,20 @@ class CandidateLanguagesController < ApplicationController
      # @language = params[:lang_name]
     #end
 
-    @candidate_language = @candidate.candidate_languages
+    if @candidate.candidate_languages.nil? || @candidate.candidate_languages.count <= 0 
+      
+       @candidate_language = @candidate.candidate_languages.new(params[:candidate_language][:level_id])
+       @candidate_language.save
 
-    @candidate_language.each do |cl|
-      puts "#{cl}".cyan
+    else
+      
+      @candidate_language = @candidate.candidate_languages
+      @candidate.update_attributes(params[:candidate_language][:level_id])
+      
+      @candidate_language.each do |cl|
+        puts "#{cl}".cyan
+      end
+      
     end
 
     @filter_language = @candidte_language.filter_languages

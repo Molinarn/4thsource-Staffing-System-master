@@ -117,18 +117,36 @@ module SessionsHelper
 
       puts "\nsessions_helper#role".green
 
+      puts "\n#{current_candidate}".red
+
       if !current_candidate.nil?
 
-        puts "\n!current_candidate.nil?: #{!current_candidate.nil?}".red
+        puts "\ncurrent_candidate.id: #{current_candidate.id}".yellow
 
         #1
 
-        if current_candidate.admin_users != nil
+        if !current_candidate.admin_users.nil? && current_candidate.admin_users.count > 0
+          
+          puts "\n#{!current_candidate.admin_users.nil?}".cyan
+          
+          current_candidate.admin_users.each do |p|
+            puts "#{p}".magenta
+          end
+          
           if !current_candidate.admin_users.first.is_active
+            
+            puts "\n!current_candidate.admin_users.first.is_active".cyan
+            
             0
           elsif current_candidate.admin_users.first.is_active && !current_candidate.admin_users.first.lvl
+            
+            puts "\ncurrent_candidate.admin_users.first.is_active && !current_candidate.admin_users.first.lvl".cyan
+            
             1
           elsif current_candidate.admin_users.first.is_active && current_candidate.admin_users.first.lvl
+            
+            puts "\ncurrent_candidate.admin_users.first.is_active && current_candidate.admin_users.first.lvl".cyan
+            
             2
           end
         else

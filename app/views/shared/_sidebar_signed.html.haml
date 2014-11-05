@@ -164,7 +164,7 @@
             %li.last
               %i.iconInterests
               = link_to_resume('Languages', current_candidate.id, :action => 'languages', :class => 'profile-sub_navigation')
-        -if current_candidate.interviewer_user
+        -if !current_candidate.interviewer_users.nil? && current_candidate.interviewer_users.count > 0
           %li
             %i.iconInterviewer
             = link_to_candidates('Candidates to interview', current_candidate.id, :action => 'candidates', :class => 'profile-sub_navigation')
