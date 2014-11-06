@@ -92,22 +92,21 @@
           //alert(jQuery("select[id='candidate_language_level_id'] option:selected").val())
 
           if(!jQuery("select[id='candidate_language_id'] option:selected").val() && !jQuery('#lang_name').val()){
-            alert("prevent language")
+            alert("Please select or add a language")
             e.preventDefault();
           }
 
-          /*if(!jQuery('#language_id').val()){
-            if(!jQuery('#language_notinlist').prop('checked')){
+
+          if(!jQuery('#language_notinlist').prop('checked')){
+            e.preventDefault();
+          }else{
+            if(!jQuery('#lang_name').val()){
               e.preventDefault();
-            }else{
-              if(!jQuery('#lang_name').val()){
-                e.preventDefault();
-              }
             }
-          }*/
+          }
 
           if(!jQuery('#candidate_language_level_id').val()){
-            alert("prevent level")
+            alert("Please select a level for this language")
             e.preventDefault();
           }
         })

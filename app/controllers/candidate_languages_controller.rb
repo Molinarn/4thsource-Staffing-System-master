@@ -101,6 +101,9 @@ class CandidateLanguagesController < ApplicationController
     #elsif @filter_language
       #flash[:notice] = "Language already assigned, please select a different language"
       #language = nil
+    elsif params[:language_notinlist] && Language.where("name = ?",params[:lang_name]).count > 0
+      flash[:notice] = "Language is currently assigned to this candidate"
+      language = nil
     else
       language = Language.find(params[:candidate_language][:id])
     end
@@ -131,9 +134,14 @@ class CandidateLanguagesController < ApplicationController
         flash[:notice] = "An error occurred while the system save the languages#{@candidate_language.errors.as_json}"
       end
 
-      redirect_to request.referer
-
+      #redirect_to request.referer
+      
+    #else
+      #redirect_to request.referer
     end
+    
+    redirect_to request.referer
+    
   end
 
   def destroy
