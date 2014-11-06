@@ -112,7 +112,7 @@
       %ul
         - @candidate.candidate_languages.each do |candidate_language|
           %li
-            = candidate_language.language.name unless candidate_language.language.nil?
+            = Language.find(candidate_language.filter_languages.first.language_id).name unless candidate_language.filter_languages.nil?
             = raw ' - '
             =language_level_list[candidate_language.level_id][0]
     - else
