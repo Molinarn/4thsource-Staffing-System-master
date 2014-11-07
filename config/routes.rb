@@ -75,6 +75,8 @@ StaffingApp::Application.routes.draw do
 
   #Added
   match "/staff/:id/certifications/action" => 'certifications#action'
+  match "/staff/:id/certifications/new" => 'certifications#new'
+  match "/staff/:id/certifications/create" => 'certifications#create'
   match "/staff/:id/admin_users" => 'admin_users#index'
 
   match "staff/:id/jobs"=>'jobs#index'  

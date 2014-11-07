@@ -39,7 +39,7 @@ class LanguagesController < ApplicationController
 
     if(params[:update_button] != nil)
       @languages.each do |row|
-        @language = params["approved_flag_" + row.id.to_s()]
+        @language = params["approved_flag_" + row.id.to_s]
         row.approved_by = current_candidate.first_name + " " + 
                           current_candidate.middle_name + " " + 
                           current_candidate.first_last_name + " " + 
@@ -74,6 +74,6 @@ class LanguagesController < ApplicationController
       end 
     end
 
-    redirect_to File.join('/staff/', current_candidate.id.to_s(), '/languages')
+    redirect_to File.join('/staff/', current_candidate.id.to_s, '/languages')
   end
 end
