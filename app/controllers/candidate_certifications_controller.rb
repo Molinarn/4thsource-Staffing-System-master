@@ -30,6 +30,9 @@ class CandidateCertificationsController < ApplicationController
   end
 
   def create
+    
+    puts "\ncandidate_certifications#create".green
+    
     id = params[:candidate_id] unless params.blank?
     #Recover candidates data
     if id.nil?
@@ -55,26 +58,34 @@ class CandidateCertificationsController < ApplicationController
 
     #Creating new certification
     if params[:certification_chBNotInList]
-      if(not params[:certification][:name].empty?)
-        if Certification.find_by_name(params[:certification][:name])==nil
+      if(!params[:certification][:name].empty?)
+        if Certification.where("name =?",params[:certification][:name]).count <= 0
           certification.name = params[:certification][:name]   
         else 
           flash[:notice] = "The certification already exist, please search it again in the list."
-          redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
+          #redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidate_certifications')
+          render :new
           return
         end
       else
         flash[:notice] = "Please provide a valid Certification name"
-        redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
+        render :new
+        #redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
         return
       end
     else
-      if params[:certification][:selectName].nil?
+      
+      params.each do |p|
+        puts "#{p}".cyan
+      end
+      
+      if params[:certification][:id] == ''
         flash[:notice]="Invalid argument for a certification. Please choose a valid certification o create a new one"
-        redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
+        #redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidate_certifications')
+        render :new
         return
       else
-        certification = Certification.find(params[:certification][:selectName])
+        certification = Certification.find(params[:certification][:id])
       end
     end
 
@@ -88,7 +99,7 @@ class CandidateCertificationsController < ApplicationController
         @candidate_certification.certification = certification
       else
         flash[:notice] = "You already have this certification in your list"
-        redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
+        redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidate_certifications')
         return
       end
 
@@ -103,7 +114,7 @@ class CandidateCertificationsController < ApplicationController
     #redirect_to request.referer
     #if !current_candidate.admin_flag.nil?
       #is admin
-      redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
+      redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidate_certifications')
     #else
       #not an admin
      # redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')

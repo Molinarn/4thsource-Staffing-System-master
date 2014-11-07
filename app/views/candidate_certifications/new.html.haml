@@ -20,6 +20,7 @@
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
+      %br
     = link_to 'Back', :controller => "candidate_certifications", :action => "index"
     %br
     %br
@@ -29,7 +30,6 @@
     %h4
       Add a Certification in your Resume
     .divider
-    %br
     .experience_details_wrapper
       .experience_details_left
         = form_for(:certification, :url=>{:action=>'create'}, :html => {:multipart => true, :data => { :validate => 'parsley' }}) do |f|
@@ -39,7 +39,7 @@
           .field
             = f.label "Certification"
             %br
-            =  f.select :id, options_from_collection_for_select(Certification.where({:approved_flag => [true,false]}).order("name").all, "id", "name")
+            =  f.select :id, options_from_collection_for_select(Certification.where({:approved_flag => [true,false]}).order("name").all, "id", "name"), :include_blank => "- Select one -"
             %br
             = f.label :chBNotInList, "The Certification is not in the List, add Manually. "
             &nbsp;
