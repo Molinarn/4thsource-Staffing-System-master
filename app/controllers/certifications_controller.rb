@@ -2,12 +2,12 @@ class CertificationsController < ApplicationController
   
   def index
    
-    puts "\n#{Certification#index}".green 
+    puts "\nCertification#index".green 
     
     @certifications = Certification.all
     set_my_wall(nil)
     set_wall_candidate(nil)
-    
+  
   end
 
   def new
