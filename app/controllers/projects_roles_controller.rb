@@ -11,6 +11,7 @@ class ProjectsRolesController < ApplicationController
     #@projects_role = @project.projects_roles.find_by_project_id(@project_id)
     @projects_role = ProjectsRole.find_by_project_id(@project.id)
     @role = @projects_role.roles.last
+    @title = @project.name
 
     puts "\n@role.nil?: #{@role.nil?}".red
 
@@ -50,7 +51,7 @@ class ProjectsRolesController < ApplicationController
       #@candidate = Candidate.find(params[:id])
       #@project = @candidate.projects.find(params[:project_id])
 
-      params[:role].each do |p|
+      params.each do |p|
         puts "#{p}".cyan
       end
 
@@ -69,59 +70,79 @@ class ProjectsRolesController < ApplicationController
       #puts "#{r}".cyan
       #end
 
-      new_role = params[:new_role_id]
+      #puts "\nparams[:new_role_id]: #{params[:new_role_id] === ''? true:false}".yellow
+      #puts "\nparams[:role][:id]: #{params[:role][:id] === ''? true:false}".yellow
 
-      new_role.each do |r|
-        puts "#{r}".cyan
+      if params[:new_role_id] === ''
+        if params[:role][:id] === '' 
+          
+          puts "\nnew_role: nil".red
+          
+          new_role = nil
+          flash[:notice] = "Please select or add a role."
+        else
+          
+          puts "\nnew_role: find".blue
+          new_role = Role.find(params[:role][:id]).name
+        end  
+      else
+        puts "\nnew_role: new name".blue          
+        new_role = params[:new_role_id]
       end
-
+      
       #Return a collection of roles
       #actual_roles = Role.find_by_projects_role_id(@projects_role.id)
-
-      actual_roles = @projects_role.roles
-
-      if actual_roles.nil? || actual_roles.where("name = ?", new_role).count == 0
-
-          #@role = @projects_role.roles.new(params[:role])
-          @role = @projects_role.roles.new
-          @role.name = new_role
-          @role.date_in = params[:role][:date_in]
-          @role.date_out = params[:role][:date_out]
-          #@role = @projects_role.roles.new(params[:role])
-          #@role = @projects_role.roles.new(:name => new_role)
-          #@role.save
-
-      else
-
-        actual_roles.each do |r|
-          puts"#{r}".cyan
+      if !new_role.nil?
+        
+        puts "\n!new_role.nil?: #{!new_role.nil?}".red
+        
+        actual_roles = @projects_role.roles
+  
+        if actual_roles.nil? || actual_roles.where("name = ?", new_role).count == 0
+  
+            #@role = @projects_role.roles.new(params[:role])
+            @role = @projects_role.roles.new
+            @role.name = new_role
+            @role.date_in = params[:role][:date_in]
+            @role.date_out = params[:role][:date_out]
+            #@role = @projects_role.roles.new(params[:role])
+            #@role = @projects_role.roles.new(:name => new_role)
+            #@role.save
+  
+        else
+  
+          actual_roles.each do |r|
+            puts"#{r}".cyan
+          end
+  
         end
-
-      end
-
-      #projtag = @projects_role.projects_tags.new
-      #projtag.save
-      #@projects_role.update_attributes(params[:projects_role])
-
-      #@newRole = @projects_role.roles.new
-      #@newRole.name = Role.find(@role).name
-      #@newRole.save
-
-      #if @projects_role.save
-      if @role.save
-      #if updated
-        flash[:success] = "Role was saved successfully."
-        #render 'projects/show'
-        render 'projects_roles/new'        
+  
+        #projtag = @projects_role.projects_tags.new
+        #projtag.save
+        #@projects_role.update_attributes(params[:projects_role])
+  
+        #@newRole = @projects_role.roles.new
+        #@newRole.name = Role.find(@role).name
+        #@newRole.save
+  
+        #if @projects_role.save
+        if @role.save
+        #if updated
+          flash[:success] = "Role was saved successfully."
+          #render 'projects/show'
+          render 'projects_roles/new'        
+        else
+          flash[:notice] = "An error occurred while the system save the role."
+        end
       else
-        flash[:notice] = "An error occurred while the system save the role."
+        render 'projects_roles/new' 
       end
     else
       #@candidate = Candidate.find(params[:id])
       #@project = @candidate.projects.find(params[:project_id])
       @projects_role  = ProjectsRole.new
       @error = @projects_role.errors
-      @title = @project.name
+      #@title = @project.name
     end
   end
 
