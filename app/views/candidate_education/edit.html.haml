@@ -16,13 +16,16 @@
     .h3-page-headline
       Education
   .divider-headline
+  #flash
+    - flash.each do |key, value|
+      .flash{:class => key}= value
   %br
     %strong
       = link_to "Back", :controller => "candidate_education", :action => "index"
   %br
   %br
   %h3.page_headline
-    = @e.university
+    = @e.title
   = form_for(:education, :url => {:action=>'update'}, :html => {:multipart => true, :id => "newEducationForm"}) do |f|
     .field
       = hidden_field_tag "candidate_id", @candidate_id
@@ -37,7 +40,7 @@
       = f.label :degree
       %br
       = f.select :educ_degree_id, options_from_collection_for_select(EducDegree.where({:approved_flag => [true]}).all, "id", "name"), :include_blank => "- Select one -"
-      = text_field_tag "education_educ_degree_id_new",EducDegree.find_by_candidate_education_id(@e.id).name
+      = text_field_tag "education_educ_degree_id_new", EducDegree.find(@e.educ_degree_id).name
       = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
       = label_tag "requiredEducationD", "", :id =>"requiredEducationD", :class => "educationValidatorText"
     .field

@@ -39,7 +39,10 @@ class CandidateEducationController < ApplicationController  #
     #@education = current_candidate.candidate_education
 
     #Not the same id
-    puts "\n@education.id: #{@education.id}}".cyan
+    @education.each do |edu|
+      puts "#{edu.id}".cyan
+    end
+    
 
     #@degree = EducDegree.find_by_candidate_education_id(@education.id)
 
@@ -63,53 +66,88 @@ class CandidateEducationController < ApplicationController  #
   end
 
   def create
-    #Creates a new education for a candidate
-
+    
     puts "\ncandidate_education#create".green
+    
+    @candidate = Candidate.find(params[:id])
+    puts "\n@candidate: #{@candidate.id}".cyan
+    
+    #Creates a new education for a candidate    
 
-    id=params[:id] unless params.blank?
+    params.each do |p|
+      puts "#{p}".magenta
+    end
+
+    #id=params[:id] unless params.blank?
     if params[:education_educ_degree_id_new] == ""
-      if id.nil?
-        @education = current_candidate.candidate_education.build(params[:education])
+      
+       #puts "\nparams[:education_educ_degree_id_new] == ''".cyan
+      
+      #if id.nil?
+      if params[:education][:educ_degree_id].nil?
+        
+        #puts "\nparams[:education][:educ_degree_id].nil?: #{params[:education][:educ_degree_id].nil?}".red
+        
+        flash[:notice] = "Please select or add a degree"
+        @education = nil
+        #render :new
+        #@education = current_candidate.candidate_education.build(params[:education])
       else
-        wall_candidate=Candidate.find(id)
-        @education=wall_candidate.candidate_education.build(params[:education])
+        
+        #puts "\nparams[:education][:educ_degree_id]: #{params[:education][:educ_degree_id]}".cyan
+
+        @cat_degree_rows = @candidate.candidate_education.where("educ_degree_id = ?", params[:education][:educ_degree_id])
+
+        if @cat_degree_rows.count > 0
+          flash[:notice] = "Education Degree Already Assigned"
+          #cat_degree = @cat_degree_rows.first
+          #@education.educ_degree_id = cat_degree.id
+          #@education.save
+          @education = nil
+        else
+
+          @education = @candidate.candidate_education.new(params[:education]) 
+          @education.save
+          
+        end
       end
-      @education.save
+      #@education.save
     else
       #Creates a new education degree
-      degree = params[:education_educ_degree_id_new]
-      @cat_degree_rows = EducDegree.where("name = ?", degree)
-
-      if @cat_degree_rows.length > 0
-        flash[:notice] = "The Education Degree Already Exists"
+      
+      #puts "\nparams[:education_educ_degree_id_new]: #{params[:education_educ_degree_id_new]}".magenta
+      
+      degree_name = params[:education_educ_degree_id_new]
+      degree = EducDegree.find_by_name(degree_name)
+      
+      if !degree.nil?
+        @cat_degree_rows = @candidate.candidate_education.where("educ_degree_id = ?", degree.id)  
+      else
+        @cat_degree_rows = {}
+      end
+      
+      if @cat_degree_rows.count > 0
+        flash[:notice] = "Education Degree Already Assigned"
+        @education = nil
       else
 
         puts "\nCreate EducDegree".cyan
 
-        #cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
-        #cat_degree.save!
-      
-        @education = current_candidate.candidate_education.build(params[:education])
-        #@education.educ_degree_id = cat_degree.id
-        #cat_degree.candidate_education_id = @education.id
-        @education.save
-        cat_degree = @education.educ_degrees.new(:name => degree, :description => degree, :approved_flag => false)
+        @education = @candidate.candidate_education.new(params[:education])
+    
+        cat_degree = EducDegree.new(:name => degree_name, :description => degree_name, :approved_flag => false)
         cat_degree.save
+        @education.educ_degree_id = cat_degree.id
+        @education.save
+        #redirect_to File.join('/candidates/',id, '/resume/education')
       end
     end
-    if @candidate.nil?
-      @candidate = Candidate.find(params[:id])
-       if @candidate.candidate_languages.empty?
-                redirect_to :controller=>'candidate_languages', :action => 'index', :candidate_id => @candidate.id, :method => 'get'
-               else
-                redirect_to File.join('/candidates/',id, '/resume/education')
-      end
-      else
-        redirect_to File.join('/candidates/',id, '/resume/education')
-     end
-
     
+    if @education == nil
+       render :new
+    else
+       redirect_to File.join("/candidates/","#{@candidate.id}","/resume/education")
+    end 
   end
 
   def edit
@@ -118,15 +156,15 @@ class CandidateEducationController < ApplicationController  #
 
     puts "\n:candidate_education_id: #{params[:candidate_education_id]}".magenta
 
-    @e = CandidateEducation.find_by_id(params[:candidate_education_id])
+    @e = CandidateEducation.find(params[:candidate_education_id])
 
-    @e.update_attributes(:id => params[:candidate_education_id],
-                                :candidate_id => params[:id],
-                                :title => params[:title],
+    #@e.update_attributes(:id => params[:candidate_education_id],
+                                #:candidate_id => params[:id],
+                                #:title => params[:title],
                                 #:degree => params[:degree],
-                                :university => params[:university],
-                                :date_in => params[:date_in],
-                                :date_out => params[:date_out])
+                                #:university => params[:university],
+                                #:date_in => params[:date_in],
+                                #:date_out => params[:date_out])
 
     puts "\n@e.id #{@e.id}".red
 
@@ -177,77 +215,85 @@ class CandidateEducationController < ApplicationController  #
 
     puts "\ncandidate_education#update".green
 
-    @candidate_id = params[:id]
+    @candidate = Candidate.find(params[:id])
+    @flag = true
 
-    params[:education].each do |p|
-      puts "#{p}".cyan
+    params.each do |p|
+      puts "#{p}".magenta
     end
 
-    @candidate_education = CandidateEducation.new(params[:education])
+    puts "\n#{params[:education][:id]}".yellow
 
-    @candidate_education.candidate_id = @candidate_id
+    @e = @candidate.candidate_education.find(params[:education][:id])
+    
+    puts "\n@education: #{@e.id}".yellow
+    
+    if params[:education_educ_degree_id_new] == ""
 
-    puts "\n@candidate_education.id #{@candidate_education.id}".red
+      if params[:education][:educ_degree_id].nil?
 
-    @e = CandidateEducation.find_by_id(@candidate_education.id)
-    @e.update_attributes(:id => @candidate_education.id,
-                         :candidate_id => @candidate_id,
-                         :title => @candidate_education.title,
-                         :university => @candidate_education.university,
-                         :date_in => @candidate_education.date_in,
-                         :date_out => @candidate_education.date_out)
+         flash[:notice] = "Please select or add a degree"
+         @flag = false 
+   
+      else
 
-    newDegree = params[:education_educ_degree_id_new]
+         @cat_degree_rows = @candidate.candidate_education.where("educ_degree_id = ?", params[:education][:educ_degree_id])
 
-    newDegree.each do |d|
-      puts "#{d}".cyan
+         if @cat_degree_rows.count > 0 && @e.educ_degree_id != params[:education][:educ_degree_id] 
+           flash[:notice] = "Education Degree Already Assigned"
+           @flag = false 
+  
+         else
+  
+           @e.update_attributes(params[:education]) 
+           @e.educ_degree_id = degree.id
+           @e.save
+          
+         end
+      end
+      #@education.save
+    else
+      #Creates a new education degree
+      
+      #puts "\nparams[:education_educ_degree_id_new]: #{params[:education_educ_degree_id_new]}".magenta
+      
+      degree = EducDegree.find_by_name(params[:education_educ_degree_id_new])
+      
+      if !degree.nil?         
+        @cat_degree_rows = @candidate.candidate_education.where("educ_degree_id = ?", degree.id)      
+      else        
+        @cat_degree_rows = {}       
+      end
+      
+      puts "\ncount: #{@cat_degree_rows.count}".cyan
+        
+      if @cat_degree_rows.count > 0 && @e.educ_degree_id != degree.id
+        
+        flash[:notice] = "Education Degree Already Assigned"
+        @flag = false
+     
+      elsif @cat_degree_rows.count > 0 && @e.educ_degree_id == degree.id
+        @e.update_attributes(params[:education])
+        @e.educ_degree_id = degree.id
+        @e.save
+          
+      else
+
+        @e.update_attributes(params[:education])
+    
+        cat_degree = EducDegree.new(:name => params[:education_educ_degree_id_new], :description => "Description for" + params[:education_educ_degree_id_new], :approved_flag => false)
+        cat_degree.save
+        @e.educ_degree_id = cat_degree.id
+        @e.save
+        #redirect_to File.join('/candidates/',id, '/resume/education')
+      end
     end
-
-    actualDegree = EducDegree.find_by_candidate_education_id(@e.id)
-
-    if newDegree != actualDegree.name
-        actualDegree.update_attributes(:name => newDegree)
-    end
-
-    #if temp.nil?
-
-      #puts ["\n:education_educ_degree_id_new.nil?".yellow, "#{temp.nil?}".red]
-
-    #else
-
-      #Get all the registers from the name field of the educ_degrees table
-
-      #degree = temp
-
-
-
-      #puts "\nelse_education_educ_degree_id_new.nil? > degree: #{degree.nil?}".blue
-
-      #Returns all the degrees that are already registered
-      #@cat_degree_rows = EducDegree.where("name = ?", degree)
-
-      #if @cat_degree_rows.length > 0
-
-        #puts "\n@cat_degree_rows.length: #{@cat_degree_rows.length}".yellow
-
-        #flash[:notice] = "The Education Degree Already Exists"
-
-      #else
-        #cat_degree = EducDegree.new(:name => degree, :description => degree, :approved_flag => false)
-
-        #cat_degree = @e.educ_degrees.new(:name => temp)
-
-        #puts "\ncat_degree.id: #{cat_degree.id}"
-        #puts "\ncat_degree.name: #{cat_degree.name}"
-
-        #cat_degree.save!
-
-      #end
-    #end
-
-    puts "\ncandidate_id: #{@e.candidate_id}".magenta
-
-    redirect_to File.join('/candidates/', @e.candidate_id.to_s, '/resume/education')
-
+    
+    #if @e == nil
+    if !@flag 
+       render :edit
+    else
+       redirect_to File.join("/candidates/","#{@candidate.id}","/resume/education")
+    end     
   end
 end

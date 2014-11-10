@@ -35,9 +35,9 @@
           -formatted_date_in = date_in.strftime('%b %d, %Y')
           -date_out = DateTime.parse(e.date_out.to_s)
           -formatted_date_out = date_out.strftime('%b %d, %Y')
-          = e.university + " (" + formatted_date_in + " - " + formatted_date_out + ")"
+          = e.title + " (" + formatted_date_in + " - " + formatted_date_out + ")"
         -else
-          = e.university
+          = e.title
       .btn-group
         = link_to "Edit", url_options = {:controller => "candidate_education", :action => "edit", :id => e.candidate.id, :candidate_education_id => e.id, :title => e.title, :university => e.university, :date_in => e.date_in, :date_out => e.date_out}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
         %button.btn.btn-primary.dropdown-toggle
@@ -52,12 +52,14 @@
         = f.label e.title, :class => "educationLabel"
       .field
         = f.label "Education Degree: ", :class => "educationLabelTitle"
-        -if EducDegree.find_by_candidate_education_id(e.id) == nil
+        -if e.educ_degree_id.nil?
           = f.label "Not Approved", :class => "educationLabel"
         -else
-          = f.label EducDegree.find_by_candidate_education_id(e.id).name, :class => "educationLabel"
+          = f.label EducDegree.find(e.educ_degree_id).name, :class => "educationLabel"
       .field
         = f.label "University: ", :class => "educationLabelTitle"
         = f.label e.university, :class => "educationLabel"
+      %br
+      %br
       %br
       %br
