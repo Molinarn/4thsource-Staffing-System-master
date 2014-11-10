@@ -84,7 +84,7 @@ class MicropostsController < ApplicationController
       end
     end
         
-    render partial: 'shared/micropost_feed'
+    render :partial => 'shared/micropost_feed'
   end
 
   def destroy

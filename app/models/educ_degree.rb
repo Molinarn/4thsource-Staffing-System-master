@@ -13,8 +13,8 @@ class EducDegree < ActiveRecord::Base
   validates :name, :presence => true
   
   def used
-    #(CandidateEducation.where("educ_degree_id = ?", id).length > 0)  
-    !self.candidate_education_id.nil?  
+    (CandidateEducation.where("educ_degree_id = ?", id).length > 0)  
+    #!self.candidate_education_id.nil?  
   end
   
 end
