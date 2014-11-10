@@ -36,7 +36,7 @@
     .field
       = f.label :degree
       %br
-      = f.select :name, options_from_collection_for_select(EducDegree.where({:approved_flag => [true, false]}).all, "id", "name", :selected => @degrees)
+      = f.select :educ_degree_id, options_from_collection_for_select(EducDegree.where({:approved_flag => [true]}).all, "id", "name"), :include_blank => "- Select one -"
       = text_field_tag "education_educ_degree_id_new",EducDegree.find_by_candidate_education_id(@e.id).name
       = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
       = label_tag "requiredEducationD", "", :id =>"requiredEducationD", :class => "educationValidatorText"
@@ -60,23 +60,26 @@
     %br
     %br
   :javascript
-    jQuery(document).ready(function(){ 
-      $( "#date_in" ).datepicker({
-        changeMonth: true, 
-        changeYear: true, 
-        dateFormat: 'yy-mm-dd', 
-        yearRange: "1950:2013",
-        onClose: function( selectedDate ) {
-        $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
-        }
-        });
-        $( "#date_out" ).datepicker({        
-        changeMonth: true, 
-        changeYear: true, 
-        dateFormat: 'yy-mm-dd', 
-        yearRange: "1950:2013",
-        onClose: function( selectedDate ) {
-        $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
-        }
-        });
-    });
+                jQuery(document).ready(function(){
+                  var date = new Date();
+                  $( "#date_in" ).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'yy-mm-dd',
+                    yearRange: "1950:".concat(String(date.getFullYear())),
+                    //yearRange: "1950:2013",
+                    onClose: function( selectedDate ) {
+                    $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
+                    }
+                    });
+                    $( "#date_out" ).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'yy-mm-dd',
+                    yearRange: "1950:".concat(String(date.getFullYear())),
+                    //yearRange: "1950:2013",
+                    onClose: function( selectedDate ) {
+                    $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
+                    }
+                    });
+                });

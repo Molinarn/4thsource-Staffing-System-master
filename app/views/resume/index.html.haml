@@ -64,6 +64,7 @@
             -if education.date_in != nil && education.date_out != nil
               .experience_right
                 = Date::MONTHNAMES[education.date_in.month] + " " + education.date_in.year.to_s + " - " + Date::MONTHNAMES[education.date_out.month] + " " + education.date_out.year.to_s
+    %br
     %h4 Projects
     .divider-headline
     %br
