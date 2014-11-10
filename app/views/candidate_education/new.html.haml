@@ -22,7 +22,7 @@
   %br
   %br
   %h3.page_headline
-    New:
+    New Education
   = form_for(:education, :url=>{:action=>'create'}, :html => {:multipart => true, :id => "newEducationForm"}) do |f|
     //= render 'shared/error_messages', :object => f.object
     .field
@@ -57,23 +57,26 @@
     %br
     %br
   :javascript
-    jQuery(document).ready(function(){ 
-      $( "#date_in" ).datepicker({
-        changeMonth: true, 
-        changeYear: true, 
-        dateFormat: 'yy-mm-dd', 
-        yearRange: "1950:2013",
-        onClose: function( selectedDate ) {
-          $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
-        }
-      });
-      $( "#date_out" ).datepicker({        
-        changeMonth: true, 
-        changeYear: true, 
-        dateFormat: 'yy-mm-dd', 
-        yearRange: "1950:2013",
-        onClose: function( selectedDate ) {
-          $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
-        }
-      });
-    });
+                jQuery(document).ready(function(){
+                  var date = new Date();
+                  $( "#date_in" ).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'yy-mm-dd',
+                    yearRange: "1950:".concat(String(date.getFullYear())),
+                    //yearRange: "1950:2013",
+                    onClose: function( selectedDate ) {
+                    $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
+                    }
+                    });
+                    $( "#date_out" ).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'yy-mm-dd',
+                    yearRange: "1950:".concat(String(date.getFullYear())),
+                    //yearRange: "1950:2013",
+                    onClose: function( selectedDate ) {
+                    $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
+                    }
+                    });
+                });

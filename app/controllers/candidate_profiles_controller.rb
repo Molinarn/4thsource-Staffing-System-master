@@ -10,7 +10,7 @@ class CandidateProfilesOtherController < ApplicationController
 
   def index
 
-    puts "\ncandidates_profile#index".green
+    puts "\ncandidate_profiles#index".green
 
     params.each do |p|
       puts "#{p}".cyan

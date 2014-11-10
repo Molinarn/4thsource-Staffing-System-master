@@ -25,7 +25,7 @@
     - @projects_items.each do |project|
       %br
       .project_left
-        %h6= project.name
+        %h6= project.name 
       .project_right
         .btn-group
           = link_to "Edit", url_options = {:controller => "projects", :action => "show", :id => @candidate.id, :project_id=> project.id}, html_options = {:tabindex =>"-1", :class=>"btn btn-primary ajax-modal", :style=>"color:white;"}
@@ -169,7 +169,6 @@
         %br
         %br
         %br
-        %br
       - else
         .experience_details_wrapper
         .experience_details_left
@@ -177,7 +176,7 @@
           %br
           This project doesn't have a role, edit the project and create at least one role.
       %br
-      %br
+      .divider-headline
   - else
     %h4 Please create at least one project.
     .divider

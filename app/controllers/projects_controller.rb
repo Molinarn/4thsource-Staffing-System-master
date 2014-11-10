@@ -97,13 +97,13 @@ class ProjectsController < ApplicationController
         #render :index
              if @candidate.projects.empty?
           redirect_to :controller => 'projects', :action => 'new', :method => 'post', :id => @candidate.id
-         elsif @candidate.candidate_education.empty?
-          redirect_to :controller=>'candidate_education', :action => 'new', :id => @candidate.id, :method => 'get'
-            elsif @candidate.candidate_languages.empty?
-                redirect_to :controller=>'candidate_languages', :action => 'index', :candidate_id => @candidate.id, :method => 'get'
+         #elsif @candidate.candidate_education.empty?
+          #redirect_to :controller=>'candidate_education', :action => 'new', :id => @candidate.id, :method => 'get'
+            #elsif @candidate.candidate_languages.empty?
+             #   redirect_to :controller=>'candidate_languages', :action => 'index', :candidate_id => @candidate.id, :method => 'get'
                    else 
-                     render :index
-                        
+                     #render :index
+                     render :new
               
 
         end
