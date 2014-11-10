@@ -4,6 +4,10 @@ class ResumeController < ApplicationController
 
     puts "\nresume#index".green
 
+    params.each do |p|
+      puts "#{p}".cyan
+    end
+
     @candidate = Candidate.find(params[:id])
 
     if @candidate.resume.nil?

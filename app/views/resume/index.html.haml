@@ -54,17 +54,21 @@
       .divider-headline
       %ul
         - @candidate.candidate_education.each do |education|
-          %li
-            .experience_left
-              -if EducDegree.find(education.educ_degree_id) == nil
-                %h6.educationTitleAndUniversity= "Education Degree not Approved (" + education.title + "),"
+          %li           
+            -if education.educ_degree_id != nil
+              -if !EducDegree.find(education.educ_degree_id).approved_flag
+                .experience_left
+                  %h6.educationTitleAndUniversity= "Education Degree not Approved (" + education.title + "),"
               -else
-                %h6.educationTitleAndUniversity= EducDegree.find(education.educ_degree_id).name + " in " + education.title + ","
-              %p.educationTitleAndUniversity= education.university
-            -if education.date_in != nil && education.date_out != nil
-              .experience_right
-                = Date::MONTHNAMES[education.date_in.month] + " " + education.date_in.year.to_s + " - " + Date::MONTHNAMES[education.date_out.month] + " " + education.date_out.year.to_s
-    %br
+                .experience_left 
+                  %h6.educationTitleAndUniversity= EducDegree.find(education.educ_degree_id).name + " in " + education.title + ","
+                  %p.educationTitleAndUniversity= education.university
+                -if education.date_in != nil && education.date_out != nil
+                  .experience_right
+                    = Date::MONTHNAMES[education.date_in.month] + " " + education.date_in.year.to_s + " - " + Date::MONTHNAMES[education.date_out.month] + " " + education.date_out.year.to_s         
+            -else
+              %pre.Missing="No Degree Assigned to " + education.title 
+  %br
     %h4 Projects
     .divider-headline
     %br
