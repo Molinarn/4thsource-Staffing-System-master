@@ -25,6 +25,8 @@ class CandidateLanguagesController < ApplicationController
 
   def new
 
+    @flag = true
+    
     puts "\ncandidate_languages#new".green
 
     params.each do |p|
@@ -72,6 +74,13 @@ class CandidateLanguagesController < ApplicationController
       
     #end
 
+    @filter_languages = FilterLanguage.where("language_id = ?",params[:candidate_language][:id])
+    if !@filter_languages.nil?
+      @candidate_languages = @filter_languages.find_all_by_candidate_language_id(@candidate.candidate_languages.select("id"))
+    else
+      @candidate_languages = {}  
+    end
+    
     #If add manually is selected and the language is not in the list
     if params[:language_notinlist] && Language.where("name = ?",params[:lang_name]).count == 0
 
@@ -104,6 +113,9 @@ class CandidateLanguagesController < ApplicationController
     elsif params[:language_notinlist] && Language.where("name = ?",params[:lang_name]).count > 0
       flash[:notice] = "Language is currently assigned to this candidate"
       language = nil
+    elsif !params[:language_notinlist] && @candidate_languages.count > 0
+      flash[:notice] = "Language is currently assigned to this candidate"
+      language = nil
     else
       language = Language.find(params[:candidate_language][:id])
     end
@@ -112,6 +124,7 @@ class CandidateLanguagesController < ApplicationController
 
       #@candidate_language = @candidate.candidate_languages.build(params[:candidate_language])
       #@candidate_language.language = language
+      
       @candidate_language = @candidate.candidate_languages.new(:level_id => params[:candidate_language][:level_id]) 
       @candidate_language.save
       
@@ -139,8 +152,13 @@ class CandidateLanguagesController < ApplicationController
     #else
       #redirect_to request.referer
     end
+      redirect_to request.referer
+      
+    #else
+     # render :index
+    #end
     
-    redirect_to request.referer
+    #redirect_to request.referer
     
   end
 

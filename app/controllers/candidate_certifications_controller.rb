@@ -33,6 +33,8 @@ class CandidateCertificationsController < ApplicationController
     
     puts "\ncandidate_certifications#create".green
     
+    @flag = true
+    
     id = params[:candidate_id] unless params.blank?
     #Recover candidates data
     if id.nil?
@@ -43,17 +45,6 @@ class CandidateCertificationsController < ApplicationController
       @error=current_candidate.errors
     end
 
-    #if !current_candidate.admin_flag.nil?
-    #  @candidate = Candidate.find(id)
-    #  @error = @candidate.errors
-    #else
-    #  @candidate = Candidate.find(current_candidate)
-    #  @error  = current_candidate.errors
-    #end
-    #@candidate = Candidate.find(current_candidate)
-
-    #puts "json params is:"
-    #puts  params.to_json 
     certification = Certification.new
 
     #Creating new certification
@@ -64,13 +55,15 @@ class CandidateCertificationsController < ApplicationController
         else 
           flash[:notice] = "The certification already exist, please search it again in the list."
           #redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidate_certifications')
+          #@flag = false
           render :new
           return
         end
       else
         flash[:notice] = "Please provide a valid Certification name"
-        render :new
-        #redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
+        @flag = false
+        #render :new
+        redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
         return
       end
     else
@@ -82,6 +75,7 @@ class CandidateCertificationsController < ApplicationController
       if params[:certification][:id] == ''
         flash[:notice]="Invalid argument for a certification. Please choose a valid certification o create a new one"
         #redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidate_certifications')
+        #@flag = false
         render :new
         return
       else
@@ -90,7 +84,7 @@ class CandidateCertificationsController < ApplicationController
     end
 
     #Assigning certification to candidate and saving
-    if  !certification.nil?
+    if !certification.nil?
       #c=CandidateCertification.find_by_certification_id(certification.id)
       c=CandidateCertification.where("candidate_id = ? AND certification_id = ?",@candidate.id,certification.id)
       logger.debug "CCCC >>>#{c.inspect}"
@@ -99,6 +93,7 @@ class CandidateCertificationsController < ApplicationController
         @candidate_certification.certification = certification
       else
         flash[:notice] = "You already have this certification in your list"
+        #@flag = false
         redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidate_certifications')
         return
       end
@@ -107,17 +102,19 @@ class CandidateCertificationsController < ApplicationController
         flash[:success] = "Certification was saved successfully."
       else
         flash[:notice] = "An error occurred while the system save the certification #{@candidate_language.errors.as_json}"
+        @flag = false
       end
     else 
       flash[:notice] = "Database error. Could not find the certification selected"
+      @flag = false
     end
-    #redirect_to request.referer
-    #if !current_candidate.admin_flag.nil?
-      #is admin
+
+    #if @flag
       redirect_to File.join('/candidates/', @candidate.id.to_s, '/candidate_certifications')
+     # puts "\n@candidate_certification.save".blue
     #else
-      #not an admin
-     # redirect_to File.join('/candidates/', @candidate.id.to_s(), '/candidate_certifications')
+     # render :new
+      #puts "\n@candidate_certification FAILED".red
     #end
     
   end
