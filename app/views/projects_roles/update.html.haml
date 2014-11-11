@@ -36,7 +36,7 @@
     .field
       = f.label "Role type"
       %br
-      = f.select :id, options_from_collection_for_select(Role.where({:approved_flag => [true,false]}).order("name").all, "id", "name")
+      = f.select :id, options_from_collection_for_select(Role.where({:approved_flag => [true]}).order("name").all, "id", "name")
       = text_field_tag "new_role_id",@role.name
     .field
       = f.label :date_in

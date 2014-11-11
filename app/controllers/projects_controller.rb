@@ -55,6 +55,10 @@ class ProjectsController < ApplicationController
     #@candidate = current_candidate
     @candidate = Candidate.find(params[:id])
 
+    params.each do |p|
+      puts "#{p}".magenta
+    end
+
     if request.post?
 
       @project = Project.find(params[:project_id])

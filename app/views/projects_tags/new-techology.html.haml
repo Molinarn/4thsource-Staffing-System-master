@@ -25,14 +25,15 @@
     .h3-page-headline
       = @title
   .divider-headline
-  %br
   #flash
     - flash.each do |key, value|
       .flash{:class => key}= value
+      %br
   = link_to "Back", :controller => "projects", :action => "show", :id => @candidate.id, :project_id => @project.id
   %br
   %br
-  = form_for(:projtag, :html => {:class => "experience", 'data-validate' => 'parsley', :method => "post"}) do |f|
+  %br
+  = form_for(:projtag, :html => {:id => "projtag", :class => "experience", 'data-validate' => 'parsley', :method => "post"}) do |f|
     %h4
       Please enter the following information
     .divider
@@ -40,7 +41,7 @@
       .field
         = f.label "Tag"
         %br
-        = f.select :id, options_from_collection_for_select(Tag.where({:type_tag => ["3"]}).order("name").all, "id", "name")
+        = f.select :id, options_from_collection_for_select(Tag.where({:type_tag => ["3"]}).order("name").all, "id", "name"),:include_blank => "- Select one -"
         = text_field_tag "new_projtag_id"
         = button_tag "+", :id => "addButton", :class => "addButton", :type => "button"
     .row-fluid
@@ -60,27 +61,41 @@
     .actions
       %br
         = f.submit "Add Technology",{:class => "btn btn-primary", :id => "send"}
-        :javascript
-            jQuery(document).ready(function(){
-              var date = new Date();
-              $( "#date_in" ).datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: 'yy-mm-dd',
-                yearRange: "1950:".concat(String(date.getFullYear())),
-                //yearRange: "1950:2013",
-                onClose: function( selectedDate ) {
-                $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
-                }
-                });
-                $( "#date_out" ).datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: 'yy-mm-dd',
-                yearRange: "1950:".concat(String(date.getFullYear())),
-                //yearRange: "1950:2013",
-                onClose: function( selectedDate ) {
-                $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
-                }
-                });
-            });
+:javascript
+    jQuery(document).ready(function(){
+              
+      var date = new Date();
+      $( "#date_in" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'yy-mm-dd',
+        yearRange: "1950:".concat(String(date.getFullYear())),
+        //yearRange: "1950:2013",
+        onClose: function( selectedDate ) {
+        $( "#date_out" ).datepicker( "option", "minDate", selectedDate );
+        }
+      });
+      $( "#date_out" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'yy-mm-dd',
+        yearRange: "1950:".concat(String(date.getFullYear())),
+        //yearRange: "1950:2013",
+        onClose: function( selectedDate ) {
+        $( "#date_in" ).datepicker( "option", "maxDate", selectedDate );
+        }
+      })             
+              
+    });
+    
+    jQuery("#projtag").submit(function(e){
+         
+        //alert(jQuery("select[id='projtag_id'] option:selected").val());
+        //alert(jQuery('#new_projtag_id').val());
+        
+        if(!jQuery("select[id='projtag_id'] option:selected").val() && !jQuery('#new_projtag_id').val()){
+          alert("Please select or add a technology")
+          e.preventDefault();
+        }
+      
+    });
