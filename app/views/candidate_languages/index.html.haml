@@ -70,7 +70,7 @@
         .field
           = f.label "Language"
           %br
-          = f.select 'id', options_from_collection_for_select(Language.all, "id", "name"),:include_blank => "- Select one -"
+          = f.select 'id', options_from_collection_for_select(Language.where({:approved_flag => [true]}).all, "id", "name"),:include_blank => "- Select one -"
           %br
           = label_tag "language_notinlist", "My language is not in the list, add manually", :style=>'cursor:pointer;'
           = check_box_tag 'language_notinlist'
